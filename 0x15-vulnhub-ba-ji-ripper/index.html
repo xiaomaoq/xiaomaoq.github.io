@@ -1,0 +1,264 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x15-Vulnhub靶机-Ripper | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x15-Vulnhub靶机-Ripper | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="前言
+最近开始准备学java了 🤡  有时间有闲情就打打靶机  (别学成开发去了 00.oo)
+环境
+靶机地址-&gt; https://download.vulnhub.com/ripper/Ripper.ova
+感觉有点没意思吧这个
+..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x15-Vulnhub靶机-Ripper
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-23
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="前言">前言</h1>
+<p>最近开始准备学java了 🤡  有时间有闲情就打打靶机  (别学成开发去了 00.oo)</p>
+<h1 id="环境">环境</h1>
+<p>靶机地址-&gt; https://download.vulnhub.com/ripper/Ripper.ova</p>
+<p>感觉有点没意思吧这个</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>内部系统泄漏</li>
+<li>备份文件泄密</li>
+<li>Webmin漏洞利用</li>
+<li>msf</li>
+</ul>
+<h1 id="操作">操作</h1>
+<p>常规信息收集</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232012217.png" alt="image-20240323201230191" loading="lazy"></figure>
+<p>10000端口是一个webmin的界面</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232024481.png" alt="image-20240323202442462" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232036077.png" alt="image-20240323203617054" loading="lazy"></figure>
+<p><code>sudo nmap -sT -sV -O -p10000  192.168.3.132</code>    扫描webmin的版本</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232029336.png" alt="image-20240323202926301" loading="lazy"></figure>
+<p>就可以去直接搜(searchsploit) 有没有可以直接利用的  但是没看到满足版本    (也要用msf搜一搜 但是都要 账号密码)</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232153210.png" alt="image-20240323215332501" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232151255.png" alt="image-20240323215105195" loading="lazy"></figure>
+<p>然后就继续扫目录     (其实我们先不要去扫描 动静大    可以先试着去访问一下可能遗留的文件  robots.txt readme.txt readme.md 等 )</p>
+<p>这边扫的话 会在10000端口 扫出这个</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232032791.png" alt="image-20240323203249771" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232033303.png" alt="image-20240323203356281" loading="lazy"></figure>
+<p>搜索发现  rips是一个 代码分析工具</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232038782.png" alt="image-20240323203848749" loading="lazy"></figure>
+<p>那肯定就会存在这个界面 10000端口目录没有    还有个80界面呢</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232039198.png" alt="image-20240323203948154" loading="lazy"></figure>
+<p>点了点 找了找  就发现了一个账密  试着去登10000端口那个登录页面失败了   还有开放个22端口  试试ssh去连接</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232042075.png" alt="image-20240323204213038" loading="lazy"></figure>
+<p>就拿到了shell</p>
+<h2 id="第一次提权">第一次提权</h2>
+<p>看history去看他做什么了</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232059600.png" alt="image-20240323205945572" loading="lazy"></figure>
+<p>直接 su到cubes</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232100902.png" alt="image-20240323210017882" loading="lazy"></figure>
+<h3 id="用find命令去找文件">用find命令去找文件</h3>
+<p>查看你home目录下的用户，find命令查看根目录下宿主时cubes的文件</p>
+<p>**find / -user cubes -type f 2&gt;/dev/null **</p>
+<p>逐个查看，当查看到/mnt/secret.file（但是其实一眼可以看出secret这个单词，秘密的意思，这就很可疑）</p>
+<h2 id="第二次提权">第二次提权</h2>
+<p>(看wp用find去找有点牵强 一般也就看看passwd吧 )</p>
+<p><strong>find / -user cubes -type f -exec ls -la {} ; 2&gt;/dev/null</strong></p>
+<p>这条命令会返回很多的文件，使用grep过滤掉含porc目录的文件和png后缀的文件</p>
+<p><strong>find / -user cubes -type f -exec ls -la {} ; 2&gt;/dev/null | grep proc -v | grep '.png' -v</strong></p>
+<p>cubes到root</p>
+<p>通过history看历史命令 找啊找  又看到了一个账号密码</p>
+<p>username=admin&amp;pass=tokiohotel</p>
+<p>试着去su root 可以</p>
+<p>还有个登录界面呢   试了也成功了</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232109293.png" alt="image-20240323210903241" loading="lazy"></figure>
+<p>在后台有个执行命令的地方(本来webmin就是浏览器管理linux的软件) 	而且是个root权限 直接反弹   得到 root</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232134155.png" alt="image-20240323213421124" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232142034.png" alt="image-20240323214235999" loading="lazy"></figure>
+<h3 id="msf">msf</h3>
+<p>已经有后台账号密码了</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232152532.png" alt="image-20240323215217471" loading="lazy"></figure>
+<p>要改成true  因为是https</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232156756.png" alt="image-20240323215610729" loading="lazy"></figure>
+<p>但是不知道为啥通不了  不管了 知道思路就好了</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232159865.png" alt="image-20240323215950841" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%90%E6%9D%83">第一次提权</a>
+<ul>
+<li><a href="#%E7%94%A8find%E5%91%BD%E4%BB%A4%E5%8E%BB%E6%89%BE%E6%96%87%E4%BB%B6">用find命令去找文件</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%90%E6%9D%83">第二次提权</a>
+<ul>
+<li><a href="#msf">msf</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/sui-bi-322/">
+              <h3 class="post-title">
+                随笔3.22
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

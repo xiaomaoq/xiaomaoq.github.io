@@ -1,0 +1,405 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Linux提权小结 | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Linux提权小结 | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+
+前言
+终于完整的把23的提权课程看完了 ，晚上也没什么事情  也不想学   来把之前学的整理整理
+一些基本指令
+cat /etc/sudoers  谁被允许以root身份执行
+sudo -l       当前用户可以以root身份执行操..." />
+    <meta name="keywords" content="提权" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Linux提权小结
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-10
+              </span>
+              <span>
+                10 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/deS5hM8TF/" class="post-tag">
+                  # 提权
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <!-- more -->
+<!-- more -->
+<h1 id="前言">前言</h1>
+<p>终于完整的把23的提权课程看完了 ，晚上也没什么事情  也不想学   来把之前学的整理整理</p>
+<p>一些基本指令</p>
+<pre><code>cat /etc/sudoers  谁被允许以root身份执行
+sudo -l       当前用户可以以root身份执行操作
+cat /etc/passwd     列出系统上的所有用户
+uname -a    打印所有可用的系统信息
+hostname    系统主机名
+ps aux  显示所有用户的进程同时显示用户名（包含未连接到终端的进程
+cat /etc/cron*   查看定时任务  
+
+SUID:  find / -perm -u=s -type f 2&gt;/dev/null 
+GUID:   find / -perm -g=s -type f 2&gt;/dev/null
+
+在known_hosts文件可以看到曾经连接过的所有主机公钥列表
+
+目标主机可能存在备份文件或其他网站服务的配置文件（.conf，.config，.xml，backup*，.bak等）和一些shell脚本或bash历史命令
+</code></pre>
+<h1 id="一些工具项目">一些工具项目</h1>
+<p>二进制文件提权查询：</p>
+<p>Linux：https://gtfobins.github.io/</p>
+<p>Windows：https://lolbas-project.github.io/</p>
+<p>信息收集  https://gthub.com/rebootuser/LinEnum   https://github.com/carlospolop/PEASS-ng</p>
+<h1 id="内核漏洞">内核漏洞</h1>
+<blockquote>
+<p>内核提权有风险，可能会导致目标主机崩溃</p>
+</blockquote>
+<p>可以直接从web -&gt;root</p>
+<h2 id="内核漏洞利用方法">内核漏洞利用方法</h2>
+<ol>
+<li>uname -a  获取关于目标系统的内核信息</li>
+<li>通过<code>exploit-db</code>或<code>searchsplopit</code>等 搜相关的exp</li>
+<li>通过<code>python3 -m http.server</code>或<code>wget</code>等服务将exp脚本传送至目标主机</li>
+<li>运行漏洞利用poc脚本（需要了解漏洞利用代码的工作原理，避免因为漏洞poc执行等原因对目标系统造成特殊的影响，或漏洞代码需要进行某些<strong>交互功能</strong>）</li>
+</ol>
+<h2 id="脏牛">脏牛</h2>
+<p>影响版本：Linux kernel &gt;= 2.6.22（2007年发行，到2016年10月18日才修复）</p>
+<p>漏洞原理：在Linux内核的内存子系统处理私有只读内存映射的写时复制（COW）损坏的方式中发现了一种竞争状况。一个没有特权的本地用户可以使用此漏洞来获取对只读存储器映射的写访问权，从而增加他们在系统上的特权。</p>
+<p>exp :https://raw.githubusercontent.com/sqlnetcat/dirtycow-mem/master/dirtycow-mem.c</p>
+<p>​		https://github.com/dirtycow/dirtycow.github.io</p>
+<p>其他内核还有很多。。。。</p>
+<h2 id="参考靶机">参考靶机</h2>
+<p>https://www.vulnhub.com/entry/lampiao-1,249/<br>
+https://www.vulnhub.com/entry/darkhole-1,724/<br>
+https://www.vulnhub.com/entry/matrix-breakout-2-morpheus,757/</p>
+<p>https://www.vulnhub.com/entry/boredhackerblog-social-network,454/</p>
+<h1 id="suid">SUID</h1>
+<p>webshell  普通用户   ----&gt; root</p>
+<p>SUID (Set owner User ID up on execution)是给予文件的一个特殊类型的文件权限。在Linux/Unix中，当一个程序运行的时候，程序将从登录用户处继承权限。SUID被定义为给予一个用户临时的（程序/文件）所有者的权限来运行一个程序/文件。用户在执行程序/文件/命令的时候，将获取文件所有者的权限以及所有者的UID和GID。</p>
+<h2 id="漏洞成因">漏洞成因：</h2>
+<p>chmod u+s给予了suid        u-s删除suid</p>
+<p>使程序在运行中受到了suid root权限的执行过程导致</p>
+<h2 id="利用">利用：</h2>
+<p>去找对应的利用代码</p>
+<p>https://gtfobins.github.io/</p>
+<p>https://pentestlab.blog/?s=suid</p>
+<h2 id="参考靶机-2">参考靶机</h2>
+<p>https://www.vulnhub.com/entry/toppo-1,245/</p>
+<p>https://www.vulnhub.com/entry/dc-1,292/</p>
+<p>https://www.vulnhub.com/entry/boredhackerblog-cloud-av,453</p>
+<h1 id="sudo">SUDO</h1>
+<p>本地用户权限   -&gt;   root</p>
+<p>SUDO权限是root把本来只能超级用户执行的命令赋予普通用户执行，系统管理员集中的管理用户使用权限和使用主机，配置文件：/etc/sudoers   除此配置之外的问题，SUDO还有两个CVE漏洞（CVE-2019-14287  CVE-2021-3156）</p>
+<p><code>cat /etc/sudoers</code>  看看哪些被赋予sudo  但是这个命令本身也需要root权限才。。(要看对方怎么设置的 )</p>
+<p><code>sudo -l</code> 命令用于列出当前用户在系统上可以执行的命令，以及对这些命令的授权情况</p>
+<p><code>sudo -V</code> 命令用于显示 sudo 命令的版本和配置信息</p>
+<h2 id="cve-2019-14287">CVE-2019-14287</h2>
+<p>https://blog.csdn.net/chest_/article/details/102716802</p>
+<p>sudo -l</p>
+<p>sudo -u#-1 sqlite3 /dev/null '.shell /bin/sh'</p>
+<h2 id="sudo-cve-2021-3156">sudo (CVE-2021-3156）</h2>
+<h3 id="版本">版本</h3>
+<p>sudo:  	1.8.2 - 1.8.31p2</p>
+<p>sudo:	 1.9.0 - 1.9.5p1</p>
+<h3 id="判断">判断</h3>
+<p>sudoedit -s /            报错即存在</p>
+<h3 id="利用-2">利用：</h3>
+<p>git clone https://github.com/blasty/CVE-2021-3156.git</p>
+<p>cd CVE-2021-3156</p>
+<p>make</p>
+<p>chmod a+x sudo-hax-me-a-sandwich</p>
+<p>./sudo-hax-me-a-sandwich  1             		   # uname -a  看	自己的内核</p>
+<h2 id="cve-2023-22809-sudo提权漏洞">CVE-2023-22809 sudo提权漏洞</h2>
+<p>https://mp.weixin.qq.com/s/uiAEnK5tqkKh0bqWPoTIKg</p>
+<h2 id="参考靶机-3">参考靶机</h2>
+<p>https://www.vulnhub.com/entry/devguru-1,620/</p>
+<p>https://www.vulnhub.com/entry/toppo-1,245/</p>
+<h1 id="cron">CRON</h1>
+<p>web 普通用户权限  ---&gt;root</p>
+<p>一般有两种情况</p>
+<ul>
+<li>查看定时任务  然后可以去修改定时任务里面的东西 			(权限给的有问题</li>
+<li>修改不了定时任务里面的东西(定时任务执行文件的内容)   就找定时任务执行文件有没有打包的操作   添加东西让他打包 然后就可以利用了        (很少</li>
+</ul>
+<p>https://www.vulnhub.com/entry/jarbas-1,232/   属于第一种</p>
+<h1 id="path">PATH</h1>
+<p>普通用户  ---&gt;  root</p>
+<h2 id="条件">条件：</h2>
+<p>ROOT用户对某个<strong>第三方程序</strong>给予了<strong>SUID</strong>权限</p>
+<p>find / -user root -perm -4000 -print 2&gt;/dev/null       看看哪个像是第三方程序</p>
+<h2 id="实战中的发现挖掘这类的安全问题">实战中的发现挖掘这类的安全问题  ：</h2>
+<p>1.先获取suid所有程序</p>
+<p>2.去除系统自带的一些命令（筛选<strong>第三方</strong>或者编译等的程序</p>
+<ol start="3">
+<li>下载这个程序 进行反编译或者找源代码  看运行结果 干了什么    (里面有没有可以利用的)</li>
+</ol>
+<p>4.思考程序有没有执行一些环境变量命令  (ps ping su sudo curl 等 )</p>
+<p>5.尝试通过复制suid提权的命令 （find bash 复制替换原有的执行命令（<strong>先添加环境变量</strong></p>
+<h2 id="操作">操作</h2>
+<p>参考之前的笔记 和靶机笔记     就是看看这个第三方程序运行执行了什么系统执行   再去添加环境变量</p>
+<h2 id="靶机">靶机</h2>
+<p>https://www.vulnhub.com/entry/symfonos-1,322/</p>
+<h1 id="nfs">NFS</h1>
+<p>NFS是一种基于TCP/IP 传输的网络文件系统协议，通过使用NFS协议，客户机可以像访问本地<strong>目录</strong>一样访问远程服务器中的<strong>共享资源</strong>。 文件的权限也互通的</p>
+<p>提升<strong>条件</strong>：NFS服务开启和web或用户权限进行利用</p>
+<p>nfs 传一个具有suid权限的文件  且可以弹shell的到kali的nfs目录   然后再去执行  	<strong>注意gcc编译机器与目标机内核版本相似</strong></p>
+<p>结合着vunlhub靶机 （https://www.vulnhub.com/entry/hacksudo-2-hackdudo,667/</p>
+<h1 id="capability能力">Capability能力</h1>
+<p>Web  普通用户  ----&gt;root</p>
+<p>跟suid差不多  就是这种root给用户的权限的时候给的细一些</p>
+<p>原理参考：https://www.cnblogs.com/f-carey/p/16026088.html</p>
+<p>去这里面找利用方法 https://gtfobins.github.io</p>
+<p>Hackerkid靶机https://www.jianshu.com/p/60673ac0454f</p>
+<h1 id="ld_preload加载">LD_Preload加载</h1>
+<p>普通用户  --&gt;root</p>
+<p>参考：https://www.cnblogs.com/backlion/p/10503985.html</p>
+<h2 id="条件-2">条件</h2>
+<ol>
+<li>赋予一个用户一些sudo权限             如: maomao  ALL=(ALL:ALL) NOPASSWD: /usr/bin/find</li>
+<li>Defaults        env_keep += LD_PRELOAD	添加以下内容作为默认配置来设置LD_preload的环境 这一步是关键</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403030951848.png" alt="image-20240303095106793" loading="lazy"></figure>
+<h2 id="操作-2">操作</h2>
+<p>将后门c文件编译 成 .so     .dll      再上传</p>
+<p>sudo LD_PRELOAD=/tmp/shell.so  find           这样去直接得到root</p>
+<h1 id="docker">Docker</h1>
+<p>普通用户---&gt;root</p>
+<p>分为两种情况</p>
+<p>第一种=&gt;你得到的shell是在docker里面  ，你先要把他逃逸出来   逃逸出来就可能成为第二种</p>
+<p>第二种=&gt;你得到的shell是在本机   而且用户在docker组里面       你先拉镜像 挂载真机的目录    你只可以读写那些本机root权限才可以读写的文件 (这个时候得到的权限并不是真机的root) 你这个时候去nc弹shell  得到的是docker 的root权限 又回到了docker当中    **你要真正的得到本机的root权限  修改定时任务   爆破shadow  (因为docker挂载真机的目录   你可以读写) 写ssh密钥到宿主机  CVE漏洞直接利用 **</p>
+<h2 id="条件-3">条件</h2>
+<p>用户属于docker组</p>
+<h2 id="靶机-2">靶机</h2>
+<p>详细笔记里有 就是</p>
+<p>https://www.vulnhub.com/entry/infovore-1,496/</p>
+<p>https://mp.weixin.qq.com/s/7RWgYGyiK-CEN508eB8BEg</p>
+<h1 id="rbash绕过">Rbash绕过</h1>
+<p>参考：https://xz.aliyun.com/t/7642</p>
+<p>Rbash(The Restricted mode of bash),也就是限制型bash  (很多命令都无法去执行 )</p>
+<p>在渗透测试中可能遇到rbash，尝试绕过后才能进行后续操作</p>
+<h1 id="lxd">LXD</h1>
+<p>普通用户---&gt;root</p>
+<h2 id="原理">原理：</h2>
+<p>LXD(Linux容器守护程序)是基于LXC容器的管理程序，当前用户可操作容器，理解为用户创建一个容器，再用容器挂载宿主机磁盘，最后使用容器权限操作宿主机磁盘内容达到提权效果。</p>
+<h2 id="条件-4">条件:</h2>
+<p>-已经获得Shell</p>
+<p>-<strong>用户属于lxd组</strong></p>
+<p>跟docker很像 挂载目录  得到可以访问root目录的权限</p>
+<p>https://www.vulnhub.com/entry/funbox-rookie,520/</p>
+<p>https://blog.csdn.net/elephantxiang/article/details/123974142</p>
+<h1 id="总结">总结</h1>
+<p>就写了个大概  具体的笔记里面写的很详细吧？</p>
+<p>我的是迪宝课上说滴   呜呜呜想学java了 但是还是得把眼前的东西搞完把  可能搞java 又搞得不想搞呜呜呜</p>
+<p>也可以看看https://xz.aliyun.com/t/11664</p>
+<figure data-type="image" tabindex="2"><img src="https://xiaomaoq.github.io//post-images/1710082293830.jpg" alt="" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7%E9%A1%B9%E7%9B%AE">一些工具项目</a></li>
+<li><a href="#%E5%86%85%E6%A0%B8%E6%BC%8F%E6%B4%9E">内核漏洞</a>
+<ul>
+<li><a href="#%E5%86%85%E6%A0%B8%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95">内核漏洞利用方法</a></li>
+<li><a href="#%E8%84%8F%E7%89%9B">脏牛</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E9%9D%B6%E6%9C%BA">参考靶机</a></li>
+</ul>
+</li>
+<li><a href="#suid">SUID</a>
+<ul>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0">漏洞成因：</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8">利用：</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E9%9D%B6%E6%9C%BA-2">参考靶机</a></li>
+</ul>
+</li>
+<li><a href="#sudo">SUDO</a>
+<ul>
+<li><a href="#cve-2019-14287">CVE-2019-14287</a></li>
+<li><a href="#sudo-cve-2021-3156">sudo (CVE-2021-3156）</a>
+<ul>
+<li><a href="#%E7%89%88%E6%9C%AC">版本</a></li>
+<li><a href="#%E5%88%A4%E6%96%AD">判断</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8-2">利用：</a></li>
+</ul>
+</li>
+<li><a href="#cve-2023-22809-sudo%E6%8F%90%E6%9D%83%E6%BC%8F%E6%B4%9E">CVE-2023-22809 sudo提权漏洞</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E9%9D%B6%E6%9C%BA-3">参考靶机</a></li>
+</ul>
+</li>
+<li><a href="#cron">CRON</a></li>
+<li><a href="#path">PATH</a>
+<ul>
+<li><a href="#%E6%9D%A1%E4%BB%B6">条件：</a></li>
+<li><a href="#%E5%AE%9E%E6%88%98%E4%B8%AD%E7%9A%84%E5%8F%91%E7%8E%B0%E6%8C%96%E6%8E%98%E8%BF%99%E7%B1%BB%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98">实战中的发现挖掘这类的安全问题  ：</a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a></li>
+<li><a href="#%E9%9D%B6%E6%9C%BA">靶机</a></li>
+</ul>
+</li>
+<li><a href="#nfs">NFS</a></li>
+<li><a href="#capability%E8%83%BD%E5%8A%9B">Capability能力</a></li>
+<li><a href="#ld_preload%E5%8A%A0%E8%BD%BD">LD_Preload加载</a>
+<ul>
+<li><a href="#%E6%9D%A1%E4%BB%B6-2">条件</a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C-2">操作</a></li>
+</ul>
+</li>
+<li><a href="#docker">Docker</a>
+<ul>
+<li><a href="#%E6%9D%A1%E4%BB%B6-3">条件</a></li>
+<li><a href="#%E9%9D%B6%E6%9C%BA-2">靶机</a></li>
+</ul>
+</li>
+<li><a href="#rbash%E7%BB%95%E8%BF%87">Rbash绕过</a></li>
+<li><a href="#lxd">LXD</a>
+<ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理：</a></li>
+<li><a href="#%E6%9D%A1%E4%BB%B6-4">条件:</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/docker-ti-quan/">
+              <h3 class="post-title">
+                docker提权
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

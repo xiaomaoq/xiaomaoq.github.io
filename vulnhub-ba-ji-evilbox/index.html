@@ -1,0 +1,318 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x06-VulnHub靶机-EvilBox | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x06-VulnHub靶机-EvilBox | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+难度等级：低→中
+靶机地址：https://www.vulnhub.com/entry/evilbox-one,736/
+https://blog.csdn.net/weixin_44288604/article/details/12..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x06-VulnHub靶机-EvilBox
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-07
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>难度等级：低→中</p>
+<p>靶机地址：https://www.vulnhub.com/entry/evilbox-one,736/</p>
+<p>https://blog.csdn.net/weixin_44288604/article/details/125673406</p>
+<h3 id="内容">内容</h3>
+<ul>
+<li>
+<p>各种爆破</p>
+</li>
+<li>
+<p><strong>参数爆破</strong></p>
+</li>
+<li>
+<p>文件包含读敏感学习</p>
+</li>
+<li>
+<p>SSH公钥登录</p>
+</li>
+<li>
+<p>openssl生成密码 写入passwd</p>
+</li>
+<li>
+<p>php封装器读文件</p>
+</li>
+</ul>
+<p><strong>php封装器读文件</strong>  	这样读php的文件就可以读到php的源码	 而如果是直接去读的话看到的是php执行后的页面</p>
+<p>?ad=php://filter/convert.base64-encode/resource=ab.php</p>
+<p>比如</p>
+<p>这个靶机</p>
+<p>我这样访问 http://192.168.3.103/secret/evil.php?command=evil.php 什么都没得</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071226914.png" alt="image-20240307122616885" loading="lazy"></figure>
+<p>我这样去访问 就可以内容 http://192.168.3.103/secret/evil.php?command=php://filter/convert.base64-encode/resource=evil.php</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071224905.png" alt="image-20240307122422880" loading="lazy"></figure>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的主机发现 端口扫描</p>
+<p>80端口是一个ubuntu站点，看不出什么东西，下一步就是目录扫描了</p>
+<p>dirsearch出个  http://192.168.3.103/secret/  (得到了个新的路径  就要对新的路径进行目录的爆破)</p>
+<p>啥东西也没  然后<strong>继续扫目录</strong></p>
+<p>总结了过往经验中用过的目录扫描工具，以及它们的字典，如下</p>
+<pre><code>/usr/share/wordlists/dirb/big.txt：字典行数 20469
+/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt：字典行数 220560
+/usr/share/dirb/wordlists/common.txt：字典行数 4614（dirb默认字典）
+/usr/lib/python3/dist-packages/dirsearch/db/dicc.txt：字典行数974（dirsearch默认字典）
+
+</code></pre>
+<p>要用这款扫目录的才扫的出来 <strong>gobuster</strong>    dirsearch一样的字典就是扫不出   所以 以后多扫一扫</p>
+<p><code>gobuster dir -u 192.168.3.103/secret/ -w /usr/share/wordlists/dirb/big.txt -t 100 -x php</code></p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062219435.png" alt="image-20240306221913386" loading="lazy"></figure>
+<p>去访问 http://192.168.3.103/secret/evil.php  什么都没得</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062222845.png" alt="image-20240306222245814" loading="lazy"></figure>
+<p>那么，到此只有一种可能，这个php页面可能存在一些参数，只不过目前还看不到有哪些参数，如果能爆破出这个页面上的参数，应该还是可以继续往下搞的。但是现在既不知道这个页面有哪些参数名，更不知道这个页面接收哪些参数，怎么搞？  爆破</p>
+<h2 id="爆破页面参数">爆破页面参数</h2>
+<h3 id="用burp的intruder">用burp的intruder</h3>
+<p>要<strong>同时爆破参数和参数接受的值</strong>    才能够知道是否显示别的东西</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062226469.png" alt="image-20240306222651427" loading="lazy"></figure>
+<p>用burp自带的字典</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062230016.png" alt="image-20240306223025969" loading="lazy"></figure>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062230122.png" alt="image-20240306223050092" loading="lazy"></figure>
+<p>扫出来个结果</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062235803.png" alt="image-20240306223513758" loading="lazy"></figure>
+<p>可以发现     存在mowree用户</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062236367.png" alt="image-20240306223606315" loading="lazy"></figure>
+<h3 id="fuff">fuff</h3>
+<p>其实这里也可以一个一个去确定  因为跑两个 流量太大了</p>
+<p>先用 大的参数名字典 和 小的参数名接受字典去确认一个有没有 sql 或者直接跑出来</p>
+<p>结果是没结果  再想到前面有个index.php  我们去试着能不能去包含   这个时候 只需要用参数名字典去跑</p>
+<p>结果跑出来参数 command</p>
+<p>然后再根据参数去爆破 能不能跑出别的路径  也可以不爆破 猜一些文件的默认路径</p>
+<h2 id="文件包含漏洞">文件包含漏洞</h2>
+<p>经过反复测试：</p>
+<ol>
+<li>远程文件包含失败  (在kali上写一句话 看能不能包含进去)</li>
+<li><code>php://input</code>   写入一句话木马失败</li>
+<li><code>php://filter/write </code>    写入一句话木马失败</li>
+</ol>
+<h2 id="其他敏感信息">其他敏感信息</h2>
+<p>想到还有个22端口 却得到了一个账号</p>
+<p>ssh mowree@192.168.3.103 -v  可以看看支持什么认证登录     发现可以通过公钥认证 就可以去访问有没有存在公钥文件  要是有authorized_keys  这个账号就通过公钥认证方式去登录 然后再去看看有没有id_rsa    有的话 搞下来直接就可以登录了      <strong>默认路径</strong>  /home/账号/.ssh/...</p>
+<p>实际上一般是去爆破吧 (但也可以先尝试一下最基本的 没有再去爆破)</p>
+<p>扫刚刚发现的 mowree  下面有什么东西</p>
+<p>已经知道了传参的name   爆破后面的路径</p>
+<p>这里介绍 <strong>SecLists 中一个不错的字典“quickhits.txt”</strong>，它位于：SecLists-2024.1\Discovery\Web-Content\quickhits.txt</p>
+<p>发现了 密钥文件啊    就可以通过 id_rsa文件去连接 mowree账号</p>
+<p>默认情况下，当你把一个客户端用户的公钥放到目标服务器上时，那么在目标服务器的“ssh”目录下就会有一个“authorized_keys”文件，这个文件会包含这个用户的公钥文件。（这个文件位置和文件名是默认的）</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403062249864.png" alt="image-20240306224930819" loading="lazy"></figure>
+<h2 id="ssh连接">SSH连接</h2>
+<p>将burp读取的id_rsa的值复制   在kali上面建一个id_rsa      还要给权限 不能够给大了  chmod 600 id_rsa</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403070930868.png" alt="image-20240307093010815" loading="lazy"></figure>
+<p>然后用私钥连接  但是发现还要输入密码  因为他给私钥又加了个密码     这提示是说 给id_rsa 权限太大( +x )</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403070931274.png" alt="image-20240307093116213" loading="lazy"></figure>
+<h2 id="爆破私钥密码">爆破私钥密码</h2>
+<p>使用 john 的一个脚本把私钥转换成 john 可识别的 ssh 密钥文件：<br>
+/usr/share/john/ssh2john.py id_rsa &gt; hash</p>
+<p>使用 john 爆破密码<br>
+john hash --wordlist=/usr/share/wordlists/rockyou.txt</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403070938519.png" alt="image-20240307093805459" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<p>发现 passwd文件有写入的权限</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071019817.png" alt="image-20240307101904792" loading="lazy"></figure>
+<p><strong>在passwd文件中 我们只可以看账户信息  密码的hash不会显示   (一种安全的设置 防止普通用户也可以看到root的密码的hash 然后爆破出密码)       密码的hash 放在/etc/shadow  普通用户是没办法看的</strong></p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071023723.png" alt="image-20240307102341693" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071034614.png" alt="image-20240307103452534" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071038152.png" alt="image-20240307103814122" loading="lazy"></figure>
+<p>这里我们可以修改 passwd中hash 然后shadow会同步的 然后就可以通过我们修改的密码去登录</p>
+<p>用<strong>openssl</strong>去生成一个密码</p>
+<p>openssl passwd -1</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071043626.png" alt="image-20240307104334600" loading="lazy"></figure>
+<p>然后直接su root</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403071045014.png" alt="image-20240307104501988" loading="lazy"></figure>
+<h1 id="总结">总结</h1>
+<p>主要 考察了 字典 和 各种爆破</p>
+<p>burp的爆破参数名     也讲究技巧 先结合环境去思考  常见的像 etc/passwd能不能包含 有没有sql 等  实在不行再去爆破</p>
+<p>目录爆破</p>
+<p>john爆破私钥密码</p>
+<p>读文件可以用 php封装器  先转为base64 然后再deconde  这样读的全</p>
+<p>工具选择也会影响  但是实际上一般也就扫一次</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a><br>
+*
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E7%88%86%E7%A0%B4%E9%A1%B5%E9%9D%A2%E5%8F%82%E6%95%B0">爆破页面参数</a>
+<ul>
+<li><a href="#%E7%94%A8burp%E7%9A%84intruder">用burp的intruder</a></li>
+<li><a href="#fuff">fuff</a></li>
+</ul>
+</li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E">文件包含漏洞</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF">其他敏感信息</a></li>
+<li><a href="#ssh%E8%BF%9E%E6%8E%A5">SSH连接</a></li>
+<li><a href="#%E7%88%86%E7%A0%B4%E7%A7%81%E9%92%A5%E5%AF%86%E7%A0%81">爆破私钥密码</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/vulnhub-ba-ji-hackerkid/">
+              <h3 class="post-title">
+                0x07-VulnHub靶机-Hackerkid
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

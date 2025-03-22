@@ -1,0 +1,327 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FRP多层内网隧道搭建 | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="FRP多层内网隧道搭建 | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="这段时间状态都好差
+发篇文章让自己奥里给起来
+参考https://blog.csdn.net/qingan6/article/details/130705151
+
+第一层隧道
+kali 启动 frps
+配置文件如下
+frps.ini
+[co..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              FRP多层内网隧道搭建
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-04-14
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>这段时间状态都好差<br>
+发篇文章让自己奥里给起来</p>
+<p>参考https://blog.csdn.net/qingan6/article/details/130705151</p>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141448231.png" alt="image-20240414144828158" loading="lazy"></figure>
+<h1 id="第一层隧道">第一层隧道</h1>
+<h2 id="kali-启动-frps">kali 启动 frps</h2>
+<p>配置文件如下</p>
+<p>frps.ini</p>
+<pre><code class="language-cobol">[common]
+bind_addr = 0.0.0.0
+bind_port = 7001
+</code></pre>
+<p>启动命令</p>
+<pre><code class="language-r">./frps -c frps.ini
+</code></pre>
+<p>启动命令</p>
+<p>frps -c frps.ini</p>
+<p>Windows 后台运行</p>
+<p>start /b frps -c frps.ini<br>
+这样即使CTRL +C也不会断开</p>
+<p>Linux 后台运行</p>
+<p>nohup ./frps -c ./frps.ini &gt;/dev/null 2&gt;&amp;1 &amp;</p>
+<p>停止：</p>
+<p>先找到pid进程</p>
+<p>ps -aux|grep frp| grep -v grep</p>
+<p>例如找到进程为 6666</p>
+<p>kill -9 6666</p>
+<h2 id="win7启动-frpc">win7启动 frpc</h2>
+<p>frpc.ini      	去启动的时候 要把注释给去掉  不然就报错</p>
+<pre><code>[common]
+server_addr = 192.168.3.120  			//连接服务端   kali起的服务 
+server_port = 7001
+ 
+[http_proxy]
+type = tcp
+remote_port = 7777							// 建立socks节点的端口
+plugin = socks5
+local_ip = 192.168.11.129				//为了多层代理 
+local_port = 7777
+</code></pre>
+<p>启动命令</p>
+<pre><code class="language-r">frpc -c frpc.ini
+</code></pre>
+<h2 id="修改-etcproxychains4conf">修改 etc/proxychains4.conf</h2>
+<p>我的在这里面</p>
+<p>/usr/local/etc/proxychains.conf</p>
+<p>这里的socks节点建立在kali上 所以ip填的我 127.0.0.1   	后面就不是建立在这上面了</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141448907.png" alt="image-20240414144849881" loading="lazy"></figure>
+<h2 id="proxifier">Proxifier</h2>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141449022.png" alt="image-20240414144903993" loading="lazy"></figure>
+<p>配置好之后  就可以与11段通信了</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141449691.png" alt="image-20240414144939641" loading="lazy"></figure>
+<h1 id="第二层隧道">第二层隧道</h1>
+<p>要让本机去访问到 22网段</p>
+<p>此时win7 既是客户端又是服务端</p>
+<p>我们在win7 增加一个服务端</p>
+<h2 id="win7启动frps">win7启动frps</h2>
+<p>frps.ini      注意这个ip是填11段的   要让win10能够通到的</p>
+<pre><code class="language-cobol">[common]
+bind_addr = 192.168.11.129 	
+bind_port = 7000
+</code></pre>
+<p>frps -c frps.ini</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141449250.png" alt="image-20240414144955221" loading="lazy"></figure>
+<h2 id="win10启动frpc">win10启动frpc</h2>
+<p>frpc.ini</p>
+<pre><code>[common]
+server_addr = 192.168.11.129				//win7 启的那个 
+server_port = 7000
+
+[http_proxy]
+type = tcp
+remote_port = 7777
+plugin = socks5
+local_ip = 192.168.22.129
+local_port = 7777
+</code></pre>
+<p>frpc -c frpc.ini</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450350.png" alt="image-20240414145003322" loading="lazy"></figure>
+<h2 id="修改-etcproxychains4conf-2">修改 etc/proxychains4.conf</h2>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450297.png" alt="image-20240414145024210" loading="lazy"></figure>
+<h2 id="️多层代理下-proxifier如何设置">⚠️多层代理下 Proxifier如何设置</h2>
+<p>先增加一个代理</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450405.png" alt="image-20240414145035380" loading="lazy"></figure>
+<p>然后点击Proxychains 右边create 将代理链按顺序从proxy servers里按住依次拖下，我这里起的名字 xiaomao，都要拖在你起的这个名字（我这里是xiaomao）里，注意在同一级，如图所示</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450062.png" alt="image-20240414145043026" loading="lazy"></figure>
+<p>然后再去修改一下规则</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141450829.png" alt="image-20240414145050792" loading="lazy"></figure>
+<p>这里就可以访问到22 段了 开始访问win2012 失败   还以为又出问题了  闹了半天是防火墙的原因</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451421.png" alt="image-20240414145117386" loading="lazy"></figure>
+<h1 id="第三层隧道">第三层隧道</h1>
+<p>原先win10的frpc.ini无需变动</p>
+<h2 id="win10-启动frps">win10  启动frps</h2>
+<p>frps.ini</p>
+<p>这个ip 是要可以与win2012通讯的那个ip</p>
+<pre><code class="language-cobol">[common]
+bind_addr = 192.168.22.129
+bind_port = 7000
+</code></pre>
+<p>frps -c frps.ini</p>
+<h2 id="win2012-启动frpc">win2012 启动frpc</h2>
+<p>frpc.ini</p>
+<p>local_ip = 192.168.33.130	 写另外一个网段的</p>
+<pre><code>[common]
+server_addr = 192.168.22.129 
+server_port = 7000
+
+[http_proxy]
+type = tcp
+remote_port = 7777
+plugin = socks5
+local_ip = 192.168.33.130  
+local_port = 7777
+</code></pre>
+<p>frpc -c frpc.ini</p>
+<h2 id="修改-etcproxychains4conf-3">修改 etc/proxychains4.conf</h2>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451003.png" alt="image-20240414145138976" loading="lazy"></figure>
+<p>这样  33网段也可以在本机访问到了</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451669.png" alt="image-20240414145148604" loading="lazy"></figure>
+<p>也可访问到 win2008的 192.168.33.129</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141451883.png" alt="image-20240414145156823" loading="lazy"></figure>
+<h2 id="proxifier-2">Proxifier</h2>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452054.png" alt="image-20240414145210022" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452573.png" alt="image-20240414145218544" loading="lazy"></figure>
+<p><strong>记得要改下规则啊</strong></p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452428.png" alt="image-20240414145228395" loading="lazy"></figure>
+<p>舒服了啊</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202404141452126.png" alt="image-20240414145235092" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%AC%AC%E4%B8%80%E5%B1%82%E9%9A%A7%E9%81%93">第一层隧道</a>
+<ul>
+<li><a href="#kali-%E5%90%AF%E5%8A%A8-frps">kali 启动 frps</a></li>
+<li><a href="#win7%E5%90%AF%E5%8A%A8-frpc">win7启动 frpc</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9-etcproxychains4conf">修改 etc/proxychains4.conf</a></li>
+<li><a href="#proxifier">Proxifier</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%BA%8C%E5%B1%82%E9%9A%A7%E9%81%93">第二层隧道</a>
+<ul>
+<li><a href="#win7%E5%90%AF%E5%8A%A8frps">win7启动frps</a></li>
+<li><a href="#win10%E5%90%AF%E5%8A%A8frpc">win10启动frpc</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9-etcproxychains4conf-2">修改 etc/proxychains4.conf</a></li>
+<li><a href="#%EF%B8%8F%E5%A4%9A%E5%B1%82%E4%BB%A3%E7%90%86%E4%B8%8B-proxifier%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE">⚠️多层代理下 Proxifier如何设置</a></li>
+</ul>
+</li>
+<li><a href="#%E7%AC%AC%E4%B8%89%E5%B1%82%E9%9A%A7%E9%81%93">第三层隧道</a>
+<ul>
+<li><a href="#win10-%E5%90%AF%E5%8A%A8frps">win10  启动frps</a></li>
+<li><a href="#win2012-%E5%90%AF%E5%8A%A8frpc">win2012 启动frpc</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9-etcproxychains4conf-3">修改 etc/proxychains4.conf</a></li>
+<li><a href="#proxifier-2">Proxifier</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/0x15-vulnhub-ba-ji-ripper/">
+              <h3 class="post-title">
+                0x15-Vulnhub靶机-Ripper
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

